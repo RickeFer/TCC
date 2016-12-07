@@ -1,0 +1,38 @@
+#sortable ul
+{
+    list-style-type: none;
+    margin: 0;
+    padding: 0;
+    margin-bottom: 10px;
+}
+
+.campo
+{
+    display: inline;
+    margin: 5px;
+    padding: 10px;
+    cursor: move;
+    border: 1px solid #C5C5C5;
+    background: #F6F6F6;
+}
+
+.chave
+{
+    color: rgb(119, 138, 102);
+    border: 1px solid rgb(218, 213, 94);
+    background: rgb(255, 250, 144);
+}
+
+.draggable
+{
+    width: 90px;
+    height: 90px;
+    padding: 0.5em;
+    margin: 0 10px 10px 0;
+}
+
+.quebra
+{
+    height: 40px;
+    list-style-type: none;
+}

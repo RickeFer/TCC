@@ -1,0 +1,61 @@
+{% load bootstrap3 %}
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="pt">
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-COMPATIBLE" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+
+        {% bootstrap_css %}
+        {% bootstrap_javascript %}
+
+        {% block css %}
+        {% endblock css %}
+
+        <script type="text/javascript" src="{% static 'js/jquery-ui.js' %}"></script>
+    </head>
+
+    <body>
+        <nav class="navbar navbar-default navbar-static-top">
+            <div class="container">
+
+                <div class="navbar-header">
+                    <button type="button" class="navbar-toggle collapsed" date-toggle="collapse" date-targe="#navbar" aria-expanded="false" aria-controls="navbar"></button>
+                    <a class="navbar-brand" href="{% url 'app:index' %}">Home</a>
+                </div>
+
+                <div id="navbar" class="navbar-collapse collapse">
+                    <ul class="nav navbar-nav">
+                         <li>
+                            <a href="{% url 'app:documentos' %}">Documentos</a>
+                        </li>
+                        <li>
+                            <a href="{% url 'app:tabelas' %}">Tabelas</a>
+                        </li>
+                        <li>
+                            <a href="{% url 'app:normalizar' %}">Normalizar</a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </nav>
+
+        <div class="container">
+            <div class="page-header">
+                {% block header %}
+                {% endblock header %}
+            </div>
+
+            <div>
+                {% block content %}
+                {% endblock content %}
+            </div>
+        </div>
+
+    </body>
+</html>
+
+{% block script %}
+{% endblock script %}

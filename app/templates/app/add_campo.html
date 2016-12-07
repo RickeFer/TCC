@@ -1,0 +1,27 @@
+{% extends 'app/base.html' %}
+{% load bootstrap3 %}
+
+{% block header %}
+    <h3>Novo Campo</h3>
+{% endblock header %}
+
+{% block content %}
+    <form action="{% url 'app:add_campo' tabela.id %}" method="POST" class="form">
+        {% csrf_token %}
+        {% bootstrap_form form %}
+
+        {% buttons %}
+            <button name="submit" class="btn btn-primary">SALVAR</button>
+        {% endbuttons %}
+    </form>
+{% endblock content %}
+
+{% block script %}
+
+    <script>
+        $("#id_order").ready(function(){
+            $(this).val(1);
+        });
+    </script>
+
+{% endblock script %}

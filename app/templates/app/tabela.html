@@ -1,0 +1,50 @@
+{% extends 'app/base.html' %}
+{% load static %}
+
+{% block css %}
+    <title>Tabela {{tabela}}</title>
+    <link href="{% static 'css/jquery-ui/start/jquery-ui.css' %}" rel="stylesheet">
+{% endblock css %}
+
+{% block header %}
+    <h3>
+        Tabela {{tabela}}
+        <small>
+            <a href="{% url 'app:normalizar' tabela.id %}">normalizar</a>
+        </small>
+        <p>
+            <small>
+                {% if tabela.normal_form == 0 %}
+                    tabela ainda não normalizada
+                {% else %}
+                    tabela na {{tabela.normal_form}}ª forma normal
+                {% endif %}
+            </small>
+        </p>
+    </h3>
+{% endblock header %}
+
+{% block content %}
+    <p>
+        <a href="{% url 'app:add_campo' tabela.id %}">adicionar campo</a>
+    </p>
+
+    <h4>Campos</h4>
+    <ul>
+        {% for campo in campos %}
+            <li>
+                {% if campo.primary %}
+                    <span class="ui-icon ui-icon-key"></span>
+                {% else %}
+                    <span style="margin-left: 19px;"></span>
+                {% endif %}
+                <small>
+                    {{campo.name}}
+                </small>
+            </li>
+        {% empty %}
+            <li>Não há campos para essa tabela</li>
+        {% endfor %}
+    </ul>
+
+{% endblock content %}
