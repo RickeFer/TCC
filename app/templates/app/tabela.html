@@ -8,7 +8,11 @@
 
 {% block header %}
     <h3>
-        Tabela {{tabela}}
+        {% if tabela.normal_form == -1 %}
+            Documento
+        {% else %}
+            Tabela {{tabela}}
+        {% endif %}
         <small>
             <a href="{% url 'app:normalizar' tabela.id %}">normalizar</a>
         </small>
@@ -16,7 +20,7 @@
             <small>
                 {% if tabela.normal_form == 0 %}
                     tabela ainda não normalizada
-                {% else %}
+                {% elif tabela.normal_form > 0 %}
                     tabela na {{tabela.normal_form}}ª forma normal
                 {% endif %}
             </small>

@@ -103,11 +103,12 @@
             var name = $("#id_name").val();
             var pag = 'normalizar';
             var id = {{tabela.id}};
+            var document = $("#id_document").val();
             $.ajax({
                 url: '{% url 'app:ajax_add_tabela' %}',
                 type: 'POST',
                 data: 'csrfmiddlewaretoken='+token + '&nome='+name +
-                        '&pag='+pag + '&id='+id,
+                        '&pag='+pag + '&id='+id + '&document='+document,
                 success: function(ret){
                     $("#sortable").html(ret.content);
 

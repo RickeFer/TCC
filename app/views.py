@@ -13,7 +13,7 @@ def index(request):
 
 def tabelas(request):
     form = TableForm()
-    tabelas = Table.objects.all()
+    tabelas = Table.objects.all().exclude(normal_form=-1)
     context = {'tabelas': tabelas, 'form': form}
     return render(request, 'app/tabelas.html', context)
 
@@ -174,6 +174,8 @@ def ajax_add_tabela(request):
         nome = request.POST['nome']
         table = Table()
         table.name = nome
+        document = Document.objects.get(id=request.POST['document'])
+        table.document = document
         table.save()
 
     tabelas = Table.objects.all()
@@ -186,8 +188,8 @@ def ajax_add_tabela(request):
         form = TableForm()
         # separa linhas de 8 campos em um dicionario
         if len(campos) > 8:
-            dicCampos = {};
-            aux = [];
+            dicCampos = {}
+            aux = []
             cont = 0
             for c in campos:
                 aux.append(c)

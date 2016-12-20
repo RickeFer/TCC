@@ -5,8 +5,8 @@ from .models import Table, Field
 class TableForm(forms.ModelForm):
     class Meta:
         model = Table
-        fields = ['name']
-        labels = {'name': 'Nome'}
+        fields = ['name', 'document']
+        labels = {'name': 'Nome', 'document': 'Documento'}
 
 
 class FieldForm(forms.ModelForm):
