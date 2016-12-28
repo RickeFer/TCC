@@ -5,6 +5,8 @@ from django_ajax.decorators import ajax
 
 from .models import *
 from .forms import TableForm, FieldForm
+import actions.index
+#from actions import *
 
 
 def index(request):
