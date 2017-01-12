@@ -1,0 +1,97 @@
+{% extends 'app/base.html' %}
+{% load bootstrap3 %}
+{% load static %}
+
+{% block css %}
+    <link rel="stylesheet" href="{% static 'style.css' %}" />
+    <title>Novo Documento</title>
+{% endblock css %}
+
+{% block header %}
+    <h3>Novo Documento</h3>
+{% endblock header %}
+
+{% block content %}
+    <form action="{% url 'app:add_documento' %}" method="POST" class="form">
+        {% csrf_token %}
+        {% bootstrap_form formDoc %}
+
+        <div style="margin: 30px 0 50px 0">
+            <h4>Campos
+                <button type="button" id="add_tabela" class="btn btn-default btn-lg" data-toggle="modal" data-target="#addCampo">
+                    <span class="glyphicon glyphicon-plus" aria-hidden="true"></span>
+                </button>
+            </h4>
+            <div id="campos"></div>
+        </div>
+
+        {% buttons %}
+            <button name="submit" class="btn btn-primary">SALVAR</button>
+        {% endbuttons %}
+    </form>
+
+
+    <!-- modal add campo -->
+    <div id="addCampo" class="modal fade" role="dialog">
+      <div class="modal-dialog">
+        <div class="modal-content">
+          <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal">&times;</button>
+            <h4 class="modal-title">Adicionar Campo</h4>
+          </div>
+          <div class="modal-body">
+              <div class="input" style="margin-bottom: 10px">
+                  <label for="temp_name">Campo</label>
+                  <input class="form-control" id="temp_name" maxlength="20" placeholder="Campo" required="required" title="" type="text" />
+              </div>
+
+              {% buttons %}
+                    <button name="submit" class="btn btn-primary" id="btnAddCampo">ADICIONAR</button>
+              {% endbuttons %}
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-default" data-dismiss="modal">Fechar</button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+{% endblock content %}
+
+{% block script %}
+    <script>
+        var num = 0;
+
+        $("#btnAddCampo").click(function(){
+            var nome = '';
+            var nome = $("#temp_name").val();
+            var pk = $("#temp_primary").prop('checked')?1:0;
+
+            nome = normalizarNome(nome);
+
+            if(nome == '')
+                alert("Insira um nome válido para o campo!");
+            else{
+                var dom = '<div id="item_'+num+'"><span class="glyphicon glyphicon-remove remove" aria-hidden="true" id="remove_'+num+'" onclick="removeCampo('+num+');"></span>';
+                dom += '<input type="text" class="form-control item-lista" id="campo_'+num+'" name="campo['+num+']" value="'+nome+'" onfocusout="atualizaNormal('+num+');" /></div>';
+                $("#campos").append(dom);
+                $("#addCampo").modal("hide");
+                $("#temp_name").val("");
+            }
+
+            num++;
+        });
+
+        function atualizaNormal(num){
+            var nome = $("#campo_"+num).val();
+            nome = normalizarNome(nome);
+            $("#campo_"+num).val(nome);
+        }
+
+        function removeCampo(num){
+            $("#item_"+num).remove();
+            /*$("#campo_"+num).remove();
+            $("#remove_"+num).remove();*/
+        }
+    </script>
+{% endblock script %}

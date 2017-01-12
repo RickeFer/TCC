@@ -59,10 +59,12 @@
         $("#btnAddTabela").click(function(){
             var token = $("input[name=csrfmiddlewaretoken]").val();
             var name = $("#id_name").val();
+            var document = $("#id_document").val();
+            var pag = '';
             $.ajax({
                 url: '{% url 'app:ajax_add_tabela' %}',
                 type: 'POST',
-                data: 'csrfmiddlewaretoken='+token + '&nome='+name,
+                data: 'csrfmiddlewaretoken='+token + '&nome='+name + '&documento='+document + '&pag='+pag,
                 success: function(ret){
                     $("#lista-tabelas").html(ret.content);
                 }

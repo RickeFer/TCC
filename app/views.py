@@ -5,30 +5,36 @@ from django_ajax.decorators import ajax
 
 from .models import *
 from .forms import TableForm, FieldForm
-import actions.index
-#from actions import *
+
+#meus modulos
+from actions._tabelas import runTabelas
+from actions._tabela import runTabela
+from actions._add_tabela import runAdd_tabela
+from actions._add_campo import runAdd_campo
+from actions._documentos import run_documentos
+from actions._documento import run_documento
+from actions._normalizar import run_normalizar
+from actions._ajax_add_tabela import run_ajax_add_tabela
+from actions._add_documento import run_add_documento
 
 
 def index(request):
+    #run(request)
     return render(request, 'app/index.html')
 
 
 def tabelas(request):
-    form = TableForm()
-    tabelas = Table.objects.all().exclude(normal_form=-1)
-    context = {'tabelas': tabelas, 'form': form}
+    context = runTabelas()
     return render(request, 'app/tabelas.html', context)
 
 
 def tabela(request, table_id):
-    tabela = Table.objects.get(id=table_id)
-    campos = tabela.field_set.order_by('order')
-    context = {'tabela': tabela, 'campos': campos}
+    context = runTabela(table_id)
     return render(request, 'app/tabela.html', context)
 
 
 def add_tabela(request):
-    if request.method != 'POST':
+    """if request.method != 'POST':
         form = TableForm()
     else:
         form = TableForm(request.POST)
@@ -37,72 +43,44 @@ def add_tabela(request):
             return HttpResponseRedirect(reverse('app:tabelas'))
 
     context = {'form': form}
-    return render(request, 'app/add_tabela.html', context)
+    """
+    context = runAdd_tabela(request)
+    if context:
+        return render(request, 'app/add_tabela.html', context)
+    else:
+        return HttpResponseRedirect(reverse('app:tabelas'))
 
 
 def add_campo(request, table_id):
-    tabela = Table.objects.get(id=table_id)
-
-    if request.method != 'POST':
-        form = FieldForm()
+    context = runAdd_campo(request, table_id)
+    if context:
+        return render(request, 'app/add_campo.html', context)
     else:
-        form = FieldForm(data=request.POST)
-        if form.is_valid():
-            novo_campo = form.save(commit=False)
-            #relaciona tabela
-            novo_campo.table = tabela
-            ult_campo = tabela.field_set.order_by('order')
+        return HttpResponseRedirect(reverse('app:tabela', args=[table_id]))
 
-            if len(ult_campo):
-                ult_campo = ult_campo[len(ult_campo)-1].order
-            else:
-                ult_campo = -1
-
-            novo_campo.order = ult_campo + 1
-            novo_campo.save()
-            return HttpResponseRedirect(reverse('app:tabela', args=[table_id]))
-
-    context = {'tabela': tabela, 'form': form}
-    return render(request, 'app/add_campo.html', context)
 
 def documentos(request):
-    documentos = Document.objects.all()
-    print(documentos)
-    context = {'documentos': documentos}
+    context = run_documentos()
     return render(request, 'app/documentos.html', context)
 
-def documento(request, document_id):
-    documento = Document.objects.get(id=document_id)
-    tabelas = documento.table_set.order_by('name')
 
-    context = {'documento': documento, 'tabelas': tabelas}
+def documento(request, document_id):
+    context = run_documento(document_id)
     return render(request, 'app/documento.html', context)
 
 
-def normalizar(request, table_id=0):
-    tabela = Table.objects.get(id=table_id)
-    campos = tabela.field_set.order_by('order')
-
-    #separa linhas de 8 campos em um dicionario
-    if len(campos) > 8:
-        dicCampos = {}; aux = []; cont = 0
-        for c in campos:
-            aux.append(c)
-            if c.order%8==0:
-                dicCampos[cont] = aux
-                aux = []
-                cont += 1
-        if len(aux):
-            dicCampos[cont] = aux
-        #campos = dicCampos
+def add_documento(request):
+    context = run_add_documento(request)
+    if context:
+        return render(request, 'app/add_documento.html', context)
     else:
-        dicCampos = {campos}
-        #campos = dicCampos
+        return HttpResponseRedirect(reverse('app:documentos'))
 
-    tabelas = Table.objects.all()
-    context = {'tabela': tabela, 'tabelas': tabelas, 'dicCampos': dicCampos, 'form': TableForm()}
 
+def normalizar(request, table_id=0):
+    context = run_normalizar(table_id)
     return render(request, 'app/normalizar.html', context)
+
 
 def mostrar_post(request):
     aux = request.POST
@@ -172,41 +150,5 @@ def mostrar_post(request):
 
 @ajax
 def ajax_add_tabela(request):
-    if request.method == 'POST':
-        nome = request.POST['nome']
-        table = Table()
-        table.name = nome
-        document = Document.objects.get(id=request.POST['document'])
-        table.document = document
-        table.save()
-
-    tabelas = Table.objects.all()
-    context = {'tabelas': tabelas}
-
-    if request.POST['pag'] == 'normalizar':
-        table_id = request.POST['id']
-        tabela = Table.objects.get(id=table_id)
-        campos = tabela.field_set.order_by('order')
-        form = TableForm()
-        # separa linhas de 8 campos em um dicionario
-        if len(campos) > 8:
-            dicCampos = {}
-            aux = []
-            cont = 0
-            for c in campos:
-                aux.append(c)
-                if c.order % 8 == 0:
-                    dicCampos[cont] = aux
-                    aux = []
-                    cont += 1
-            if len(aux):
-                dicCampos[cont] = aux
-                # campos = dicCampos
-        else:
-            dicCampos = {campos}
-            # campos = dicCampos
-
-        context['dicCampos'] = dicCampos
-        context['pag'] = 'normalizar'
-
+    context = run_ajax_add_tabela(request)
     return render(request, 'app/ajax_add_tabela.html', context)

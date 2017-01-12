@@ -11,10 +11,13 @@ urlpatterns = [
     url(r'^tabelas/(?P<table_id>\d+)/$', views.tabela, name='tabela'),
     url(r'^add_tabela/$', views.add_tabela, name='add_tabela'),
 
+    #url campos
     url(r'^add_campo/(?P<table_id>\d+)/$', views.add_campo, name='add_campo'),
 
+    #url documentos
     url(r'^documentos/$', views.documentos, name='documentos'),
     url(r'^documentos/(?P<document_id>\d+)/$', views.documento, name='documento'),
+    url(r'^add_documento/$', views.add_documento, name='add_documento'),
 
     #url normalizar
     url(r'^normalizar/$', views.normalizar, name='normalizar'),

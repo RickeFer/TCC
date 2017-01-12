@@ -1,5 +1,5 @@
 from django import forms
-from .models import Table, Field
+from .models import Table, Field, Document
 
 
 class TableForm(forms.ModelForm):
@@ -15,3 +15,10 @@ class FieldForm(forms.ModelForm):
         fields = ['name', 'primary']
         labels = {'name': 'Campo', 'primary': 'Chave Primária'}
         widgets = {'order': forms.HiddenInput}
+
+
+class DocumentForm(forms.ModelForm):
+    class Meta:
+        model = Document
+        fields = ['name']
+        labels = {'name': 'Documento'}
