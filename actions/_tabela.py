@@ -3,5 +3,7 @@ from app.models import *
 
 def runTabela(table_id):
     tabela = Table.objects.get(id=table_id)
-    campos = tabela.field_set.order_by('order')
-    return {'tabela': tabela, 'campos': campos}
+    chaves = tabela.field_set.filter(primary=1).order_by('order')
+    campos = tabela.field_set.filter(primary=0).order_by('order')
+
+    return {'tabela': tabela, 'campos': campos, 'chaves': chaves}

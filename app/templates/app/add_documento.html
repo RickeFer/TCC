@@ -85,13 +85,16 @@
         function atualizaNormal(num){
             var nome = $("#campo_"+num).val();
             nome = normalizarNome(nome);
-            $("#campo_"+num).val(nome);
+
+            if(nome == '')
+                $("#campo_"+num).focus();
+            else
+                $("#campo_"+num).val(nome);
         }
 
         function removeCampo(num){
             $("#item_"+num).remove();
-            /*$("#campo_"+num).remove();
-            $("#remove_"+num).remove();*/
         }
+
     </script>
 {% endblock script %}

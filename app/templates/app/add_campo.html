@@ -22,6 +22,12 @@
         $("#id_order").ready(function(){
             $(this).val(1);
         });
+
+        $("#id_name").focusout(function(){
+            nome = $(this).val();
+            nome = normalizarNome(nome);
+            $(this).val(nome);
+        });
     </script>
 
 {% endblock script %}

@@ -35,20 +35,27 @@
 
     <h4>Campos</h4>
     <ul>
-        {% for campo in campos %}
-            <li>
-                {% if campo.primary %}
+        {% if chaves and campos %}
+            {% for chave in chaves %}
+                <li>
                     <span class="ui-icon ui-icon-key"></span>
-                {% else %}
+                    <small>
+                        {{chave.name}}
+                    </small>
+                </li>
+            {% endfor %}
+
+            {% for campo in campos %}
+                <li>
                     <span style="margin-left: 19px;"></span>
-                {% endif %}
-                <small>
-                    {{campo.name}}
-                </small>
-            </li>
-        {% empty %}
+                    <small>
+                        {{campo.name}}
+                    </small>
+                </li>
+            {% endfor %}
+        {% else %}
             <li>Não há campos para essa tabela</li>
-        {% endfor %}
+        {% endif %}
     </ul>
 
 {% endblock content %}
