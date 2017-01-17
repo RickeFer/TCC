@@ -14,6 +14,7 @@ class Table(models.Model):
     name = models.CharField(max_length=20)
     date_added = models.DateTimeField(auto_now_add=True)
     normal_form = models.PositiveSmallIntegerField(default=0)
+    type_table = models.PositiveSmallIntegerField(default=1)
 
     def __str__(self):
         return self.name

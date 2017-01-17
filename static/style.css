@@ -12,3 +12,15 @@
     display: inline;
     width: 400px;
 }
+
+.lista-tabelas li
+{
+    list-style: none;
+}
+
+.espacamento
+{
+    height: 20px;
+}
+
+.glyphicon { cursor: pointer; }

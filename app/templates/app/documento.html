@@ -2,6 +2,10 @@
 {% load bootstrap3 %}
 {% load static %}
 
+{% block css %}
+    <title>Documento - {{documento}}</title>
+{% endblock css %}
+
 {% block header %}
     <h3>{{documento}}
         <!--<button type="button" id="add_tabela" class="btn btn-default btn-lg" data-toggle="modal" data-target="#addTabela">
@@ -11,15 +15,52 @@
 {% endblock header %}
 
 {% block content %}
-    <ul id="lista-tabelas">
-        {% for tab in tabelas %}
-            <li>
-                <a href="{% url 'app:tabela' tab.id %}">{% if tab.name == documento.name %} Campos sem tabela {% else %} {{tab}} {% endif %}</a>
-            </li>
-        {% empty %}
-            <li>
-                Não há tabelas relacionadas a esse documento
-            </li>
+    <ul class="lista-tabelas">
+        <!-- lista os campos sem tabelas -->
+        {% if sem_tabela %}<h4>Campos sem tabela</h4>{% endif %}
+        <ul>
+            {% for campo in sem_tabela %}
+                <li>
+                    {{campo}}
+                </li>
+            {% empty %}
+                <h4>Não há campos sem tabelas</h4>
+            {% endfor %}
+        </ul>
+    </ul>
+
+    <div class="espacamento"></div>
+
+    <ul class="lista-tabelas">
+        <!-- lista as demais tabelas -->
+        {% for tabela in tabelas %}
+        <li class="lista-tabela-item">
+            <h4 style="display: inline; margin-right: 10px">{{tabela}}</h4>
+            <span class="glyphicon glyphicon-chevron-down" aria-hidden="true" id="{{tabela}}"></span>
+            <ul style="display: none" id="campos_{{tabela}}">
+                {% for campo in tabela.campos %}
+                    <li>{{campo}}</li>
+                {% endfor %}
+            </ul>
         {% endfor %}
+        </li>
     </ul>
 {% endblock content %}
+
+
+{% block script %}
+    <script>
+        $("span").click(function(){
+            var id = "campos_"+$(this).attr("id");
+
+            if($("#"+id).css("display")=="none"){
+                $("#"+id).css("display", "block");
+                $(this).attr("class", "glyphicon glyphicon-chevron-up");
+            }
+            else{
+                $("#"+id).css("display", "none");
+                $(this).attr("class", "glyphicon glyphicon-chevron-down");
+            }
+        });
+    </script>
+{% endblock script %}

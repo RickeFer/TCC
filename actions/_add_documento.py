@@ -20,6 +20,7 @@ def run_add_documento(request):
         tabela_base = Table()
         tabela_base.document = documento_novo
         tabela_base.name = postDic['name']
+        tabela_base.type_table = 0
         tabela_base.save()
 
         array_campos = []
