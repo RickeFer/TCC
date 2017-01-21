@@ -20,8 +20,8 @@ urlpatterns = [
     url(r'^add_documento/$', views.add_documento, name='add_documento'),
 
     #url normalizar
-    url(r'^normalizar/$', views.normalizar, name='normalizar'),
-    url(r'^normalizar/(?P<table_id>\d+)/$', views.normalizar, name='normalizar'),
+    #url(r'^normalizar/$', views.normalizar, name='normalizar'),
+    #url(r'^normalizar/(?P<table_id>\d+)/$', views.normalizar, name='normalizar'),
 
     #ajax
     url(r'^ajax_add_tabela/$', views.ajax_add_tabela, name='ajax_add_tabela'),

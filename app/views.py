@@ -16,6 +16,7 @@ from actions._documento import run_documento
 from actions._normalizar import run_normalizar
 from actions._ajax_add_tabela import run_ajax_add_tabela
 from actions._add_documento import run_add_documento
+from actions._normalizar_documento import run_normalizar_documento
 
 
 def index(request):
@@ -77,10 +78,14 @@ def add_documento(request):
         return HttpResponseRedirect(reverse('app:documentos'))
 
 
-def normalizar(request, table_id=0):
-    context = run_normalizar(table_id)
+def normalizar(request, documento_id=0):
+    context = run_normalizar(documento_id)
     return render(request, 'app/normalizar.html', context)
 
+
+def normalizar_documento(request, documento_id=0):
+    context = run_normalizar_documento()
+    return render(request, 'app/')
 
 def mostrar_post(request):
     aux = request.POST

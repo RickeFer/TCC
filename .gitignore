@@ -1,0 +1,3 @@
+tgenv/
+__pycache__/
+*.sqlite3

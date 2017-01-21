@@ -2,7 +2,9 @@ from app.models import *
 from app.forms import TableForm
 
 
-def run_normalizar(table_id=0):
+def run_normalizar(documento_id):
+    documento = Document.objects.get(id=documento_id)
+
     """
     tabela = Table.objects.get(id=table_id)
     campos = tabela.field_set.order_by('order')
@@ -28,4 +30,4 @@ def run_normalizar(table_id=0):
     tabelas = Table.objects.all()
     context = {'tabela': tabela, 'tabelas': tabelas, 'dicCampos': dicCampos, 'form': TableForm()}
     """
-    return {'form': TableForm()}
+    return {'form': TableForm(), 'documento': documento}
