@@ -154,8 +154,15 @@ BOOTSTRAP3 = {
 if os.getcwd() == '/app':
     import dj_database_url
     DATABASES = {
-        'default': dj_database_url.config(default='postgres://localhost')
-    }
+		'default': {
+			'ENGINE': 'django.db.backends.postgresql_psycopg2',
+			'NAME': 'dfdeb7idhji30a',
+			'USER': 'dybvmelmfkjwza',
+			'PASSWORD': '9ed2c25ab5f5fb147b35aa852fbadf1b98d457feb35ff7d56d3ac33931160aa5',
+			'HOST': 'ec2-54-163-234-20.compute-1.amazonaws.com',
+			'PORT': '5432',
+		}
+	}
 
     SECURE_PROXY_SSL_HEADER = ('HTTP_X_FORWARDED_PROTO', 'https')
 
