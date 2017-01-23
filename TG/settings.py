@@ -91,6 +91,7 @@ DATABASES = {
     }
 }
 """
+
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql_psycopg2',
@@ -101,6 +102,7 @@ DATABASES = {
         'PORT': '',
     }
 }
+
 
 # Password validation
 # https://docs.djangoproject.com/en/1.9/ref/settings/#auth-password-validators
@@ -150,19 +152,17 @@ BOOTSTRAP3 = {
     'include_jquery': True,
 }
 
-#config para o heroku
-if os.getcwd() == '/app':
+if os.path.abspath(__file__) == 'C:\py\web\TG\TG\settings.py':
+    ONLINE = False
+else:  
+    ONLINE = True
+
+if ONLINE:
     import dj_database_url
+
     DATABASES = {
-		'default': {
-			'ENGINE': 'django.db.backends.postgresql_psycopg2',
-			'NAME': 'dfdeb7idhji30a',
-			'USER': 'dybvmelmfkjwza',
-			'PASSWORD': '9ed2c25ab5f5fb147b35aa852fbadf1b98d457feb35ff7d56d3ac33931160aa5',
-			'HOST': 'ec2-54-163-234-20.compute-1.amazonaws.com',
-			'PORT': '5432',
-		}
-	}
+        'dafault': dj_database_url.config(dafault='postgres://localhost')
+    }
 
     SECURE_PROXY_SSL_HEADER = ('HTTP_X_FORWARDED_PROTO', 'https')
 
@@ -171,8 +171,4 @@ if os.getcwd() == '/app':
     DEBUG = False
 
     BASE_DIR = os.path.dirname(os.path.abspath(__file__))
-    #STATIC_ROOT = 'staticfiles'
-    #STATICFILES_DIRS = (
-    #    os.path.join(BASE_DIR, 'static'),
-    #)
-
+    
