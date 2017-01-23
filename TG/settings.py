@@ -152,11 +152,13 @@ BOOTSTRAP3 = {
     'include_jquery': True,
 }
 
+"""
 if os.path.abspath(__file__) == 'C:\py\web\TG\TG\settings.py':
     ONLINE = False
 else:  
     ONLINE = True
-
+"""
+ONLINE = True
 if ONLINE:
     import dj_database_url
 
