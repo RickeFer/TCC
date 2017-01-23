@@ -161,7 +161,7 @@ if ONLINE:
     import dj_database_url
 
     DATABASES = {
-        'dafault': dj_database_url.config(dafault='postgres://localhost')
+        'default': dj_database_url.config(dafault='postgres://localhost')
     }
 
     SECURE_PROXY_SSL_HEADER = ('HTTP_X_FORWARDED_PROTO', 'https')
