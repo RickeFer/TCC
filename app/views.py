@@ -80,12 +80,12 @@ def add_documento(request):
 
 def normalizar(request, documento_id=0):
     context = run_normalizar(documento_id)
-    return render(request, 'app/normalizar.html', context)
+    return render(request, 'app/normalizar2.html', context)
 
 
 def normalizar_documento(request, documento_id=0):
-    context = run_normalizar_documento()
-    return render(request, 'app/')
+    context = run_normalizar_documento(documento_id)
+    return render(request, 'app/normalizar.html', context)
 
 def mostrar_post(request):
     aux = request.POST

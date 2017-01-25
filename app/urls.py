@@ -23,6 +23,9 @@ urlpatterns = [
     #url(r'^normalizar/$', views.normalizar, name='normalizar'),
     #url(r'^normalizar/(?P<table_id>\d+)/$', views.normalizar, name='normalizar'),
 
+    #url normalizar documento
+    url(r'^normalizar/(?P<documento_id>\d+)/$', views.normalizar_documento, name='normalizar'),
+
     #ajax
     url(r'^ajax_add_tabela/$', views.ajax_add_tabela, name='ajax_add_tabela'),
 

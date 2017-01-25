@@ -1,27 +1,9 @@
 
 {% if pag == 'normalizar' %}
-    <li class="quebra">Campos de {{tabela}} {{tabela.id}}</li>
-    {% for campos in dicCampos.values %}
-        {% for c in campos %}
-            <li id="campo[{{c}}]" class="ui-state-default campo {% if c.primary %}chave{% endif %}">
-                {{c}}
-            </li>
-        {% endfor %}
-        <li class="quebra"></li>
-    {% endfor %}
-
-    {% for tabela in tabelas %}
-        <li class="quebra">Tabela {{tabela}}</li>
-    {% endfor %}
-
-{% else %}
-    {% for tab in tabelas %}
-        <li>
-            <a href="{% url 'app:tabela' tab.id %}">{{tab}}</a>
-        </li>
-    {% empty %}
-        <li>
-            Não há tabelas cadastradas
-        </li>
-    {% endfor %}
+    <div style="height: 30px"></div>
+    <h4>{{tabela}}</h4>
+    <div class="content">
+        <ul class="sortable ui-sortable">
+        </ul>
+    </div>
 {% endif %}

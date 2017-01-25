@@ -1,0 +1,120 @@
+{% extends  'app/base.html' %}
+{% load bootstrap3 %}
+{% load static %}
+
+{% block css %}
+    <title>Normalizar {{tabela}}</title>
+    <link href="{% static 'normalizar.css' %}" rel="stylesheet">
+{% endblock css %}
+
+{% block header %}
+    <h3>Tabela
+        <button type="button" id="add_tabela" class="btn btn-default btn-lg" data-toggle="modal" data-target="#addTabela">
+          <span class="glyphicon glyphicon-plus" aria-hidden="true"></span>
+        </button>
+    </h3>
+{% endblock header %}
+
+{% block content %}
+    <form action="{% url 'app:mostrar_post' %}" method="post">
+        <div id="campos" class="content">
+            <ul id="sortable">
+                <li class="quebra">Campos {% if tabela == None %} do documento {% else %} de {{tabela}} {% endif %}</li>
+                {% for campos in dicCampos.values %}
+                    {% for c in campos %}
+                        <li class="ui-state-default campo {% if c.primary %}chave{% endif %}" id="{{c}}">
+                            {{c}}
+                            <input type="hidden" id="{{c}}_top" name="{{c}}['top']" value="0" />
+                            <input type="hidden" id="{{c}}_left" name="{{c}}['left']" value="0" />
+                        </li>
+                    {% endfor %}
+                    <li class="quebra"></li>
+                {% endfor %}
+
+                {% for tabela in tabelas %}
+                    <li class="quebra tabela" id="{{tabela}}">
+                        <input type="hidden" name="tabela_{{tabela}}" value="{{tabela}}"/>
+                        <input type="hidden" id="{{tabela}}_top" name="{{tabela}}_top" value="0" />
+                        Tabela {{tabela}}
+                    </li>
+                {% endfor %}
+            </ul>
+        </div>
+
+
+        {% csrf_token %}
+        <button name="submit" class="btn btn-primary">SALVAR</button>
+    </form>
+
+
+
+    <!-- modal add tabela-->
+    <div id="addTabela" class="modal fade" role="dialog">
+      <div class="modal-dialog">
+        <div class="modal-content">
+          <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal">&times;</button>
+            <h4 class="modal-title">Adicionar Tabela</h4>
+          </div>
+          <div class="modal-body">
+              {% bootstrap_form form %}
+              {% csrf_token %}
+              {% buttons %}
+                    <button name="submit" class="btn btn-primary" id="btnAddTabela">ADICIONAR</button>
+              {% endbuttons %}
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+          </div>
+        </div>
+
+      </div>
+    </div>
+
+{% endblock content %}
+
+{% block script %}
+    <script src="{% static 'scripts/normalizar.js' %}"></script>
+    <script>
+        $(document).ready(function(){
+            var i = 0;
+            $(".campo").each(function(){
+                var id = "#"+$(this).attr('id');
+                $(id+"_top").val($(this).position().top);
+                $(id+"_left").val($(this).position().left);
+            });
+
+            $(".tabela").each(function(){
+                var id = "#"+$(this).attr('id');
+                $(id+"_top").val($(this).position().top);
+            });
+        });
+        /* atualiza as posicoes de todos os campos */
+        $(".campo").click(function(){
+            //$(".campo").each(function(){
+                var id = "#"+$(this).attr('id');
+                $(id+"_top").val($(this).position().top);
+                $(id+"_left").val($(this).position().left);
+            //});
+        });
+
+        $("#btnAddTabela").click(function(){
+            var token = $("input[name=csrfmiddlewaretoken]").val();
+            var name = $("#id_name").val();
+            var pag = 'normalizar';
+            var id = {{tabela.id}};
+            var document = $("#id_document").val();
+            $.ajax({
+                url: '{% url 'app:ajax_add_tabela' %}',
+                type: 'POST',
+                data: 'csrfmiddlewaretoken='+token + '&nome='+name +
+                        '&pag='+pag + '&id='+id + '&document='+document,
+                success: function(ret){
+                    $("#sortable").html(ret.content);
+
+                    $("#addTabela").modal("hide");
+                }
+            });
+        });
+    </script>
+{% endblock script %}

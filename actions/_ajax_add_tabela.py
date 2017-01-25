@@ -2,14 +2,20 @@ from app.models import *
 
 
 def run_ajax_add_tabela(request):
+
     if request.method == 'POST':
-        nome = request.POST['nome']
+        nome = request.POST['nome'].title()
         table = Table()
         table.name = nome
         document = Document.objects.get(id=request.POST['documento'])
         table.document = document
-        table.save()
+        table.type_table = 1
+        #table.save()
 
+    return {'pag': request.POST['pag'], 'tabela': table}
+
+
+    """
     tabelas = Table.objects.all()
     context = {'tabelas': tabelas}
 
@@ -38,6 +44,6 @@ def run_ajax_add_tabela(request):
 
         context['dicCampos'] = dicCampos
         context['pag'] = 'normalizar'
-
+    """
 
     return context

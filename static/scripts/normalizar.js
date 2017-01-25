@@ -1,6 +1,6 @@
 $(function(){
     //$(".sortable").each(function(){
-        $("#sortable").sortable({
+        $(".sortable").sortable({
             revert: true,
             //axis: "x"
         });
@@ -19,6 +19,14 @@ $(function(){
 
     //$("ul, li").disableSelection();
 });
+
+function atualizaClasse(){
+    $(".sortable").each(function(){
+        $(this).sortable({
+            revert: true
+        });
+    });
+}
 /*
 $("#add_tabela").click(function(){
     $.ajax({

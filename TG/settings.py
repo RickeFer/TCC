@@ -158,8 +158,7 @@ if os.path.abspath(__file__) == 'C:\py\web\TG\TG\settings.py':
 else:  
     ONLINE = True
 """
-ONLINE = True
-if ONLINE:
+if os.getcwd() == '/app':
     import dj_database_url
 
     DATABASES = {
