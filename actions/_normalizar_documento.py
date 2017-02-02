@@ -41,7 +41,7 @@ def run_normalizar_documento(request, documento_id):
                     maior = float(temp['top'])
 
         """
-            DEFINE A ORDEM DAS TABELAS
+            DEFINE A ORDEM DAS TABELAS E SUAS POSICOES
         """
         cont = 0;
         temp = []
@@ -73,7 +73,9 @@ def run_normalizar_documento(request, documento_id):
             tabs[i]['bottom'] = tabs[i - 1]['top']
 
 
-        # distribui os campos em suas tabelas
+        """
+            DISTRIBUI OS CAMPOS EM SUAS TABELA
+        """
         for tab in tabs:
             temp = []
             for camp in tops:
@@ -84,16 +86,29 @@ def run_normalizar_documento(request, documento_id):
                         temp.append(camp)
             tab['campos'] = temp
 
+        documento = Document.objects.get(id=documento_id)
 
-        """
         for tab in tabs:
-            if tab['campos']:
+            if tab['nome'] == 'sem_tabela':
+                tab['nome'] = documento.name
+            try:
                 aux = Table.objects.get(name=tab['nome'])
+            except Table.DoesNotExist:
+                aux = Table(name=tab['nome'], document=documento, type_table=1)
+                aux.save()
+
+            if tab['campos']:
                 for c in tab['campos']:
                     nome = c['nome'].split('[')
-                    campo = Field.objects.get(name=nome[0])
+
+                    try:
+                        campo = Field.objects.get(name=nome[0])
+                    except Field.DoesNotExist:
+                        campo = Field(name=nome[0], order=1)
+
                     campo.table = aux
                     campo.save()
-        """
+
+
         context = {'post': tabs}
         return context
