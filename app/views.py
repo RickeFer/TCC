@@ -17,6 +17,7 @@ from actions._normalizar import run_normalizar
 from actions._ajax_add_tabela import run_ajax_add_tabela
 from actions._add_documento import run_add_documento
 from actions._normalizar_documento import run_normalizar_documento
+from actions._ajax_add_campo import run_ajax_add_campo
 
 
 def index(request):
@@ -84,10 +85,18 @@ def normalizar(request, documento_id=0):
 
 
 def normalizar_documento(request, documento_id=0):
-    context = run_normalizar_documento(documento_id)
-    return render(request, 'app/normalizar.html', context)
+    context = run_normalizar_documento(request, documento_id)
+    if request.method != 'POST':
+        return render(request, 'app/normalizar.html', context)
+    else:
+        return render(request, 'app/mostrar_post.html', context)
+
 
 def mostrar_post(request):
+    context = {'post': request.POST}
+    return render(request, 'app/mostrar_post.html', context)
+
+
     aux = request.POST
     #define as tabelas
     tabs = []; maior = 0
@@ -157,3 +166,9 @@ def mostrar_post(request):
 def ajax_add_tabela(request):
     context = run_ajax_add_tabela(request)
     return render(request, 'app/ajax_add_tabela.html', context)
+
+
+@ajax
+def ajax_add_campo(request):
+    context = run_ajax_add_campo(request)
+    return render(request, 'app/ajax_add_campo.html', context)

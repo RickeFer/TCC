@@ -9,40 +9,63 @@
 
 {% block header %}
     <h3>Documento {{documento}}
-        <small><span data-toggle="modal" data-target="#addTabela">nova tabela</span></small>
+        <small>
+            <span data-toggle="modal" data-target="#addTabela" class="link">nova tabela</span>
+        </small>
+        <small>
+            <span data-toggle="modal" data-target="#addCampo" class="link">novo campo</span>
+        </small>
     </h3>
 {% endblock header %}
 
 {% block content %}
-    <ul class="sortable lista-tabelas" id="todas_tabelas">
-        <!-- lista os campos sem tabelas -->
-        {% if sem_tabela %}<h4>Campos sem tabela</h4>{% endif %}
-        {% for campo in sem_tabela %}
-           <li class="ui-state-default campo" id="{{campo}}">
-                {{campo}}
-                <input type="hidden" id="{{campo}}_top" name="{{campo}}['top']" value="0" />
-                <input type="hidden" id="{{campo}}_left" name="{{campo}}['left']" value="0" />
+    <form action="{% url 'app:normalizar' documento.id %}" method="POST">
+        <ul class="sortable lista-tabelas" id="todas_tabelas">
+            <!-- lista os campos sem tabelas -->
+            <li class="tabela" id="sem_tabela">
+                <h4>Campos sem tabela</h4>
+                <input type="hidden" name="tabela_sem_tabela" value="sem_tabela"/>
+                <input type="hidden" id="tabela_sem_tabela_top" name="sem_tabela_top" value="0" />
             </li>
-        {% empty %}
-            <h4>Não há campos sem tabelas</h4>
-        {% endfor %}
-
-        <!-- lista as demais tabelas -->
-        {% for tabela in arrayTabelas %}
-            <div style="height: 30px"></div>
-            <h4>{{tabela.tabela}}</h4>
-            {% for campo in tabela.campos %}
-                <li class="ui-state-default campo" id="{{campo}}">
+            {% for campo in sem_tabela %}
+               <li class="ui-state-default campo" id="{{campo}}">
                     {{campo}}
                     <input type="hidden" id="{{campo}}_top" name="{{campo}}['top']" value="0" />
                     <input type="hidden" id="{{campo}}_left" name="{{campo}}['left']" value="0" />
                 </li>
+            {% empty %}
+                <h4>Não há campos sem tabelas</h4>
             {% endfor %}
-        {% endfor %}
-    </ul>
+
+            <!-- lista as demais tabelas -->
+            {% for tabela in arrayTabelas %}
+                <div style="height: 30px"></div>
+                <li class="tabela" id="{{tabela.tabela}}">
+                    <h4>{{tabela.tabela}}</h4>
+                     <input type="hidden" name="tabela_{{tabela.tabela}}" value="{{tabela.tabela}}"/>
+                    <input type="hidden" id="{{tabela.tabela}}_top" name="{{tabela.tabela}}_top" value="0" />
+                </li>
+                {% for campo in tabela.campos %}
+                    <li class="ui-state-default campo" id="{{campo}}_campo" onfocusout="atualizaPosCampo({{campo}});">
+                        {{campo}}
+                        <input type="hidden" id="{{campo}}_top" name="{{campo}}['top']" value="0" />
+                        <input type="hidden" id="{{campo}}_left" name="{{campo}}['left']" value="0" />
+                    </li>
+                {% endfor %}
+            {% endfor %}
+        </ul>
+
+        <div style="height: 50px"></div>
+
+        {% csrf_token %}
+        {% buttons %}
+            <!--<button name="submit" class="btn btn-primary" id="enviar" style="margin-left: 40px">SALVAR</button>-->
+            <div class="btn btn-primary" id="enviar">SALVAR</div>
+        {% endbuttons %}
+    </form>
 
 
-    <!-- modal add tabela-->
+    <!-- INICIO modal add tabela-->
     <div id="addTabela" class="modal fade" role="dialog">
         <div class="modal-dialog">
             <div class="modal-content">
@@ -67,16 +90,63 @@
             </div>
         </div>
     </div>
+    <!-- FIM -->
+
+    <!-- INICIO modal add campo -->
+    <div id="addCampo" class="modal fade" role="dialog">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                    <h4 class="modal-title">Adicionar Campo</h4>
+                </div>
+                <div class="modal-body">
+                    <div class="form-group">
+                        <label class="control-label" for="novo_campo">Nome</label>
+                        <input class="form-control" id="novo_campo" maxlength="20" name="novo_campo" placeholder="Nome" title="" type="text" required />
+                    </div>
+
+                  {% csrf_token %}
+                  {% buttons %}
+                        <button name="submit" class="btn btn-primary" id="btnAddCampo">ADICIONAR</button>
+                  {% endbuttons %}
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- FIM -->
+
 
 {% endblock content %}
 
 {% block script %}
     <script src="{% static 'scripts/normalizar.js' %}"></script>
     <script>
+        $("#enviar").click(function(){
+            $(".campo").each(function(){
+                var id = "#"+$(this).attr('id');
+                id = id.replace("_campo", "");
+                $(id+"_top").val($(this).position().top);
+                $(id+"_left").val($(this).position().left);
+                console.log(id+' '+$(this).position().top);
+            });
+
+            $(".tabela").each(function(){
+                var id = "#"+$(this).attr('id');
+                $(id+"_top").val($(this).position().top);
+            });
+
+            $("form").submit();
+        });
+
         $(document).ready(function(){
             var i = 0;
             $(".campo").each(function(){
                 var id = "#"+$(this).attr('id');
+                id = id.replace("_campo", "");
                 $(id+"_top").val($(this).position().top);
                 $(id+"_left").val($(this).position().left);
             });
@@ -86,6 +156,13 @@
                 $(id+"_top").val($(this).position().top);
             });
         });
+
+        function atualizarTabelas(){
+            $(".tabela").each(function(){
+                var id = "#"+$(this).attr('id');
+                $(id+"_top").val($(this).position().top);
+            });
+        }
 
         //submissao ajax para adicionar tabela
         $("#btnAddTabela").click(function(){
@@ -110,12 +187,42 @@
                         $("#todas_tabelas").append(ret.content);
                         $("#addTabela").modal("hide");
                         $("#nova_tabela").val("");
-                        atualizaClasse();
+                        atualizarTabelas();
                     }
                 });
             }
             else
-                alert("Insira um noma para a nova tabela");
+                alert("Insira um nome para a nova tabela!");
+        });
+
+        //submissao ajax para adicionar campo
+        $("#btnAddCampo").click(function(){
+            var nome = $("#novo_campo").val();
+            var pag = 'normalizar';
+            var documento = {{documento.id}};
+            var token = $("input[name=csrfmiddlewaretoken]").val();
+
+            nome = normalizarNome(nome);
+
+            if(nome != ""){
+                $.ajax({
+                    type: 'POST',
+                    url: '{% url 'app:ajax_add_campo' %}',
+                    data: {
+                        'nome': nome,
+                        'pag': pag,
+                        'documento': documento,
+                        'csrfmiddlewaretoken': token
+                    },
+                    success: function(ret){
+                        $(ret.content).insertAfter($("#sem_tabela"));
+                        $("#novo_campo").val("");
+                        $("#addCampo").modal("hide");
+                    }
+                });
+            }
+            else
+                alert("Insira um nome para o novo campo!");
         });
     </script>
 {% endblock script %}

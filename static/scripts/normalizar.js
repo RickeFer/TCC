@@ -5,7 +5,8 @@ $(function(){
             //axis: "x"
         });
 
-         $("#teste").sortable({
+
+        $("#teste").sortable({
             revert: true,
             //axis: "x"
         });
@@ -27,13 +28,9 @@ function atualizaClasse(){
         });
     });
 }
-/*
-$("#add_tabela").click(function(){
-    $.ajax({
-        url: 'ajax_add_tabela',
-        type: 'POST',
-        success: function(json){
-            $("body").html(json);
-        }
-    });
-});*/
+
+function atualizaPosCampo(id){
+    id = "#"+id;
+
+    console.log(id);
+}

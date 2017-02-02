@@ -1,0 +1,8 @@
+
+{% if pag == 'normalizar' %}
+    <li class="ui-state-default campo" id="{{campo}}">
+        {{campo}}
+        <input type="hidden" id="{{campo}}_top" name="{{campo}}['top']" value="0" />
+        <input type="hidden" id="{{campo}}_left" name="{{campo}}['left']" value="0" />
+    </li>
+{% endif %}

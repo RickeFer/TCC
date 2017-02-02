@@ -2,24 +2,98 @@ from app.models import *
 from app.forms import TableForm
 
 
-def run_normalizar_documento(documento_id):
-    documento = Document.objects.get(id = documento_id)
+def run_normalizar_documento(request, documento_id):
+    if request.method != 'POST':
+        documento = Document.objects.get(id=documento_id)
 
-    #pega os campos sem tabela
-    tabela_base = documento.table_set.get(name=documento.name)
-    campos_sem_tabela = tabela_base.field_set.order_by('order')
+        #pega os campos sem tabela
+        tabela_base = documento.table_set.get(name=documento.name)
+        campos_sem_tabela = tabela_base.field_set.order_by('order')
 
-    arrayTabelas = []
-    #pega outras tabela e seus campos
-    tabelas = documento.table_set.exclude(name=documento.name)
-    for tabela in tabelas:
-        campos = tabela.field_set.order_by('order')
-        aux = {'tabela': tabela, 'campos': campos}
-        arrayTabelas.append(aux)
+        arrayTabelas = []
+        #pega outras tabela e seus campos
+        tabelas = documento.table_set.exclude(name=documento.name)
+        for tabela in tabelas:
+            campos = tabela.field_set.order_by('order')
+            aux = {'tabela': tabela, 'campos': campos}
+            arrayTabelas.append(aux)
 
-    print(arrayTabelas)
+        tabela_form = TableForm()
 
-    tabela_form = TableForm()
+        context = {'documento': documento, 'sem_tabela': campos_sem_tabela, 'arrayTabelas': arrayTabelas, 'tabela_form': tabela_form}
+        return context
+    else:
+        aux = request.POST
 
-    context = {'documento': documento, 'sem_tabela': campos_sem_tabela, 'arrayTabelas': arrayTabelas, 'tabela_form': tabela_form}
-    return context
+        """
+            DEFINE AS TABELAS
+        """
+        tabs = []
+        maior = 0
+        for p in aux:
+            if p[:6] == 'tabela':
+                nome = p[7:]
+                print(nome)
+                temp = {'nome': nome, 'ordem': -1, 'bottom': -1}
+                temp['top'] = request.POST[nome + "_top"]
+                tabs.append(temp)
+                if float(temp['top']) > maior:
+                    maior = float(temp['top'])
+
+        """
+            DEFINE A ORDEM DAS TABELAS
+        """
+        cont = 0;
+        temp = []
+        while cont < len(tabs):
+            for tab in tabs:
+                if float(tab['top']) == maior:
+                    tab['ordem'] = cont
+                    cont += 1
+                    temp.append(tab)
+                    break
+
+            maior = 0
+            for tab in tabs:
+                if float(tab['top']) > maior and tab['ordem'] == -1:
+                    maior = float(tab['top'])
+        tabs = temp
+
+        tops = []
+        for p in aux:
+            temp = p.split("'")
+            if 'top' in temp:
+                # print(aux[p])
+                temp = {'tipo': 'campo', 'nome': p, 'top': aux[p]}
+                tops.append(temp)
+        # fecha o range da tabela
+        for i in reversed(range(len(tabs))):
+            if i == 0:
+                continue
+            tabs[i]['bottom'] = tabs[i - 1]['top']
+
+
+        # distribui os campos em suas tabelas
+        for tab in tabs:
+            temp = []
+            for camp in tops:
+                if int(camp['top']) >= int(tab['top']):
+                    if int(tab['bottom']) == -1:
+                        temp.append(camp)
+                    elif int(camp['top']) <= int(tab['bottom']):
+                        temp.append(camp)
+            tab['campos'] = temp
+
+
+        """
+        for tab in tabs:
+            if tab['campos']:
+                aux = Table.objects.get(name=tab['nome'])
+                for c in tab['campos']:
+                    nome = c['nome'].split('[')
+                    campo = Field.objects.get(name=nome[0])
+                    campo.table = aux
+                    campo.save()
+        """
+        context = {'post': tabs}
+        return context
