@@ -17,9 +17,12 @@
 
 {% block content %}
 
-    <ul id="lista-tabelas">
+    <ul id="lista-tabelas" style="list-style: none">
         {% for tab in tabelas %}
-            <li>
+            <li id="tabela_{{tab.id}}">
+                <span class="glyphicon glyphicon-remove" onclick="alert({{tab.id}});"></span>
+                <span class="glyphicon glyphicon-pencil"></span>
+                &nbsp;&nbsp;
                 <a href="{% url 'app:tabela' tab.id %}">{{tab}}</a>
             </li>
         {% empty %}
@@ -60,17 +63,33 @@
             var token = $("input[name=csrfmiddlewaretoken]").val();
             var name = $("#id_name").val();
             var document = $("#id_document").val();
-            var pag = '';
-            $.ajax({
-                url: '{% url 'app:ajax_add_tabela' %}',
-                type: 'POST',
-                data: 'csrfmiddlewaretoken='+token + '&nome='+name + '&documento='+document + '&pag='+pag,
-                success: function(ret){
-                    $("#lista-tabelas").html(ret.content);
-                }
-            });
+            var pag = 'tabelas';
 
-            $("#addTabela").modal("hide")
+            name = normalizarNome(name);
+
+            if(document){
+                if(name != ''){
+                    $.ajax({
+                        url: '{% url 'app:ajax_add_tabela' %}',
+                        type: 'POST',
+                        data: {
+                            'csrfmiddlewaretoken': token,
+                            'nome': name,
+                            'documento': document,
+                            'pag': pag
+                        },
+                        success: function(ret){
+                            $("#lista-tabelas").append(ret.content);
+                            $("#id_name").val('');
+                            $("#addTabela").modal("hide");
+                        }
+                    });
+                }
+                else
+                    alert("Insira um nome válido para a tabela!");
+            }
+            else
+                alert("Selecione um documento!");
         });
     </script>
 {% endblock script %}

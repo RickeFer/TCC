@@ -33,7 +33,6 @@ def run_normalizar_documento(request, documento_id):
         for p in aux:
             if p[:6] == 'tabela':
                 nome = p[7:]
-                print(nome)
                 temp = {'nome': nome, 'ordem': -1, 'bottom': -1}
                 temp['top'] = request.POST[nome + "_top"]
                 tabs.append(temp)
@@ -64,7 +63,16 @@ def run_normalizar_documento(request, documento_id):
             temp = p.split("'")
             if 'top' in temp:
                 # print(aux[p])
-                temp = {'tipo': 'campo', 'nome': p, 'top': aux[p]}
+                nome = p.split('[')[0]
+                primaria = False
+
+                try:
+                    if request.POST[nome+'[primaria]'] == '1':
+                        primaria = True #request.POST[nome+'[primaria]']
+                except:
+                    pass
+
+                temp = {'tipo': 'campo', 'nome': p, 'top': aux[p], 'primaria': primaria}
                 tops.append(temp)
         # fecha o range da tabela
         for i in reversed(range(len(tabs))):
@@ -72,9 +80,8 @@ def run_normalizar_documento(request, documento_id):
                 continue
             tabs[i]['bottom'] = tabs[i - 1]['top']
 
-
         """
-            DISTRIBUI OS CAMPOS EM SUAS TABELA
+            DISTRIBUI OS CAMPOS EM SUAS TABELAS
         """
         for tab in tabs:
             temp = []
@@ -87,6 +94,7 @@ def run_normalizar_documento(request, documento_id):
             tab['campos'] = temp
 
         documento = Document.objects.get(id=documento_id)
+
 
         for tab in tabs:
             if tab['nome'] == 'sem_tabela':
@@ -107,8 +115,8 @@ def run_normalizar_documento(request, documento_id):
                         campo = Field(name=nome[0], order=1)
 
                     campo.table = aux
+                    campo.primary = True if c['primaria'] else False
                     campo.save()
-
 
         context = {'post': tabs}
         return context

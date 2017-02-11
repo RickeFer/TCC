@@ -2,7 +2,6 @@ from app.models import *
 
 
 def run_ajax_add_tabela(request):
-
     if request.method == 'POST':
         nome = request.POST['nome'].title()
         table = Table()
@@ -10,7 +9,8 @@ def run_ajax_add_tabela(request):
         document = Document.objects.get(id=request.POST['documento'])
         table.document = document
         table.type_table = 1
-        #table.save()
+        if request.POST['pag'] == 'tabelas':
+            table.save()
 
     return {'pag': request.POST['pag'], 'tabela': table}
 

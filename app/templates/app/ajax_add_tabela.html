@@ -12,4 +12,8 @@
         <ul class="sortable ui-sortable">
         </ul>
     </div>
+{% elif pag == 'tabelas' %}
+     <li>
+         <a href="{% url 'app:tabela' tabela.id %}">{{tabela}}</a>
+     </li>
 {% endif %}

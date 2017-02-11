@@ -89,6 +89,8 @@ def normalizar_documento(request, documento_id=0):
     if request.method != 'POST':
         return render(request, 'app/normalizar.html', context)
     else:
+        context = {'post': request.POST}
+        #return render(request, 'app/mostrar_post.html', context)
         return HttpResponseRedirect(reverse('app:normalizar', args=[documento_id]))
         #return render(request, reverse('normalizar', kwargs{'documento_id':documento_id}), context)
 

@@ -8,7 +8,7 @@
 {% endblock css %}
 
 {% block header %}
-    <h3>Documento {{documento}}
+    <h3 style="display: inline;">Documento {{documento}}
         <small>
             <span data-toggle="modal" data-target="#addTabela" class="link">nova tabela</span>
         </small>
@@ -16,9 +16,14 @@
             <span data-toggle="modal" data-target="#addCampo" class="link">novo campo</span>
         </small>
     </h3>
+
+    <img src="{% static 'imagens/gold_key.png' %}" alt="Chave Primária" title="Chave Primária" draggable="true" ondragstart="drag(event)" />
+    <!--<img src="{% static 'imagens/green_key.png' %}" alt="Chave Estrangeira" title="Chave Estrangeira" />-->
+
 {% endblock header %}
 
 {% block content %}
+
     <form action="{% url 'app:normalizar' documento.id %}" method="POST">
         <ul class="sortable lista-tabelas" id="todas_tabelas">
             <!-- lista os campos sem tabelas -->
@@ -44,8 +49,9 @@
                     <input type="hidden" id="{{tabela.tabela}}_top" name="{{tabela.tabela}}_top" value="0" />
                 </li>
                 {% for campo in tabela.campos %}
-                    <li class="ui-state-default campo" id="{{campo}}_campo" onfocusout="atualizaPosCampo({{campo}});">
+                    <li class="ui-state-default campo {% if campo.primary %}chave-primaria{% endif %}" id="{{campo}}_campo" onfocusout="atualizaPosCampo({{campo}});"  ondragover="allowDrop(event)" ondrop="drop(event)">
                         {{campo}}
+                        <input type="hidden" id="{{campo}}_primaria" name="{{campo}}[primaria]" value="{% if campo.primary %}1{% else %}0{% endif %}" />
                         <input type="hidden" id="{{campo}}_top" name="{{campo}}['top']" value="0" />
                         <input type="hidden" id="{{campo}}_left" name="{{campo}}['left']" value="0" />
                     </li>
@@ -222,5 +228,25 @@
             else
                 alert("Insira um nome para o novo campo!");
         });
+
+        function drag(ev){
+            //console.log(ev.target.id);
+            //ev.dataTransfer.setData("text", ev.target.id);
+        }
+
+        function drop(ev){
+            //ev.preventDefault();
+            //var data = ev.dataTransfer.getData("text");
+            //ev.target.appendChild(document.getElementById(data));
+            var aux = $(ev.target).attr("id").split("_")[0];
+            var id = "#"+aux+"_primaria";
+            $(ev.target).css("background-color", "rgb(119, 138, 102)");
+            $(ev.target).css("border", "1px solid rgb(218, 213, 94)");
+            $(ev.target).css("background", "rgb(255, 250, 144)");
+            $(id).val(1);
+        }
+        function allowDrop(ev){
+            ev.preventDefault();
+        }
     </script>
 {% endblock script %}
