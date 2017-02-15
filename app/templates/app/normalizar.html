@@ -162,10 +162,18 @@
         });
 
         function atualizarTabelas(){
+            var nomes = '';
+
             $(".tabela").each(function(){
                 var id = "#"+$(this).attr('id');
                 $(id+"_top").val($(this).position().top);
+
+                if($(this).attr('id') != 'sem_tabela')
+                    nomes += $(this).attr('id')+'666';
             });
+
+            //ATUALIZA OS COOKIES COM OS NOMES DAS TABELAS
+            Cookies.set('tabelas', String(nomes.toLowerCase()), {expires: 1});
         }
 
         //submissao ajax para adicionar tabela
@@ -188,10 +196,15 @@
                         'csrfmiddlewaretoken': token
                     },
                     success: function(ret){
-                        $("#todas_tabelas").append(ret.content);
-                        $("#addTabela").modal("hide");
-                        $("#nova_tabela").val("");
-                        atualizarTabelas();
+                        var aux = parseInt(ret.content);
+                        if(aux === 1)
+                            alert('Já existe uma tabela com esse nome!');
+                        else{
+                            $("#todas_tabelas").append(ret.content);
+                            $("#addTabela").modal("hide");
+                            $("#nova_tabela").val("");
+                            atualizarTabelas();
+                        }
                     }
                 });
             }

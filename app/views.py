@@ -87,7 +87,17 @@ def normalizar(request, documento_id=0):
 def normalizar_documento(request, documento_id=0):
     context = run_normalizar_documento(request, documento_id)
     if request.method != 'POST':
-        return render(request, 'app/normalizar.html', context)
+        nomes = context.get('nomes', None)
+        if nomes:
+            del context['nomes']
+            nomes_min = ''
+            for letra in nomes:
+                nomes_min += letra.lower()
+
+        response = render(request, 'app/normalizar.html', context)
+        response.set_cookie('tabelas', nomes_min.strip(), 3600)
+
+        return response
     else:
         context = {'post': request.POST}
         #return render(request, 'app/mostrar_post.html', context)
@@ -96,79 +106,25 @@ def normalizar_documento(request, documento_id=0):
 
 
 def mostrar_post(request):
-    context = {'post': request.POST}
-    return render(request, 'app/mostrar_post.html', context)
-
-
-    aux = request.POST
-    #define as tabelas
-    tabs = []; maior = 0
-    for p in aux:
-        if p[:6] == 'tabela':
-            nome = p[7:]
-            temp = {'nome': nome, 'ordem': -1, 'bottom': -1}
-            temp['top'] = request.POST[nome + "_top"]
-            tabs.append(temp)
-            if float(temp['top']) > maior:
-                maior = float(temp['top'])
-    #define a ordem das tabelas
-    cont = 0; temp = []
-    while cont < len(tabs):
-        for tab in tabs:
-            if float(tab['top']) == maior:
-                tab['ordem'] = cont
-                cont += 1
-                temp.append(tab)
-                break
-
-        maior = 0
-        for tab in tabs:
-            if float(tab['top']) > maior and tab['ordem'] == -1:
-                maior = float(tab['top'])
-    tabs = temp
-
-    tops = []
-    for p in aux:
-        temp = p.split("'")
-        if 'top' in temp:
-            #print(aux[p])
-            temp = {'tipo': 'campo', 'nome': p, 'top': aux[p]}
-            tops.append(temp)
-    #fecha o range da tabela
-    for i in reversed(range(len(tabs))):
-        if i == 0:
-            continue
-        tabs[i]['bottom'] = tabs[i-1]['top']
-
-    #distribui os campos em suas tabelas
-    for tab in tabs:
-        temp = []
-        for camp in tops:
-            if int(camp['top']) >= int(tab['top']):
-                if int(tab['bottom']) == -1:
-                    temp.append(camp)
-                elif int(camp['top']) <= int(tab['bottom']):
-                    temp.append(camp)
-        tab['campos'] = temp
-
-    for tab in tabs:
-        if tab['campos']:
-            aux = Table.objects.get(name=tab['nome'])
-            for c in tab['campos']:
-                nome = c['nome'].split('[')
-                campo = Field.objects.get(name=nome[0])
-                campo.table = aux
-                campo.save()
-
-
-    context = {'post': request.POST, 'tabelas': tabs, 'tops': tops}
-    return render(request, 'app/mostrar_post.html', context)
+    pass
 
 
 @ajax
 def ajax_add_tabela(request):
-    context = run_ajax_add_tabela(request)
-    return render(request, 'app/ajax_add_tabela.html', context)
+    nomes_cookie = request.COOKIES.get('tabelas', '')
+    nomes = nomes_cookie.split('666')
+
+    if request.POST['nome'].lower() in nomes:
+        context = {'erro': 1}
+        response = render(request, 'app/ajax_add_tabela.html', context)
+    else:
+        context = run_ajax_add_tabela(request)
+
+        tabela = context.get('tabela', '')
+        response = render(request, 'app/ajax_add_tabela.html', context)
+        #response.COOKIES['tabelas'] = 'teste'
+
+    return response
 
 
 @ajax

@@ -4,9 +4,10 @@ from app.models import *
 def run_ajax_add_tabela(request):
     if request.method == 'POST':
         nome = request.POST['nome'].title()
+        document = Document.objects.get(id=request.POST['documento'])
+        #verifica se o nome ja existe
         table = Table()
         table.name = nome
-        document = Document.objects.get(id=request.POST['documento'])
         table.document = document
         table.type_table = 1
         if request.POST['pag'] == 'tabelas':

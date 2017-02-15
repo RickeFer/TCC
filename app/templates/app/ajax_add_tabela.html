@@ -1,5 +1,7 @@
 
-{% if pag == 'normalizar' %}
+{% if erro %}
+    {{erro}}
+{% elif pag == 'normalizar' %}
     <div style="height: 30px"></div>
     <h4>{{tabela}}</h4>
      <li class="tabela" id="{{tabela}}">

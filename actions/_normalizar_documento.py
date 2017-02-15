@@ -13,14 +13,15 @@ def run_normalizar_documento(request, documento_id):
         arrayTabelas = []
         #pega outras tabela e seus campos
         tabelas = documento.table_set.exclude(name=documento.name)
+        nomes_tabelas = ''
         for tabela in tabelas:
             campos = tabela.field_set.order_by('order')
             aux = {'tabela': tabela, 'campos': campos}
             arrayTabelas.append(aux)
-
+            nomes_tabelas += tabela.name+'666'
         tabela_form = TableForm()
 
-        context = {'documento': documento, 'sem_tabela': campos_sem_tabela, 'arrayTabelas': arrayTabelas, 'tabela_form': tabela_form}
+        context = {'documento': documento, 'sem_tabela': campos_sem_tabela, 'arrayTabelas': arrayTabelas, 'tabela_form': tabela_form, 'nomes': nomes_tabelas}
         return context
     else:
         aux = request.POST
