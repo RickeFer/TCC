@@ -3,9 +3,8 @@
     {{erro}}
 {% elif pag == 'normalizar' %}
     <div style="height: 30px"></div>
-    <h4>{{tabela}}</h4>
-     <li class="tabela" id="{{tabela}}">
-         <h4>{{tabela.tabela}}</h4>
+     <li class="tabela ui-sortable-handle" id="{{tabela}}">
+         <h4>{{tabela}}</h4>
          <input type="hidden" name="tabela_{{tabela}}" value="{{tabela}}"/>
          <input type="hidden" id="{{tabela}}_top" name="{{tabela}}_top" value="0" />
      </li>

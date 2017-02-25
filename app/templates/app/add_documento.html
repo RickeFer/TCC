@@ -82,6 +82,13 @@
             num++;
         });
 
+        $("#id_name").focusout(function(){
+            var nome = '';
+            nome = $(this).val();
+            nome = normalizarNome(nome);
+            $(this).val(nome);
+        });
+
         function atualizaNormal(num){
             var nome = $("#campo_"+num).val();
             nome = normalizarNome(nome);

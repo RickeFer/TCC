@@ -95,7 +95,9 @@ def normalizar_documento(request, documento_id=0):
                 nomes_min += letra.lower()
 
         response = render(request, 'app/normalizar.html', context)
-        response.set_cookie('tabelas', nomes_min.strip(), 3600)
+
+        if nomes:
+            response.set_cookie('tabelas', nomes_min.strip(), 3600)
 
         return response
     else:
