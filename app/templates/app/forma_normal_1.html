@@ -1,4 +1,4 @@
-{% extends 'app/base.html' %}
+{% extends  'app/base.html' %}
 {% load bootstrap3 %}
 {% load static %}
 
@@ -10,7 +10,7 @@
 {% block header %}
     <h3 style="display: inline;">Documento {{documento}}
         <small>
-            <span data-toggle="modal" data-target="#addTabela" class="link">nova tabela</span>
+            <span data-toggle="modal" data-target="#addTabela" class="link" id="link-add-tabela">nova tabela</span>
         </small>
         <small>
             <span data-toggle="modal" data-target="#addCampo" class="link">novo campo</span>
@@ -18,33 +18,32 @@
     </h3>
 
     <img src="{% static 'imagens/gold_key.png' %}" alt="Chave Primária" title="Chave Primária" draggable="true" ondragstart="drag(event)" />
-    <!--<img src="{% static 'imagens/green_key.png' %}" alt="Chave Estrangeira" title="Chave Estrangeira" />-->
 
+    <h3 style="display: inline;">
+        <small>
+            <span data-toggle="modal" data-target="#dica_fn" class="glyphicon glyphicon-question-sign"></span>
+        </small>
+    </h3>
+
+    <div class="aviso">
+        <span class="titulo">1ª Forma Normal</span>
+        <span id="texto-dica"></span>
+    </div>
+    <!--<img src="{% static 'imagens/green_key.png' %}" alt="Chave Estrangeira" title="Chave Estrangeira" />-->
 {% endblock header %}
 
 {% block content %}
     <form action="{% url 'app:normalizar' documento.id %}" method="POST">
         <ul class="sortable lista-tabelas" id="todas_tabelas">
-            <!-- lista os campos sem tabelas -->
             <li class="tabela" id="sem_tabela">
                 <h4>Campos sem tabela</h4>
-                <input type="hidden" name="tabela_sem_tabela" value="sem_tabela"/>
-                <input type="hidden" id="tabela_sem_tabela_top" name="sem_tabela_top" value="0" />
             </li>
-            {% for campo in sem_tabela %}
-               <li class="ui-state-default campo" id="{{campo}}">
-                    {{campo}}
-                    <input type="hidden" id="{{campo}}_top" name="{{campo}}['top']" value="0" />
-                    <input type="hidden" id="{{campo}}_left" name="{{campo}}['left']" value="0" />
-                </li>
-            {% endfor %}
+            <div id="espaco-sem-tabela" style="margin-bottom: 30px"></div>
 
-            <!-- lista as demais tabelas -->
             {% for tabela in arrayTabelas %}
-                <div style="height: 30px"></div>
                 <li class="tabela" id="{{tabela.tabela}}">
                     <h4>{{tabela.tabela}}</h4>
-                     <input type="hidden" name="tabela_{{tabela.tabela}}" value="{{tabela.tabela}}"/>
+                    <input type="hidden" name="tabela_{{tabela.tabela}}" value="{{tabela.tabela}}"/>
                     <input type="hidden" id="{{tabela.tabela}}_top" name="{{tabela.tabela}}_top" value="0" />
                 </li>
                 {% for campo in tabela.campos %}
@@ -55,11 +54,13 @@
                         <input type="hidden" id="{{campo}}_left" name="{{campo}}['left']" value="0" />
                     </li>
                 {% endfor %}
+                <div style="height: 30px"></div>
             {% endfor %}
         </ul>
 
         <div style="height: 50px"></div>
 
+        <input type="hidden" name="forma_normal" value="1" />
         {% csrf_token %}
         {% buttons %}
             <!--<button name="submit" class="btn btn-primary" id="enviar" style="margin-left: 40px">SALVAR</button>-->
@@ -68,7 +69,7 @@
     </form>
 
 
-    <!-- INICIO modal add tabela-->
+    <!-- INICIO modal add tabela -->
     <div id="addTabela" class="modal fade" role="dialog">
         <div class="modal-dialog">
             <div class="modal-content">
@@ -126,6 +127,39 @@
 {% block script %}
     <script src="{% static 'scripts/normalizar.js' %}"></script>
     <script>
+        var id_mensagem = 0;
+
+        function verificaQuantidadeTabelas(){
+            var qtde_tabelas = 0;
+            $(".tabela").each(function(){
+                qtde_tabelas++;
+            });
+            if(qtde_tabelas >= 2){
+                $("#link-add-tabela").hide();
+                id_mensagem++;
+            }
+        }
+
+        function setarMensagem(){
+            if(id_mensagem == 0){
+                $("#texto-dica").text("Insira uma nova tabela para separar os campos com dados repetitivos!");
+            }
+            else if(id_mensagem == 1)
+                $("#texto-dica").html(
+                    "<span class=\"texto\">Arraste os campos repetitivos para a respectiva tabela!</span>"+
+                    "<span class=\"texto\">E identifique a chave primária!</span>"
+                );
+        }
+
+
+        $(document).ready(function(){
+            verificaQuantidadeTabelas();
+            setarMensagem();
+
+            $("#sem_tabela").hide();
+            $("#espaco-sem-tabela").hide();
+        });
+
         $("#enviar").click(function(){
             $(".campo").each(function(){
                 var id = "#"+$(this).attr('id');
@@ -201,6 +235,8 @@
                             $("#addTabela").modal("hide");
                             $("#nova_tabela").val("");
                             atualizarTabelas();
+                            verificaQuantidadeTabelas();
+                            setarMensagem();
                         }
                     }
                 });
@@ -232,6 +268,8 @@
                         $(ret.content).insertAfter($("#sem_tabela"));
                         $("#novo_campo").val("");
                         $("#addCampo").modal("hide");
+                        $("#sem_tabela").show();
+                        $("#espaco-sem-tabela").show();
                     }
                 });
             }

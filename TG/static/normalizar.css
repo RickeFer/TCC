@@ -38,3 +38,9 @@ body { background-color: blue; }
     height: 40px;
     list-style-type: none;
 }
+
+.aviso
+{
+    padding: 7px;
+    background-color: rgb(249, 197, 112);
+}

@@ -4,9 +4,9 @@ import pprint
 
 
 def run_add_documento(request):
-
     formDoc = DocumentForm()
     formCamp = FieldForm()
+
     if request.method == 'POST':
         postDic = request.POST.dict()
 
@@ -19,7 +19,7 @@ def run_add_documento(request):
         #para armazenar os campos
         tabela_base = Table()
         tabela_base.document = documento_novo
-        tabela_base.name = postDic['name']
+        tabela_base.name = 'tabela_base'#postDic['name']
         tabela_base.type_table = 0
         tabela_base.save()
 
