@@ -24,3 +24,23 @@
 }
 
 .glyphicon { cursor: pointer; }
+
+.aviso
+{
+    padding: 7px 13px 7px 13px;
+    border: 1px solid rgb(249,197,112);
+    background-color: rgba(249, 197, 112, .5);
+    border-radius: 15px;
+}
+
+.aviso .titulo
+{
+    font-weight: bold;
+    display: block;
+}
+
+.aviso .texto
+{
+    margin: auto 10px auto 10px;
+    display: block;
+}

@@ -49,3 +49,11 @@
     height: 40px;
     list-style-type: none;
 }
+
+.aviso
+{
+    margin: 10px auto 10px 10%;
+    width: 80%;
+    padding: 7px;
+    background-color: rgb(249, 197, 112);
+}
