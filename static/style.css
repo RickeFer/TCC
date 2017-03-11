@@ -44,3 +44,6 @@
     margin: auto 10px auto 10px;
     display: block;
 }
+
+.dropdown-menu-meu{ padding: 7px; }
+.dropdown-menu-meu li:hover { background-color: rgba(0,0,0,.2); }

@@ -6,30 +6,56 @@ def run_normalizar_documento(request, documento_id):
     if request.method != 'POST':
         documento = Document.objects.get(id=documento_id)
 
-        #pega os campos sem tabela
-        #tabela_base = documento.table_set.get(name=documento.name, type_table=0)
-        tabela_base = documento.table_set.get(name='tabela_base', type_table=0)
-        campos_sem_tabela = tabela_base.field_set.order_by('order')
-
-        arrayTabelas = []
         #pega outras tabela e seus campos
         tabelas = documento.table_set.exclude(name='tabela_base')
-        nomes_tabelas, fn = '', 3
+        nomes_tabelas, fn, arrayTabelas = '', 3, []
 
         if len(tabelas):
             for tabela in tabelas:
-                campos = tabela.field_set.order_by('order')
-                aux = {'tabela': tabela, 'campos': campos}
-                arrayTabelas.append(aux)
-                nomes_tabelas += tabela.name+'666'
                 if tabela.normal_form < fn:
                     fn = tabela.normal_form
         else:
-            arrayTabelas.append({'tabela': tabela_base, 'campos': campos_sem_tabela})
             fn = 0
-        tabela_form = TableForm()
 
-        context = {'documento': documento, 'sem_tabela': campos_sem_tabela, 'arrayTabelas': arrayTabelas, 'tabela_form': tabela_form, 'nomes': nomes_tabelas, 'fn': fn}
+        print(tabelas)
+
+        if fn == 0:
+            # pega os campos sem tabela
+            tabela_base = documento.table_set.get(name='tabela_base', type_table=0)
+
+            campos_sem_tabela = tabela_base.field_set.order_by('order')
+            if len(tabelas):
+                for tabela in tabelas:
+                    campos = tabela.field_set.order_by('order')
+                    chaves = tabela.field_set.filter(primary=True)
+                    aux = {'tabela': tabela, 'campos': campos, 'chaves': chaves}
+                    arrayTabelas.append(aux)
+                    nomes_tabelas += tabela.name+'666'
+            else:
+                arrayTabelas.append({'tabela': tabela_base, 'campos': campos_sem_tabela})
+
+            tabela_form = TableForm()
+            context = {'documento': documento, 'sem_tabela': campos_sem_tabela, 'arrayTabelas': arrayTabelas, 'tabela_form': tabela_form, 'nomes': nomes_tabelas, 'fn': fn}
+        elif fn == 1:
+            for tabela in tabelas:
+                chaves = tabela.field_set.filter(primary=True)
+
+                if len(chaves) > 1:
+                    campos = tabela.field_set.order_by('order')
+
+                    dependencias = []
+                    for campo in campos:
+                        if campo.primary == False:
+                            dependencias = Dependencia.objects.filter(campo=campo)
+
+
+                    aux = {'tabela': tabela, 'campos': campos, 'chaves': chaves, 'dependencias': dependencias}
+                    arrayTabelas.append(aux)
+                    #nomes_tabelas += tabela.name + '666'
+
+            context = {'documento': documento, 'arrayTabelas': arrayTabelas, 'fn': fn}
+        elif fn == 2:
+            context = {'documento': documento, 'fn': fn}
 
         return context
     else:
@@ -145,5 +171,83 @@ def run_normalizar_documento(request, documento_id):
                     aux.normal_form = 1
                     aux.save()
 
+            documento = Document.objects.get(id=documento_id)
+            tabelas = documento.table_set.filter(type_table=1)
+
+            for tabela in tabelas:
+                chaves = tabela.field_set.filter(primary=True)
+                if len(chaves) == 1:
+                    tabela.normal_form = 2
+                    tabela.save()
+
             context = {'post': tabs}
+            return context
+
+        elif aux['forma_normal'] == '2':
+
+            """
+                SALVA AS DEPENDENCIAS
+            """
+            campos, ja_atualizados = [], []
+            for chave, valor in aux.items():
+                aux_nome = chave[:-15:-1]; aux_nome = aux_nome[::-1]; aux_nome = aux_nome[1:12]
+
+                if aux_nome == 'dependencia':
+                    nome = chave.split('_'); nome = nome[0]
+                    campo = Field.objects.get(name=nome)
+
+                    if nome not in ja_atualizados:
+                        ja_atualizados.append(nome)
+                        dep_del = Dependencia.objects.filter(campo=campo)
+                        for dep in dep_del:
+                            dep.delete()
+
+                    aux_chave = Field.objects.get(name=valor)
+
+                    temp = Dependencia(campo=campo, dependente=aux_chave)
+                    temp.save()
+
+            """
+                VERIFICA CAMPOS QUE NÃO DEPENDEM DA CHAVE INTEIRA
+                CRIA UMA NOVA TABELA PARA ESSES CAMPOS
+            """
+            documento = Document.objects.get(id=documento_id)
+            tabelas = documento.table_set.filter(type_table=1, normal_form=1)
+
+            cont_nome = 0
+            for tabela in tabelas:
+                chaves = tabela.field_set.filter(primary=True)
+                campos = tabela.field_set.filter(primary=False)
+
+                nova_tabela = Table(normal_form=2, document=documento)
+                flag_tabela = False
+
+                for campo in campos:
+                    dependencias = Dependencia.objects.filter(campo=campo)
+                    cont = 0
+
+                    for dependencia in dependencias:
+                        for chave in chaves:
+                            if dependencia.dependente == chave:
+                                cont += 1
+
+                    if len(chaves) > cont:
+                        if flag_tabela == False:
+                            nova_tabela.name = 'nova_tabela_'+str(cont_nome)
+                            nova_tabela.normal_form = 2
+                            nova_tabela.save()
+                            cont_nome += 1
+                            flag_tabela = True
+
+                        campo.table = nova_tabela
+                        campo.save()
+
+                        for dependencia in dependencias:
+                            fk = ChaveEstrangeira(tabela=tabela, campo=dependencia.dependente)
+                            fk.save()
+
+                tabela.normal_form = 2
+                tabela.save()
+
+            context = {}
             return context
