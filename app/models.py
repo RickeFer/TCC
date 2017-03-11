@@ -45,3 +45,13 @@ class Field(models.Model):
             ret += c+'_'
 
         return ret[:-1]
+
+
+class Dependencia(models.Model):
+    campo = models.ForeignKey(Field, related_name="campo")
+    dependente = models.ForeignKey(Field, related_name="dependente")
+
+
+class ChaveEstrangeira(models.Model):
+    campo = models.ForeignKey(Field)
+    tabela = models.ForeignKey(Table)

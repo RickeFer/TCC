@@ -9,15 +9,17 @@
 
 {% block header %}
     <h3 style="display: inline;">Documento {{documento}}
-        <small>
-            <span data-toggle="modal" data-target="#addTabela" class="link" id="link-add-tabela">nova tabela</span>
-        </small>
-        <small>
-            <span data-toggle="modal" data-target="#addCampo" class="link">novo campo</span>
-        </small>
+        <!--
+            <small>
+                <span data-toggle="modal" data-target="#addTabela" class="link" id="link-add-tabela">nova tabela</span>
+            </small>
+            <small>
+                <span data-toggle="modal" data-target="#addCampo" class="link">novo campo</span>
+            </small>
+        -->
     </h3>
 
-    <img src="{% static 'imagens/gold_key.png' %}" alt="Chave Primária" title="Chave Primária" draggable="true" ondragstart="drag(event)" />
+    <!--<img src="{% static 'imagens/gold_key.png' %}" alt="Chave Primária" title="Chave Primária" draggable="true" ondragstart="drag(event)" />-->
 
     <h3 style="display: inline;">
         <small>
@@ -26,103 +28,61 @@
     </h3>
 
     <div class="aviso">
-        <span class="titulo">1ª Forma Normal</span>
+        <span class="titulo">2ª Forma Normal</span>
         <span id="texto-dica"></span>
     </div>
     <!--<img src="{% static 'imagens/green_key.png' %}" alt="Chave Estrangeira" title="Chave Estrangeira" />-->
 {% endblock header %}
 
+
 {% block content %}
     <form action="{% url 'app:normalizar' documento.id %}" method="POST">
-        <ul class="sortable lista-tabelas" id="todas_tabelas">
-            <li class="tabela" id="sem_tabela">
-                <h4>Campos sem tabela</h4>
-            </li>
-            <div id="espaco-sem-tabela" style="margin-bottom: 30px"></div>
-
-            {% for tabela in arrayTabelas %}
-                <li class="tabela" id="{{tabela.tabela}}">
-                    <h4>{{tabela.tabela}}</h4>
-                    <input type="hidden" name="tabela_{{tabela.tabela}}" value="{{tabela.tabela}}"/>
-                    <input type="hidden" id="{{tabela.tabela}}_top" name="{{tabela.tabela}}_top" value="0" />
-                </li>
+        {% for tabela in arrayTabelas %}
+            <div style="padding: 15px">
+                <h4>{{tabela.tabela}}</h4>
                 {% for campo in tabela.campos %}
-                    <li class="ui-state-default campo {% if campo.primary %}chave-primaria{% endif %}" id="{{campo}}_campo" onfocusout="atualizaPosCampo({{campo}});"  ondragover="allowDrop(event)" ondrop="drop(event)">
-                        {{campo}}
-                        <input type="hidden" id="{{campo}}_primaria" name="{{campo}}[primaria]" value="{% if campo.primary %}1{% else %}0{% endif %}" />
-                        <input type="hidden" id="{{campo}}_top" name="{{campo}}['top']" value="0" />
-                        <input type="hidden" id="{{campo}}_left" name="{{campo}}['left']" value="0" />
-                    </li>
+                    <div class="dropdown" style="display: inline">
+                        <div class="campo {% if campo.primary %}chave-primaria{% endif %}" id="{{campo}}_campo"
+                         {% if campo.primary == False %}onmouseover="mostrarOp('{{campo}}')"{% endif %}
+                         {% if campo.primary == False %}onmouseout="esconderOp('{{campo}}')"{% endif %} style="cursor: context-menu">
+                            {{campo}}
+                            {% if campo.primary == False %}
+                                <span class="caret opcoes" style="display: none" id="{{campo}}_op" id="dropdownMenu_{{campo}}" data-toggle="dropdown" aria-haspopup="true"
+                                        aria-expanded="true"></span>
+                            {% endif %}
+
+                            <ul class="dropdown-menu dropdown-menu-meu" aria-labelledby="dropdownMenu_{{campo}}">
+                                <li onclick="setarDependencia('{{campo}}', '{% for chave in tabela.chaves %}{{chave}} {% endfor %}');" id="li_chave_{{campo}}">Chave Inteira</li>
+                                <li role="separator" class="divider"></li>
+                                {% for chave in tabela.chaves %}
+                                    <li onclick="setarDependencia('{{campo}}', '{{chave}}');" class="item_chave_{{campo}}" id="{{campo}}_{{chave}}">{{chave}}</li>
+                                {% endfor %}
+                                <li role="separator" class="divider"></li>
+                                <li onclick="limparDependencia('{{campo}}');">Limpar Dependências</li>
+                            </ul>
+
+                            {% for dep in tabela.dependencias %}
+                                {% if campo == dep.campo %}
+                                    <input type="hidden" class="{{campo}}_dependencia" value="{{dep.dependente}}" />
+                                {% endif %}
+                            {% endfor %}
+                        </div>
+                    </div>
                 {% endfor %}
-                <div style="height: 30px"></div>
-            {% endfor %}
-        </ul>
+            </div>
+        {% endfor %}
 
         <div style="height: 50px"></div>
 
-        <input type="hidden" name="forma_normal" value="1" />
+        <input type="hidden" name="forma_normal" value="2" />
         {% csrf_token %}
         {% buttons %}
             <!--<button name="submit" class="btn btn-primary" id="enviar" style="margin-left: 40px">SALVAR</button>-->
             <div class="btn btn-primary" id="enviar">SALVAR</div>
         {% endbuttons %}
     </form>
-
-
-    <!-- INICIO modal add tabela -->
-    <div id="addTabela" class="modal fade" role="dialog">
-        <div class="modal-dialog">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <button type="button" class="close" data-dismiss="modal">&times;</button>
-                    <h4 class="modal-title">Adicionar Tabela</h4>
-                </div>
-                <div class="modal-body">
-                    <div class="form-group">
-                        <label class="control-label" for="nova_tabela">Nome</label>
-                        <input class="form-control" id="nova_tabela" maxlength="20" name="nova_tabela" placeholder="Nome" title="" type="text" required />
-                    </div>
-
-                  {% csrf_token %}
-                  {% buttons %}
-                        <button name="submit" class="btn btn-primary" id="btnAddTabela">ADICIONAR</button>
-                  {% endbuttons %}
-                </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-default" data-dismiss="modal">Fechar</button>
-                </div>
-            </div>
-        </div>
-    </div>
-    <!-- FIM -->
-
-    <!-- INICIO modal add campo -->
-    <div id="addCampo" class="modal fade" role="dialog">
-        <div class="modal-dialog">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <button type="button" class="close" data-dismiss="modal">&times;</button>
-                    <h4 class="modal-title">Adicionar Campo</h4>
-                </div>
-                <div class="modal-body">
-                    <div class="form-group">
-                        <label class="control-label" for="novo_campo">Nome</label>
-                        <input class="form-control" id="novo_campo" maxlength="20" name="novo_campo" placeholder="Nome" title="" type="text" required />
-                    </div>
-
-                  {% csrf_token %}
-                  {% buttons %}
-                        <button name="submit" class="btn btn-primary" id="btnAddCampo">ADICIONAR</button>
-                  {% endbuttons %}
-                </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-default" data-dismiss="modal">Fechar</button>
-                </div>
-            </div>
-        </div>
-    </div>
-    <!-- FIM -->
 {% endblock content %}
+
 
 {% block script %}
     <script src="{% static 'scripts/normalizar.js' %}"></script>
@@ -130,27 +90,13 @@
         var id_mensagem = 0;
 
         function verificaQuantidadeTabelas(){
-            var qtde_tabelas = 0;
-            $(".tabela").each(function(){
-                if($(this).attr("id") != "sem_tabela")
-                    qtde_tabelas++;
-            });
-            if(qtde_tabelas >= 2){
-                $("#link-add-tabela").hide();
-                id_mensagem++;
-                $("#enviar").show();
-            }
+
         }
 
         function setarMensagem(){
             if(id_mensagem == 0){
-                $("#texto-dica").html("<span class=\"texto\">Insira uma nova tabela para separar os campos com dados repetitivos!</span>");
+                $("#texto-dica").html("<span class=\"texto\">Informe as dependências de cada campo não chave!</span>");
             }
-            else if(id_mensagem == 1)
-                $("#texto-dica").html(
-                    "<span class=\"texto\">Arraste os campos repetitivos para a respectiva tabela!</span>"+
-                    "<span class=\"texto\">E identifique a chave primária!</span>"
-                );
         }
 
 
@@ -158,7 +104,6 @@
             verificaQuantidadeTabelas();
             setarMensagem();
 
-            $("#enviar").hide();
             $("#sem_tabela").hide();
             $("#espaco-sem-tabela").hide();
         });
@@ -193,6 +138,8 @@
                 var id = "#"+$(this).attr('id');
                 $(id+"_top").val($(this).position().top);
             });
+
+            prepararDependencias();
         });
 
         function atualizarTabelas(){
@@ -298,6 +245,95 @@
         }
         function allowDrop(ev){
             ev.preventDefault();
+        }
+
+
+        function mostrarOp(campo){
+            var id = "#"+campo+"_op";
+            $(id).show();
+        }
+
+        function esconderOp(campo){
+            var id = "#"+campo+"_op";
+            $(id).hide();
+        }
+
+        function setarDependencia(campo, dependencia){
+            var cont = 0;
+            var classe = campo+'_dependencia';
+            $("."+classe).each(function(){
+                cont++;
+            });
+
+            if(dependencia){
+                var aux = dependencia.split(' ')
+                var tam = aux.length;
+
+                for(var i=0; i<tam; i++){
+                    if(aux[i]){
+                        var dep = document.createElement('input');
+                        $(dep).attr({
+                            'type': 'hidden',
+                            'id': campo+'_dependencia_'+cont,
+                            'name': campo+'_dependencia_'+cont,
+                            'class': campo+'_dependencia',
+                            'value': aux[i]
+                        });
+
+                        var id_campo = "#"+campo+"_campo";
+                        $(id_campo).addClass("dependente");
+                        $(id_campo).append($(dep));
+
+                        $("#li_chave_"+campo).hide();
+                        $("#"+campo+"_"+dependencia).hide();
+
+                        cont++;
+                    }
+                }
+            }
+        }
+
+        function limparDependencia(campo){
+            var classe = "."+campo+'_dependencia';
+            var id_campo = "#"+campo+"_campo";
+
+            $(classe).remove();
+            $(id_campo).removeClass("dependente");
+
+            $("#li_chave_"+campo).show();
+            $(".item_chave_"+campo).show();
+        }
+
+        function prepararDependencias(){
+            $(".campo").each(function(){
+                if($(this).attr('class').search("chave-primaria") == -1){
+                    var aux = $(this).attr('id').split('_');
+                    var campo = aux[0];
+                    var classe_dep = "."+campo+"_dependencia";
+                    var cont = 0;
+
+                    $(classe_dep).each(function(){
+                        $(this).attr({
+                            'id': campo+'_dependencia_'+cont,
+                            'name': campo+'_dependencia_'+cont,
+                        });
+
+                        var dependencia = $(this).val();
+
+                        $("#li_chave_"+campo).hide();
+
+                        if(dependencia == 'chave')
+                            $(".item_chave_"+campo).hide();
+                        else
+                            $("#"+campo+"_"+dependencia).hide();
+
+                        cont++;
+                    });
+
+                    if(cont)
+                        $("#"+campo+"_campo").addClass("dependente");
+                }
+            });
         }
     </script>
 {% endblock script %}
