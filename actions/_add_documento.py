@@ -1,5 +1,5 @@
 from app.forms import DocumentForm, FieldForm
-from app.models import Document, Table, Field
+from app.models import Documento, Tabela, Campo
 import pprint
 
 
@@ -11,16 +11,16 @@ def run_add_documento(request):
         postDic = request.POST.dict()
 
         #cria um novo documento
-        documento_novo = Document()
-        documento_novo.name = postDic['name']
+        documento_novo = Documento()
+        documento_novo.nome = postDic['name']
         documento_novo.save()
 
         #cria uma tabela base com o mesmo nome do documento
         #para armazenar os campos
-        tabela_base = Table()
-        tabela_base.document = documento_novo
-        tabela_base.name = 'tabela_base'#postDic['name']
-        tabela_base.type_table = 0
+        tabela_base = Tabela()
+        tabela_base.documento = documento_novo
+        tabela_base.nome = 'tabela_base'#postDic['name']
+        tabela_base.tabela_tipo = 0
         tabela_base.save()
 
         array_campos = []
@@ -33,10 +33,10 @@ def run_add_documento(request):
                 array_campos.append(aux)
 
         for campo in array_campos:
-            temp = Field()
-            temp.table = tabela_base
-            temp.order = campo['pos']
-            temp.name = campo['nome']
+            temp = Campo()
+            temp.tabela = tabela_base
+            temp.ordem = campo['pos']
+            temp.nome = campo['nome']
             temp.save()
 
 

@@ -4,7 +4,7 @@ from app.forms import TableForm
 
 def run_normalizar_documento(request, documento_id):
     if request.method != 'POST':
-        documento = Document.objects.get(id=documento_id)
+        documento = Documento.objects.get(id=documento_id)
 
         #pega outras tabela e seus campos
         tabelas = documento.table_set.exclude(name='tabela_base')
@@ -131,7 +131,7 @@ def run_normalizar_documento(request, documento_id):
                             temp.append(camp)
                 tab['campos'] = temp
 
-            documento = Document.objects.get(id=documento_id)
+            documento = Documento.objects.get(id=documento_id)
 
 
 
@@ -139,9 +139,9 @@ def run_normalizar_documento(request, documento_id):
                 if tab['nome'] == 'sem_tabela':
                     tab['nome'] = documento.name
                 try:
-                    aux = Table.objects.get(name=tab['nome'])
-                except Table.DoesNotExist:
-                    aux = Table(name=tab['nome'], document=documento, type_table=1)
+                    aux = Tabela.objects.get(name=tab['nome'])
+                except Tabela.DoesNotExist:
+                    aux = Tabela(name=tab['nome'], document=documento, type_table=1)
                     aux.save()
 
                 if tab['campos']:
@@ -149,11 +149,11 @@ def run_normalizar_documento(request, documento_id):
                         nome = c['nome'].split('[')
 
                         try:
-                            campo = Field.objects.get(name=nome[0])
-                        except Field.DoesNotExist:
-                            campo = Field(name=nome[0], order=1)
+                            campo = Campo.objects.get(name=nome[0])
+                        except Campo.DoesNotExist:
+                            campo = Campo(name=nome[0], order=1)
 
-                        campo.table = aux
+                        campo.tabela = aux
                         campo.primary = True if c['primaria'] else False
                         if campo.primary:
                             tab['primaria'] = True
@@ -167,11 +167,11 @@ def run_normalizar_documento(request, documento_id):
 
             if flag_fn:
                 for tab in tabs:
-                    aux = Table.objects.get(name=tab['nome'])
+                    aux = Tabela.objects.get(name=tab['nome'])
                     aux.normal_form = 1
                     aux.save()
 
-            documento = Document.objects.get(id=documento_id)
+            documento = Documento.objects.get(id=documento_id)
             tabelas = documento.table_set.filter(type_table=1)
 
             for tabela in tabelas:
@@ -194,7 +194,7 @@ def run_normalizar_documento(request, documento_id):
 
                 if aux_nome == 'dependencia':
                     nome = chave.split('_'); nome = nome[0]
-                    campo = Field.objects.get(name=nome)
+                    campo = Campo.objects.get(name=nome)
 
                     if nome not in ja_atualizados:
                         ja_atualizados.append(nome)
@@ -202,7 +202,7 @@ def run_normalizar_documento(request, documento_id):
                         for dep in dep_del:
                             dep.delete()
 
-                    aux_chave = Field.objects.get(name=valor)
+                    aux_chave = Campo.objects.get(name=valor)
 
                     temp = Dependencia(campo=campo, dependente=aux_chave)
                     temp.save()
@@ -211,7 +211,7 @@ def run_normalizar_documento(request, documento_id):
                 VERIFICA CAMPOS QUE NÃO DEPENDEM DA CHAVE INTEIRA
                 CRIA UMA NOVA TABELA PARA ESSES CAMPOS
             """
-            documento = Document.objects.get(id=documento_id)
+            documento = Documento.objects.get(id=documento_id)
             tabelas = documento.table_set.filter(type_table=1, normal_form=1)
 
             cont_nome = 0
@@ -219,7 +219,7 @@ def run_normalizar_documento(request, documento_id):
                 chaves = tabela.field_set.filter(primary=True)
                 campos = tabela.field_set.filter(primary=False)
 
-                nova_tabela = Table(normal_form=2, document=documento)
+                nova_tabela = Tabela(normal_form=2, document=documento)
                 flag_tabela = False
 
                 for campo in campos:
@@ -233,8 +233,8 @@ def run_normalizar_documento(request, documento_id):
 
                     if len(chaves) > cont:
                         if flag_tabela == False:
-                            nova_tabela.name = 'nova_tabela_'+str(cont_nome)
-                            nova_tabela.normal_form = 2
+                            nova_tabela.nome = 'nova_tabela_' + str(cont_nome)
+                            nova_tabela.forma_normal = 2
                             nova_tabela.save()
                             cont_nome += 1
                             flag_tabela = True

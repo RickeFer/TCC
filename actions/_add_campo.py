@@ -3,7 +3,7 @@ from app.models import *
 
 
 def runAdd_campo(request, table_id):
-    tabela = Table.objects.get(id=table_id)
+    tabela = Tabela.objects.get(id=table_id)
 
     if request.method != 'POST':
         form = FieldForm()

@@ -3,7 +3,7 @@ import pprint
 
 
 def run_documento(document_id):
-    documento = Document.objects.get(id=document_id)
+    documento = Documento.objects.get(id=document_id)
 
     #tabela_base = documento.table_set.get(name=documento.name)
     tabela_base = documento.table_set.get(name='tabela_base', type_table=0)

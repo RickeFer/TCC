@@ -1,17 +1,17 @@
 from django import forms
-from .models import Table, Field, Document
+from .models import Tabela, Campo, Documento
 
 
 class TableForm(forms.ModelForm):
     class Meta:
-        model = Table
+        model = Tabela
         fields = ['name', 'document']
         labels = {'name': 'Nome', 'document': 'Documento'}
 
 
 class FieldForm(forms.ModelForm):
     class Meta:
-        model = Field
+        model = Campo
         fields = ['name', 'primary']
         labels = {'name': 'Campo', 'primary': 'Chave Primária'}
         widgets = {'order': forms.HiddenInput}
@@ -19,6 +19,6 @@ class FieldForm(forms.ModelForm):
 
 class DocumentForm(forms.ModelForm):
     class Meta:
-        model = Document
+        model = Documento
         fields = ['name']
         labels = {'name': 'Documento'}

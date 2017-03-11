@@ -3,7 +3,7 @@ from app.forms import TableForm
 
 
 def run_normalizar(documento_id):
-    documento = Document.objects.get(id=documento_id)
+    documento = Documento.objects.get(id=documento_id)
 
     """
     tabela = Table.objects.get(id=table_id)

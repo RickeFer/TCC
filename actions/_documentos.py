@@ -2,6 +2,6 @@ from app.models import *
 
 
 def run_documentos():
-    documentos = Document.objects.all()
+    documentos = Documento.objects.all()
 
     return {'documentos': documentos}
