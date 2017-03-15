@@ -40,16 +40,23 @@
         {% for tabela in arrayTabelas %}
             <div style="padding: 15px">
                 <h4>{{tabela.tabela}}</h4>
+
+                {% for campo in tabela.chaves %}
+                    <div class="dropdown" style="display: inline">
+                        <div class="campo chave-primaria" id="{{campo}}_campo" style="cursor: context-menu">
+                            {{campo}}
+                        </div>
+                    </div>
+                {% endfor %}
+
                 {% for campo in tabela.campos %}
                     <div class="dropdown" style="display: inline">
                         <div class="campo {% if campo.primary %}chave-primaria{% endif %}" id="{{campo}}_campo"
-                         {% if campo.primary == False %}onmouseover="mostrarOp('{{campo}}')"{% endif %}
-                         {% if campo.primary == False %}onmouseout="esconderOp('{{campo}}')"{% endif %} style="cursor: context-menu">
+                         onmouseover="mostrarOp('{{campo}}')"
+                         onmouseout="esconderOp('{{campo}}')"style="cursor: context-menu">
                             {{campo}}
-                            {% if campo.primary == False %}
-                                <span class="caret opcoes" style="display: none" id="{{campo}}_op" id="dropdownMenu_{{campo}}" data-toggle="dropdown" aria-haspopup="true"
-                                        aria-expanded="true"></span>
-                            {% endif %}
+                            <span class="caret opcoes" style="display: none" id="{{campo}}_op" id="dropdownMenu_{{campo}}" data-toggle="dropdown" aria-haspopup="true"
+                                    aria-expanded="true"></span>
 
                             <ul class="dropdown-menu dropdown-menu-meu" aria-labelledby="dropdownMenu_{{campo}}">
                                 <li onclick="setarDependencia('{{campo}}', '{% for chave in tabela.chaves %}{{chave}} {% endfor %}');" id="li_chave_{{campo}}">Chave Inteira</li>
@@ -63,7 +70,7 @@
 
                             {% for dep in tabela.dependencias %}
                                 {% if campo == dep.campo %}
-                                    <input type="hidden" class="{{campo}}_dependencia" value="{{dep.dependente}}" />
+                                    <input type="hidden" class="{{campo}}_dependencia" value="{{dep.chave}}" />
                                 {% endif %}
                             {% endfor %}
                         </div>

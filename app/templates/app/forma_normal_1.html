@@ -155,12 +155,12 @@
 
 
         $(document).ready(function(){
-            verificaQuantidadeTabelas();
-            setarMensagem();
-
             $("#enviar").hide();
             $("#sem_tabela").hide();
             $("#espaco-sem-tabela").hide();
+
+            verificaQuantidadeTabelas();
+            setarMensagem();
         });
 
         $("#enviar").click(function(){
@@ -289,11 +289,19 @@
             //ev.preventDefault();
             //var data = ev.dataTransfer.getData("text");
             //ev.target.appendChild(document.getElementById(data));
-            var aux = $(ev.target).attr("id").split("_")[0];
-            var id = "#"+aux+"_primaria";
-            $(ev.target).css("background-color", "rgb(119, 138, 102)");
-            $(ev.target).css("border", "1px solid rgb(218, 213, 94)");
-            $(ev.target).css("background", "rgb(255, 250, 144)");
+            var aux = $(ev.target).attr("id").split("_");
+
+            var temp = '';
+            for(var i=0; i<aux.length-1; i++)
+                temp += aux[i]+'_';
+            temp = temp.substring(0,temp.length-1);
+
+            var id = "#"+temp+"_primaria";
+            $(ev.target).css({
+                "background-color": "rgb(119, 138, 102)",
+                "border": "1px solid rgb(218, 213, 94)",
+                "background": "rgb(255, 250, 144)"
+            });
             $(id).val(1);
         }
         function allowDrop(ev){
