@@ -16,7 +16,7 @@ urlpatterns = [
 
     #url documentos
     url(r'^documentos/$', views.documentos, name='documentos'),
-    url(r'^documentos/(?P<document_id>\d+)/$', views.documento, name='documento'),
+    url(r'^documentos/(?P<documento_id>\d+)/$', views.documento, name='documento'),
     url(r'^add_documento/$', views.add_documento, name='add_documento'),
 
     #url normalizar

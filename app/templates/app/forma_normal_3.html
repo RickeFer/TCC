@@ -1,0 +1,35 @@
+{% extends  'app/base.html' %}
+{% load bootstrap3 %}
+{% load static %}
+
+{% block css %}
+    <title>Normalizar {{documento}}</title>
+    <link  rel="stylesheet" href="{% static 'normalizar.css' %}">
+{% endblock css %}
+
+{% block header %}
+    <h3 style="display: inline;">Documento {{documento}}
+        <!--
+            <small>
+                <span data-toggle="modal" data-target="#addTabela" class="link" id="link-add-tabela">nova tabela</span>
+            </small>
+            <small>
+                <span data-toggle="modal" data-target="#addCampo" class="link">novo campo</span>
+            </small>
+        -->
+    </h3>
+
+    <!--<img src="{% static 'imagens/gold_key.png' %}" alt="Chave Primária" title="Chave Primária" draggable="true" ondragstart="drag(event)" />-->
+
+    <h3 style="display: inline;">
+        <small>
+            <span data-toggle="modal" data-target="#dica_fn" class="glyphicon glyphicon-question-sign"></span>
+        </small>
+    </h3>
+
+    <div class="aviso">
+        <span class="titulo">3ª Forma Normal</span>
+        <span id="texto-dica"></span>
+    </div>
+    <!--<img src="{% static 'imagens/green_key.png' %}" alt="Chave Estrangeira" title="Chave Estrangeira" />-->
+{% endblock header %}
