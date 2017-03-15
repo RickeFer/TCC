@@ -13,7 +13,7 @@ def runAdd_campo(request, table_id):
             novo_campo = form.save(commit=False)
             # relaciona tabela
             novo_campo.table = tabela
-            ult_campo = tabela.field_set.order_by('order')
+            ult_campo = tabela.campo_set.order_by('ordem')
 
             if len(ult_campo):
                 ult_campo = ult_campo[len(ult_campo) - 1].order

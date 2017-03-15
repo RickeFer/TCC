@@ -23,7 +23,7 @@ def run_ajax_add_tabela(request):
     if request.POST['pag'] == 'normalizar':
         table_id = request.POST['id']
         tabela = Table.objects.get(id=table_id)
-        campos = tabela.field_set.order_by('order')
+        campos = tabela.campo_set.order_by('ordem')
         form = TableForm()
         # separa linhas de 8 campos em um dicionario
         if len(campos) > 8:

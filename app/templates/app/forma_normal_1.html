@@ -47,9 +47,9 @@
                     <input type="hidden" id="{{tabela.tabela}}_top" name="{{tabela.tabela}}_top" value="0" />
                 </li>
                 {% for campo in tabela.campos %}
-                    <li class="ui-state-default campo {% if campo.primary %}chave-primaria{% endif %}" id="{{campo}}_campo" onfocusout="atualizaPosCampo({{campo}});"  ondragover="allowDrop(event)" ondrop="drop(event)">
+                    <li class="ui-state-default campo {% if campo.id in tabela.restricoes_pk %}chave-primaria{% endif %}" id="{{campo}}_campo" onfocusout="atualizaPosCampo({{campo}});"  ondragover="allowDrop(event)" ondrop="drop(event)">
                         {{campo}}
-                        <input type="hidden" id="{{campo}}_primaria" name="{{campo}}[primaria]" value="{% if campo.primary %}1{% else %}0{% endif %}" />
+                        <input type="hidden" id="{{campo}}_primaria" name="{{campo}}[primaria]" value="{% if campo.id in tabela.restricoes_pk %}1{% else %}0{% endif %}" />
                         <input type="hidden" id="{{campo}}_top" name="{{campo}}['top']" value="0" />
                         <input type="hidden" id="{{campo}}_left" name="{{campo}}['left']" value="0" />
                     </li>

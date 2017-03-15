@@ -1,5 +1,8 @@
 from django.db import models
 
+from classes._util import Util
+
+array_tipo_restricao = Util.get_array_tipos_restricao()
 
 class Documento(models.Model):
     nome = models.CharField(max_length=20)
@@ -31,7 +34,6 @@ class Tabela(models.Model):
 class Campo(models.Model):
     tabela = models.ForeignKey(Tabela, default=None)
     nome = models.CharField(max_length=20)
-    primary = models.BooleanField(default=False)
     data_adicionado = models.DateTimeField(auto_now_add=True)
     ordem = models.PositiveSmallIntegerField()
 
@@ -52,6 +54,7 @@ class Dependencia(models.Model):
     chave = models.ForeignKey(Campo, related_name="dependente")
 
 
-class ChaveEstrangeira(models.Model):
+class Restricao(models.Model):
     campo = models.ForeignKey(Campo)
-    tabela = models.ForeignKey(Tabela)
+    tipo = models.CharField(max_length=20, choices=array_tipo_restricao)
+

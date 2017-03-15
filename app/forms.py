@@ -5,20 +5,20 @@ from .models import Tabela, Campo, Documento
 class TableForm(forms.ModelForm):
     class Meta:
         model = Tabela
-        fields = ['name', 'document']
-        labels = {'name': 'Nome', 'document': 'Documento'}
+        fields = ['nome', 'documento']
+        labels = {'nome': 'Nome', 'documento': 'Documento'}
 
 
 class FieldForm(forms.ModelForm):
     class Meta:
         model = Campo
-        fields = ['name', 'primary']
-        labels = {'name': 'Campo', 'primary': 'Chave Primária'}
-        widgets = {'order': forms.HiddenInput}
+        fields = ['nome']
+        labels = {'nome': 'Campo'}
+        widgets = {'ordem': forms.HiddenInput}
 
 
 class DocumentForm(forms.ModelForm):
     class Meta:
         model = Documento
-        fields = ['name']
-        labels = {'name': 'Documento'}
+        fields = ['nome']
+        labels = {'nome': 'Documento'}

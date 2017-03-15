@@ -6,3 +6,4 @@ from .models import *
 admin.site.register(Tabela)
 admin.site.register(Campo)
 admin.site.register(Documento)
+admin.site.register(Restricao)

@@ -7,7 +7,7 @@ def run_ajax_add_campo(request):
         campo.nome = nome
 
         documento = Documento.objects.get(id=request.POST['documento'])
-        tabela = documento.table_set.get(type_table=0)
+        tabela = documento.tabela_set.get(tabela_tipo=0)
 
         campo.tabela = tabela
 

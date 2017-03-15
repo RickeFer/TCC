@@ -7,41 +7,51 @@ def run_normalizar_documento(request, documento_id):
         documento = Documento.objects.get(id=documento_id)
 
         #pega outras tabela e seus campos
-        tabelas = documento.table_set.exclude(name='tabela_base')
+        tabelas = documento.tabela_set.exclude(nome='tabela_base')
         nomes_tabelas, fn, arrayTabelas = '', 3, []
 
         if len(tabelas):
             for tabela in tabelas:
-                if tabela.normal_form < fn:
-                    fn = tabela.normal_form
+                if tabela.forma_normal < fn:
+                    fn = tabela.forma_normal
         else:
             fn = 0
 
-        print(tabelas)
-
         if fn == 0:
             # pega os campos sem tabela
-            tabela_base = documento.table_set.get(name='tabela_base', type_table=0)
+            tabela_base = documento.tabela_set.get(nome='tabela_base', tabela_tipo=0)
 
-            campos_sem_tabela = tabela_base.field_set.order_by('order')
+            campos_sem_tabela = tabela_base.campo_set.order_by('ordem')
+
+            array_restricoes = []
+            for campo in campos_sem_tabela:
+                restricoes = campo.restricao_set.filter(tipo='PK');
+                if restricoes:
+                    for restricao in restricoes: array_restricoes.append(restricao.campo.id)
+
             if len(tabelas):
                 for tabela in tabelas:
-                    campos = tabela.field_set.order_by('order')
-                    chaves = tabela.field_set.filter(primary=True)
+                    campos = tabela.campo_set.order_by('ordem')
+                    for campo in campos:
+                        restricoes = campo.restricao_set('pk');
+                        print(restricoes)
+
+                    #chaves = tabela.campo_set.filter(primary=True)
                     aux = {'tabela': tabela, 'campos': campos, 'chaves': chaves}
                     arrayTabelas.append(aux)
                     nomes_tabelas += tabela.name+'666'
             else:
-                arrayTabelas.append({'tabela': tabela_base, 'campos': campos_sem_tabela})
+                arrayTabelas.append({'tabela': tabela_base, 'campos': campos_sem_tabela, 'restricoes_pk': array_restricoes})
 
             tabela_form = TableForm()
             context = {'documento': documento, 'sem_tabela': campos_sem_tabela, 'arrayTabelas': arrayTabelas, 'tabela_form': tabela_form, 'nomes': nomes_tabelas, 'fn': fn}
-        elif fn == 1:
+
+        elif fn == 1:#FN2
             for tabela in tabelas:
-                chaves = tabela.field_set.filter(primary=True)
+                chaves = tabela.campo_set.filter(primary=True)
 
                 if len(chaves) > 1:
-                    campos = tabela.field_set.order_by('order')
+                    campos = tabela.campo_set.order_by('ordem')
 
                     dependencias = []
                     for campo in campos:
@@ -141,7 +151,7 @@ def run_normalizar_documento(request, documento_id):
                 try:
                     aux = Tabela.objects.get(name=tab['nome'])
                 except Tabela.DoesNotExist:
-                    aux = Tabela(name=tab['nome'], document=documento, type_table=1)
+                    aux = Tabela(name=tab['nome'], document=documento, tabela_tipo=1)
                     aux.save()
 
                 if tab['campos']:
@@ -154,10 +164,10 @@ def run_normalizar_documento(request, documento_id):
                             campo = Campo(name=nome[0], order=1)
 
                         campo.tabela = aux
-                        campo.primary = True if c['primaria'] else False
-                        if campo.primary:
-                            tab['primaria'] = True
+                        #campo.primary = True if c['primaria'] else False
                         campo.save()
+                        if c['primaria']:
+                            temp_restricao = Restricao(campo=campo, tipo='PK')
 
             flag_fn = True
             for tab in tabs:
@@ -168,16 +178,16 @@ def run_normalizar_documento(request, documento_id):
             if flag_fn:
                 for tab in tabs:
                     aux = Tabela.objects.get(name=tab['nome'])
-                    aux.normal_form = 1
+                    aux.forma_normal = 1
                     aux.save()
 
             documento = Documento.objects.get(id=documento_id)
-            tabelas = documento.table_set.filter(type_table=1)
+            tabelas = documento.tabela_set.filter(tabela_tipo=1)
 
             for tabela in tabelas:
-                chaves = tabela.field_set.filter(primary=True)
+                chaves = tabela.campo_set.filter(primary=True)
                 if len(chaves) == 1:
-                    tabela.normal_form = 2
+                    tabela.forma_normal = 2
                     tabela.save()
 
             context = {'post': tabs}
@@ -212,14 +222,14 @@ def run_normalizar_documento(request, documento_id):
                 CRIA UMA NOVA TABELA PARA ESSES CAMPOS
             """
             documento = Documento.objects.get(id=documento_id)
-            tabelas = documento.table_set.filter(type_table=1, normal_form=1)
+            tabelas = documento.tabela_set.filter(tabela_tipo=1, forma_normal=1)
 
             cont_nome = 0
             for tabela in tabelas:
-                chaves = tabela.field_set.filter(primary=True)
-                campos = tabela.field_set.filter(primary=False)
+                chaves = tabela.campo_set.filter(primary=True)
+                campos = tabela.campo_set.filter(primary=False)
 
-                nova_tabela = Tabela(normal_form=2, document=documento)
+                nova_tabela = Tabela(forma_normal=2, document=documento)
                 flag_tabela = False
 
                 for campo in campos:
@@ -246,7 +256,7 @@ def run_normalizar_documento(request, documento_id):
                             fk = ChaveEstrangeira(tabela=tabela, campo=dependencia.dependente)
                             fk.save()
 
-                tabela.normal_form = 2
+                tabela.forma_normal = 2
                 tabela.save()
 
             context = {}

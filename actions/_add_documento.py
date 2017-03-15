@@ -12,7 +12,7 @@ def run_add_documento(request):
 
         #cria um novo documento
         documento_novo = Documento()
-        documento_novo.nome = postDic['name']
+        documento_novo.nome = postDic['nome']
         documento_novo.save()
 
         #cria uma tabela base com o mesmo nome do documento
