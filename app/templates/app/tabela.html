@@ -8,7 +8,7 @@
 
 {% block header %}
     <h3>
-        {% if tabela.normal_form == -1 %}
+        {% if tabela.forma_normal == -1 %}
             Documento
         {% else %}
             Tabela {{tabela}}
@@ -18,10 +18,10 @@
         </small>
         <p>
             <small>
-                {% if tabela.normal_form == 0 %}
+                {% if tabela.forma_normal == 0 %}
                     tabela ainda não normalizada
-                {% elif tabela.normal_form > 0 %}
-                    tabela na {{tabela.normal_form}}ª forma normal
+                {% elif tabela.forma_normal > 0 %}
+                    tabela na {{tabela.forma_normal}}ª forma normal
                 {% endif %}
             </small>
         </p>

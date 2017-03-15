@@ -1,26 +1,29 @@
 from django.db import models
 
+from classes._util import Util
 
-class Document(models.Model):
-    name = models.CharField(max_length=20)
-    date_added = models.DateTimeField(auto_now_add=True)
+array_tipo_restricao = Util.get_array_tipos_restricao()
 
-    def __str__(self):
-        return self.name
-
-
-class Table(models.Model):
-    document = models.ForeignKey(Document)
-    name = models.CharField(max_length=20)
-    date_added = models.DateTimeField(auto_now_add=True)
-    normal_form = models.PositiveSmallIntegerField(default=0)
-    type_table = models.PositiveSmallIntegerField(default=1)
+class Documento(models.Model):
+    nome = models.CharField(max_length=20)
+    data_adicionado = models.DateTimeField(auto_now_add=True)
 
     def __str__(self):
-        return self.name
+        return self.nome
 
-    def name_underlined(self):
-        aux = self.name.split()
+
+class Tabela(models.Model):
+    documento = models.ForeignKey(Documento)
+    nome = models.CharField(max_length=20)
+    data_adicionado = models.DateTimeField(auto_now_add=True)
+    forma_normal = models.PositiveSmallIntegerField(default=0)
+    tabela_tipo = models.PositiveSmallIntegerField(default=1)
+
+    def __str__(self):
+        return self.nome
+
+    def nome_sublinhado(self):
+        aux = self.nome.split()
         ret = ''
         for c in aux:
             ret += c+'_'
@@ -28,18 +31,17 @@ class Table(models.Model):
         return ret[:-1]
 
 
-class Field(models.Model):
-    table = models.ForeignKey(Table, default=None)
-    name = models.CharField(max_length=20)
-    primary = models.BooleanField(default=False)
-    date_added = models.DateTimeField(auto_now_add=True)
-    order = models.PositiveSmallIntegerField()
+class Campo(models.Model):
+    tabela = models.ForeignKey(Tabela, default=None)
+    nome = models.CharField(max_length=20)
+    data_adicionado = models.DateTimeField(auto_now_add=True)
+    ordem = models.PositiveSmallIntegerField()
 
     def __str__(self):
-        return self.name
+        return self.nome
 
     def name_underlined(self):
-        aux = self.name.split()
+        aux = self.nome.split()
         ret = ''
         for c in aux:
             ret += c+'_'
@@ -48,10 +50,11 @@ class Field(models.Model):
 
 
 class Dependencia(models.Model):
-    campo = models.ForeignKey(Field, related_name="campo")
-    dependente = models.ForeignKey(Field, related_name="dependente")
+    campo = models.ForeignKey(Campo, related_name="campo")
+    chave = models.ForeignKey(Campo, related_name="dependente")
 
 
-class ChaveEstrangeira(models.Model):
-    campo = models.ForeignKey(Field)
-    tabela = models.ForeignKey(Table)
+class Restricao(models.Model):
+    campo = models.ForeignKey(Campo)
+    tipo = models.CharField(max_length=20, choices=array_tipo_restricao)
+

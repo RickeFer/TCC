@@ -4,54 +4,69 @@ from app.forms import TableForm
 
 def run_normalizar_documento(request, documento_id):
     if request.method != 'POST':
-        documento = Document.objects.get(id=documento_id)
+        documento = Documento.objects.get(id=documento_id)
 
         #pega outras tabela e seus campos
-        tabelas = documento.table_set.exclude(name='tabela_base')
+        tabelas = documento.tabela_set.exclude(nome='tabela_base')
         nomes_tabelas, fn, arrayTabelas = '', 3, []
 
         if len(tabelas):
             for tabela in tabelas:
-                if tabela.normal_form < fn:
-                    fn = tabela.normal_form
+                if tabela.forma_normal < fn:
+                    fn = tabela.forma_normal
         else:
             fn = 0
 
-        print(tabelas)
-
         if fn == 0:
             # pega os campos sem tabela
-            tabela_base = documento.table_set.get(name='tabela_base', type_table=0)
+            tabela_base = documento.tabela_set.get(nome='tabela_base', tabela_tipo=0)
+            tabela_base.nome = documento.nome
 
-            campos_sem_tabela = tabela_base.field_set.order_by('order')
+            campos_sem_tabela = tabela_base.campo_set.order_by('ordem')
+
+            array_restricoes = []
+            for campo in campos_sem_tabela:
+                restricoes = campo.restricao_set.filter(tipo='PK');
+                if restricoes:
+                    for restricao in restricoes: array_restricoes.append(restricao.campo.id)
+
             if len(tabelas):
                 for tabela in tabelas:
-                    campos = tabela.field_set.order_by('order')
-                    chaves = tabela.field_set.filter(primary=True)
-                    aux = {'tabela': tabela, 'campos': campos, 'chaves': chaves}
+                    campos = tabela.campo_set.order_by('ordem')
+                    array_restricoes = []
+                    for campo in campos:
+                        restricoes = campo.restricao_set.filter(tipo='PK');
+                        if restricoes:
+                            for restricao in restricoes: array_restricoes.append(restricao.campo.id)
+
+                    #chaves = tabela.campo_set.filter(primary=True)
+                    aux = {'tabela': tabela, 'campos': campos, 'restricoes_pk': array_restricoes}
                     arrayTabelas.append(aux)
-                    nomes_tabelas += tabela.name+'666'
+                    nomes_tabelas += tabela.nome+'666'
             else:
-                arrayTabelas.append({'tabela': tabela_base, 'campos': campos_sem_tabela})
+                arrayTabelas.append({'tabela': tabela_base, 'campos': campos_sem_tabela, 'restricoes_pk': array_restricoes})
 
             tabela_form = TableForm()
             context = {'documento': documento, 'sem_tabela': campos_sem_tabela, 'arrayTabelas': arrayTabelas, 'tabela_form': tabela_form, 'nomes': nomes_tabelas, 'fn': fn}
-        elif fn == 1:
+
+        elif fn == 1:#FN2
+
             for tabela in tabelas:
-                chaves = tabela.field_set.filter(primary=True)
+                if tabela.forma_normal == 1:
+                    temp_campos = tabela.campo_set.all()
 
-                if len(chaves) > 1:
-                    campos = tabela.field_set.order_by('order')
-
-                    dependencias = []
-                    for campo in campos:
-                        if campo.primary == False:
+                    campos, chaves, dependencias = [], [], None
+                    for campo in temp_campos:
+                        restricoes = campo.restricao_set.filter(tipo='PK');
+                        if restricoes:
+                            chaves.append(campo)
+                        else:
+                            campos.append(campo)
                             dependencias = Dependencia.objects.filter(campo=campo)
-
 
                     aux = {'tabela': tabela, 'campos': campos, 'chaves': chaves, 'dependencias': dependencias}
                     arrayTabelas.append(aux)
-                    #nomes_tabelas += tabela.name + '666'
+                        #nomes_tabelas += tabela.name + '666'
 
             context = {'documento': documento, 'arrayTabelas': arrayTabelas, 'fn': fn}
         elif fn == 2:
@@ -131,7 +146,7 @@ def run_normalizar_documento(request, documento_id):
                             temp.append(camp)
                 tab['campos'] = temp
 
-            documento = Document.objects.get(id=documento_id)
+            documento = Documento.objects.get(id=documento_id)
 
 
 
@@ -139,9 +154,9 @@ def run_normalizar_documento(request, documento_id):
                 if tab['nome'] == 'sem_tabela':
                     tab['nome'] = documento.name
                 try:
-                    aux = Table.objects.get(name=tab['nome'])
-                except Table.DoesNotExist:
-                    aux = Table(name=tab['nome'], document=documento, type_table=1)
+                    aux = Tabela.objects.get(nome=tab['nome'])
+                except Tabela.DoesNotExist:
+                    aux = Tabela(nome=tab['nome'], documento=documento, tabela_tipo=1)
                     aux.save()
 
                 if tab['campos']:
@@ -149,35 +164,44 @@ def run_normalizar_documento(request, documento_id):
                         nome = c['nome'].split('[')
 
                         try:
-                            campo = Field.objects.get(name=nome[0])
-                        except Field.DoesNotExist:
-                            campo = Field(name=nome[0], order=1)
+                            campo = Campo.objects.get(nome=nome[0])
+                        except Campo.DoesNotExist:
+                            campo = Campo(nome=nome[0], order=1)
 
-                        campo.table = aux
-                        campo.primary = True if c['primaria'] else False
-                        if campo.primary:
-                            tab['primaria'] = True
+                        campo.tabela = aux
+                        #campo.primary = True if c['primaria'] else False
                         campo.save()
+                        if c['primaria']:
+                            tab['primaria'] += 1
+                            temp_restricao = Restricao(campo=campo, tipo='PK')
+                            temp_restricao.save()
 
             flag_fn = True
             for tab in tabs:
-                if tab['primaria'] != True:
+                if tab['primaria'] == 0:
                     flag_fn = False
                     break
 
             if flag_fn:
                 for tab in tabs:
-                    aux = Table.objects.get(name=tab['nome'])
-                    aux.normal_form = 1
+                    aux = Tabela.objects.get(nome=tab['nome'])
+                    aux.forma_normal = 1
                     aux.save()
 
-            documento = Document.objects.get(id=documento_id)
-            tabelas = documento.table_set.filter(type_table=1)
+            documento = Documento.objects.get(id=documento_id)
+            tabelas = documento.tabela_set.filter(tabela_tipo=1)
 
             for tabela in tabelas:
-                chaves = tabela.field_set.filter(primary=True)
-                if len(chaves) == 1:
-                    tabela.normal_form = 2
+                campos = tabela.campo_set.all()
+
+                qtde_pk = 0
+                for campo in campos:
+                    chave = campo.restricao_set.filter(tipo='PK')
+                    if chave:
+                        qtde_pk += 1
+
+                if qtde_pk == 1:
+                    tabela.forma_normal = 2
                     tabela.save()
 
             context = {'post': tabs}
@@ -193,8 +217,14 @@ def run_normalizar_documento(request, documento_id):
                 aux_nome = chave[:-15:-1]; aux_nome = aux_nome[::-1]; aux_nome = aux_nome[1:12]
 
                 if aux_nome == 'dependencia':
-                    nome = chave.split('_'); nome = nome[0]
-                    campo = Field.objects.get(name=nome)
+                    array_nome = chave.split('_')
+                    nome = ''
+                    for i, temp in enumerate(array_nome):
+                        if i == len(array_nome)-2:
+                            break
+                        nome += temp+'_'
+
+                    campo = Campo.objects.get(nome=nome[0:-1])
 
                     if nome not in ja_atualizados:
                         ja_atualizados.append(nome)
@@ -202,24 +232,31 @@ def run_normalizar_documento(request, documento_id):
                         for dep in dep_del:
                             dep.delete()
 
-                    aux_chave = Field.objects.get(name=valor)
+                    aux_chave = Campo.objects.get(nome=valor)
 
-                    temp = Dependencia(campo=campo, dependente=aux_chave)
+                    temp = Dependencia(campo=campo, chave=aux_chave)
                     temp.save()
 
             """
                 VERIFICA CAMPOS QUE NÃO DEPENDEM DA CHAVE INTEIRA
                 CRIA UMA NOVA TABELA PARA ESSES CAMPOS
             """
-            documento = Document.objects.get(id=documento_id)
-            tabelas = documento.table_set.filter(type_table=1, normal_form=1)
+            documento = Documento.objects.get(id=documento_id)
+            tabelas = documento.tabela_set.filter(tabela_tipo=1, forma_normal=1)
 
             cont_nome = 0
             for tabela in tabelas:
-                chaves = tabela.field_set.filter(primary=True)
-                campos = tabela.field_set.filter(primary=False)
+                chaves, campos = [], []
+                array_temp = tabela.campo_set.all()
 
-                nova_tabela = Table(normal_form=2, document=documento)
+                for campo in array_temp:
+                    restricao = campo.restricao_set.filter(tipo='PK')
+                    if restricao:
+                        chaves.append(campo)
+                    else:
+                        campos.append(campo)
+
+                nova_tabela = Tabela(forma_normal=2, documento=documento)
                 flag_tabela = False
 
                 for campo in campos:
@@ -228,13 +265,13 @@ def run_normalizar_documento(request, documento_id):
 
                     for dependencia in dependencias:
                         for chave in chaves:
-                            if dependencia.dependente == chave:
+                            if dependencia.chave == chave:
                                 cont += 1
 
                     if len(chaves) > cont:
                         if flag_tabela == False:
-                            nova_tabela.name = 'nova_tabela_'+str(cont_nome)
-                            nova_tabela.normal_form = 2
+                            nova_tabela.nome = 'nova_tabela_' + str(cont_nome)
+                            nova_tabela.forma_normal = 2
                             nova_tabela.save()
                             cont_nome += 1
                             flag_tabela = True
@@ -243,10 +280,10 @@ def run_normalizar_documento(request, documento_id):
                         campo.save()
 
                         for dependencia in dependencias:
-                            fk = ChaveEstrangeira(tabela=tabela, campo=dependencia.dependente)
+                            fk = Restricao(campo=campo, tipo='FK')
                             fk.save()
 
-                tabela.normal_form = 2
+                tabela.forma_normal = 2
                 tabela.save()
 
             context = {}

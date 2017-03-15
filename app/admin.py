@@ -3,6 +3,7 @@ from django.contrib import admin
 
 from .models import *
 
-admin.site.register(Table)
-admin.site.register(Field)
-admin.site.register(Document)
+admin.site.register(Tabela)
+admin.site.register(Campo)
+admin.site.register(Documento)
+admin.site.register(Restricao)
