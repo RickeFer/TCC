@@ -315,7 +315,12 @@
             $(".campo").each(function(){
                 if($(this).attr('class').search("chave-primaria") == -1){
                     var aux = $(this).attr('id').split('_');
-                    var campo = aux[0];
+                    var campo = '';
+
+                    for(var i=0; i<aux.length-1; i++)
+                        campo += aux[i]+'_';
+                    campo = campo.substring(0, campo.length-1);
+
                     var classe_dep = "."+campo+"_dependencia";
                     var cont = 0;
 

@@ -53,6 +53,9 @@ class Dependencia(models.Model):
     campo = models.ForeignKey(Campo, related_name="campo")
     chave = models.ForeignKey(Campo, related_name="dependente")
 
+    def __str__(self):
+        return self.campo.nome+' '+self.chave.nome
+
 
 class Restricao(models.Model):
     campo = models.ForeignKey(Campo)
