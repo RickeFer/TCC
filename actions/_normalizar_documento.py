@@ -55,14 +55,20 @@ def run_normalizar_documento(request, documento_id):
                 if tabela.forma_normal == 1:
                     temp_campos = tabela.campo_set.all()
 
-                    campos, chaves, dependencias = [], [], None
+                    campos, chaves, dependencias = [], [], []
                     for campo in temp_campos:
                         restricoes = campo.restricao_set.filter(tipo='PK');
+                        temp_dependencias = None
+
                         if restricoes:
                             chaves.append(campo)
                         else:
                             campos.append(campo)
-                            dependencias = Dependencia.objects.filter(campo=campo)
+                            temp_dependencias = Dependencia.objects.filter(campo=campo)
+
+                        if temp_dependencias:
+                            for dep in temp_dependencias:
+                                dependencias.append(dep)
 
                     aux = {'tabela': tabela, 'campos': campos, 'chaves': chaves, 'dependencias': dependencias}
                     arrayTabelas.append(aux)
@@ -244,6 +250,36 @@ def run_normalizar_documento(request, documento_id):
             documento = Documento.objects.get(id=documento_id)
             tabelas = documento.tabela_set.filter(tabela_tipo=1, forma_normal=1)
 
+            #MONTA UM ARRAY COM OS CAMPOS NORMAIS E UM COM AS CHAVES PRIMARIAS
+            for tabela in tabelas:
+                chaves, campos, dependencias = [], [], []
+
+                array_temp = tabela.campo_set.all()
+                for campo in array_temp:
+                    restricao = campo.restricao_set.filter(tipo='PK')
+                    if restricao:
+                        chaves.append(campo)
+                    else:
+                        campos.append(campo)
+                        temp_dependencias = Dependencia.objects.filter(campo=campo)
+                        dependencias.append(temp_dependencias)
+
+                campos_nova_tabela = []
+
+                qtde_chaves = len(chaves)
+                for campo in campos:
+                    qtde_dep = 0
+                    for dep in dependencias:
+                        if dep.campo == campo:
+                            qtde_dep += 1
+
+                    if qtde_chaves != qtde_dep:
+                        campos_nova_tabela.append(campo)
+            """
+                TERMINAR AQUI
+            """
+
+            """
             cont_nome = 0
             for tabela in tabelas:
                 chaves, campos = [], []
@@ -283,8 +319,8 @@ def run_normalizar_documento(request, documento_id):
                             fk = Restricao(campo=campo, tipo='FK')
                             fk.save()
 
-                tabela.forma_normal = 2
-                tabela.save()
-
+                #tabela.forma_normal = 2
+                #tabela.save()
+            """
             context = {}
             return context
