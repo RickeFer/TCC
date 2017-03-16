@@ -101,8 +101,8 @@ def normalizar_documento(request, documento_id=0):
         elif fn == 1:
             response = render(request, 'app/forma_normal_2.html', context)
         elif fn == 2:
-            pass
-            #response = render(request, 'aqui', context)
+            #pass
+            response = render(request, 'app/forma_normal_3.html', context)
         else:
             response = render(request, 'app/normalizar.html', context)
 

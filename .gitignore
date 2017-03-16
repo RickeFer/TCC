@@ -1,6 +1,11 @@
 *.pyc
 tgenv/
+<<<<<<< HEAD
 actions/__pycache__
 app/__pycache__/
+=======
+app/__pycache__
+actions/__pycache__
+>>>>>>> master
 *.sqlite3
 .idea
