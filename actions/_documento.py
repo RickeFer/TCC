@@ -7,7 +7,13 @@ def run_documento(documento_id):
 
     #tabela_base = documento.tabela_set.get(nome=documento.name)
     tabela_base = documento.tabela_set.get(nome='tabela_base', tabela_tipo=0)
-    campos_sem_tabela = tabela_base.campo_set.order_by('ordem')
+
+    array_campos_sem_tabela = Campo_Tabela.objects.filter(tabela=tabela_base)
+    campos_sem_tabela = []
+    for rel in array_campos_sem_tabela:
+        temp = Campo.objects.get(id=rel.campo.id)
+        campos_sem_tabela.append(temp)
+    #campos_sem_tabela = tabela_base.campo_set.order_by('ordem')
 
     #tabelas = documento.tabela_set.order_by('name').exclude(nome=documento.name)
     tabelas = documento.tabela_set.order_by('nome').exclude(nome='tabela_base', tabela_tipo=0)

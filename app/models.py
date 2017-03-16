@@ -32,7 +32,7 @@ class Tabela(models.Model):
 
 
 class Campo(models.Model):
-    tabela = models.ForeignKey(Tabela, default=None)
+    #tabela = models.ForeignKey(Tabela, default=None)
     nome = models.CharField(max_length=20)
     data_adicionado = models.DateTimeField(auto_now_add=True)
     ordem = models.PositiveSmallIntegerField()
@@ -57,7 +57,8 @@ class Dependencia(models.Model):
         return self.campo.nome+' '+self.chave.nome
 
 
-class Restricao(models.Model):
+class Campo_Tabela(models.Model):
     campo = models.ForeignKey(Campo)
-    tipo = models.CharField(max_length=20, choices=array_tipo_restricao)
+    tabela = models.ForeignKey(Tabela)
+    tipo_campo = models.CharField(max_length=20, choices=array_tipo_restricao)
 

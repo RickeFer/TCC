@@ -22,23 +22,37 @@ def run_normalizar_documento(request, documento_id):
             tabela_base = documento.tabela_set.get(nome='tabela_base', tabela_tipo=0)
             tabela_base.nome = documento.nome
 
-            campos_sem_tabela = tabela_base.campo_set.order_by('ordem')
+            array_campos_sem_tabela = Campo_Tabela.objects.filter(tabela=tabela_base)
+            campos_sem_tabela = []
+            for rel in array_campos_sem_tabela:
+                temp = Campo.objects.get(id=rel.campo.id)
+                campos_sem_tabela.append(temp)
 
             array_restricoes = []
             for campo in campos_sem_tabela:
-                restricoes = campo.restricao_set.filter(tipo='PK');
+                restricoes = campo.campo_tabela_set.filter(tipo_campo='PK')
+                #restricoes = campo.restricao_set.filter(tipo='PK')
                 if restricoes:
                     for restricao in restricoes: array_restricoes.append(restricao.campo.id)
 
             if len(tabelas):
                 for tabela in tabelas:
-                    campos = tabela.campo_set.order_by('ordem')
-                    array_restricoes = []
+                    campos, array_restricoes = [], []#tabela.campo_set.order_by('ordem')
+
+                    array = tabela.campo_tabela_set.all()
+                    for rel in array:
+                        aux = Campo.objects.get(id=rel.campo.id)
+                        campos.append(aux)
+
+                        if rel.tipo_campo == 'PK':
+                            array_restricoes.append(rel.campo.id)
+
+                    """
                     for campo in campos:
-                        restricoes = campo.restricao_set.filter(tipo='PK');
+                        restricoes = campo.restricao_set.filter(tipo='PK')
                         if restricoes:
                             for restricao in restricoes: array_restricoes.append(restricao.campo.id)
-
+                    """
                     #chaves = tabela.campo_set.filter(primary=True)
                     aux = {'tabela': tabela, 'campos': campos, 'restricoes_pk': array_restricoes}
                     arrayTabelas.append(aux)
@@ -53,14 +67,20 @@ def run_normalizar_documento(request, documento_id):
 
             for tabela in tabelas:
                 if tabela.forma_normal == 1:
-                    temp_campos = tabela.campo_set.all()
+
+                    temp_campos = []#tabela.campo_set.all()
+                    campos_tabela = tabela.campo_tabela_set.all()
+                    for rel in campos_tabela:
+                        campo = Campo.objects.get(id=rel.campo.id)
+                        temp_campos.append(campo)
 
                     campos, chaves, dependencias = [], [], []
                     for campo in temp_campos:
-                        restricoes = campo.restricao_set.filter(tipo='PK');
+                        #restricoes = campo.restricao_set.filter(tipo='PK')
+                        temp_restricoes = Campo_Tabela.objects.get(campo=campo)
                         temp_dependencias = None
 
-                        if restricoes:
+                        if temp_restricoes.tipo_campo == 'PK':
                             chaves.append(campo)
                         else:
                             campos.append(campo)
@@ -177,10 +197,20 @@ def run_normalizar_documento(request, documento_id):
                         campo.tabela = aux
                         #campo.primary = True if c['primaria'] else False
                         campo.save()
+
                         if c['primaria']:
                             tab['primaria'] += 1
-                            temp_restricao = Restricao(campo=campo, tipo='PK')
-                            temp_restricao.save()
+                            campo_tabela = Campo_Tabela.objects.get(campo=campo)
+                            campo_tabela.tipo_campo = 'PK'
+                            campo_tabela.tabela = aux
+                            campo_tabela.save()
+                        else:
+                            campo_tabela = Campo_Tabela.objects.get(campo=campo)
+                            campo_tabela.tipo_campo = 'Normal'
+                            campo_tabela.tabela = aux
+                            campo_tabela.save()
+                            #temp_restricao = Restricao(campo=campo, tipo='PK')
+                            #temp_restricao.save()
 
             flag_fn = True
             for tab in tabs:
@@ -198,11 +228,16 @@ def run_normalizar_documento(request, documento_id):
             tabelas = documento.tabela_set.filter(tabela_tipo=1)
 
             for tabela in tabelas:
-                campos = tabela.campo_set.all()
+                campos = []
+                campos_tabela = tabela.campo_tabela_set.all()
+                for rel in campos_tabela:
+                    campo = Campo.objects.get(id=rel.campo.id)
+                    campos.append(campo)
 
                 qtde_pk = 0
                 for campo in campos:
-                    chave = campo.restricao_set.filter(tipo='PK')
+                    #chave = campo.restricao_set.filter(tipo='PK')
+                    chave = campo.campo_tabela_set.filter(tipo_campo='PK')
                     if chave:
                         qtde_pk += 1
 
