@@ -1,5 +1,6 @@
 from app.models import *
 from app.forms import TableForm
+from classes._util import gerarHash
 
 
 def run_normalizar_documento(request, documento_id):
@@ -77,7 +78,7 @@ def run_normalizar_documento(request, documento_id):
                     campos, chaves, dependencias = [], [], []
                     for campo in temp_campos:
                         #restricoes = campo.restricao_set.filter(tipo='PK')
-                        temp_restricoes = Campo_Tabela.objects.get(campo=campo)
+                        temp_restricoes = Campo_Tabela.objects.exclude(tipo_campo='FK').get(campo=campo)
                         temp_dependencias = None
 
                         if temp_restricoes.tipo_campo == 'PK':
@@ -286,30 +287,92 @@ def run_normalizar_documento(request, documento_id):
             tabelas = documento.tabela_set.filter(tabela_tipo=1, forma_normal=1)
 
             #MONTA UM ARRAY COM OS CAMPOS NORMAIS E UM COM AS CHAVES PRIMARIAS
+            array_tabelas_eliminar = []
             for tabela in tabelas:
-                chaves, campos, dependencias = [], [], []
+                chaves, campos, dependencias, array_temp = [], [], [], []
 
-                array_temp = tabela.campo_set.all()
+                array_campo = tabela.campo_tabela_set.all()
+                for rel in array_campo:
+                    temp = Campo.objects.get(id=rel.campo.id)
+                    array_temp.append(temp)
+
                 for campo in array_temp:
-                    restricao = campo.restricao_set.filter(tipo='PK')
-                    if restricao:
+                    restricao = Campo_Tabela.objects.get(campo=campo)
+                    #restricao = campo.restricao_set.filter(tipo='PK')
+                    if restricao.tipo_campo == 'PK':
                         chaves.append(campo)
                     else:
-                        campos.append(campo)
+                        campo_temp = Campo.objects.get(id=campo.id)
+                        campos.append(campo_temp)
                         temp_dependencias = Dependencia.objects.filter(campo=campo)
                         dependencias.append(temp_dependencias)
 
-                campos_nova_tabela = []
+                potenciais_tabelas = {}
+                for chave in chaves:
+                    potenciais_tabelas[chave.nome] = []
 
                 qtde_chaves = len(chaves)
                 for campo in campos:
                     qtde_dep = 0
-                    for dep in dependencias:
-                        if dep.campo == campo:
-                            qtde_dep += 1
+                    for array_dep in dependencias:
+                        for dep in array_dep:
+                            if dep.campo == campo:
+                                qtde_dep += 1
 
                     if qtde_chaves != qtde_dep:
-                        campos_nova_tabela.append(campo)
+                        #campos_nova_tabela.append(campo)
+                        pass
+                        #procura o primeiro item da dependencia
+                        dep_temp = None
+                        for array_dep in dependencias:
+                            for dep in array_dep:
+                                if dep.campo == campo:
+                                    dep_temp = dep
+                                    break
+
+                        if dep_temp:
+                            if dep_temp.chave.nome in potenciais_tabelas:
+                                potenciais_tabelas[dep_temp.chave.nome].append(campo)
+
+                #percorre o dicionario de novas tabelas e as cria
+                for chave_nome, campos in potenciais_tabelas.items():
+                    hash = gerarHash(16)
+                    nova_tabela = Tabela(documento=documento, nome=hash, forma_normal=2)
+                    nova_tabela.save()
+
+                    #passa os campos para a nova tabela
+                    for campo in campos:
+                        rel = Campo_Tabela.objects.get(campo=campo, tipo_campo='Normal')
+                        rel.tabela = nova_tabela
+                        rel.save()
+
+                    #cria uma chave estrangeira na nova tabela
+                    chave = Campo.objects.get(nome=chave_nome)
+                    rel = Campo_Tabela(campo=chave, tabela=nova_tabela, tipo_campo='FK')
+                    rel.save()
+
+
+                #verifica se sobrou algum campo na tabela antiga
+                for tabela in tabelas:
+                    chaves, campos, passar = [], [], False
+
+                    array_chave = tabela.campo_tabela_set.filter(tipo_campo='PK')
+                    array_campo = tabela.campo_tabela_set.filter(tipo_campo='Normal')
+
+                    if len(array_campo):
+                        for aux_campo in array_campo:
+                            campo = Campo.objects.get(id=aux_campo.id)
+                            #verifica as dependencias
+                            array_dep = Dependencia.objects.filter(campo=campo)
+
+                            if len(array_dep) == len(array_chave):
+                                passar = True
+                    else:
+                        passar = True
+
+                    if passar:
+                        tabela.forma_normal = 2
+                        tabela.save()
             """
                 TERMINAR AQUI
             """

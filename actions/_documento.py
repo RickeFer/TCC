@@ -20,7 +20,13 @@ def run_documento(documento_id):
     fn = 3
     if tabelas:
         for tabela in tabelas:
-            campos = tabela.campo_set.order_by('ordem')
+            campos = []
+            #campos = tabela.campo_set.order_by('ordem')
+            array_campos = tabela.campo_tabela_set.all()
+            for rel in array_campos:
+                temp = Campo.objects.get(id=rel.campo.id)
+                campos.append(temp)
+
             tabela.campos = campos
             if tabela.forma_normal < fn:
                 fn = tabela.forma_normal

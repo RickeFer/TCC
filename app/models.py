@@ -40,14 +40,6 @@ class Campo(models.Model):
     def __str__(self):
         return self.nome
 
-    def name_underlined(self):
-        aux = self.nome.split()
-        ret = ''
-        for c in aux:
-            ret += c+'_'
-
-        return ret[:-1]
-
 
 class Dependencia(models.Model):
     campo = models.ForeignKey(Campo, related_name="campo")
