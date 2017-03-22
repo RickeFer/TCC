@@ -47,6 +47,7 @@ INSTALLED_APPS = [
     'jquery_ui',
 
     'django_ajax',
+	'django_extensions',
 ]
 
 MIDDLEWARE_CLASSES = [

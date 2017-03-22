@@ -8,8 +8,14 @@ class Util:
 
         return tupla
 
+import random
+import string
 
-def get_array_campos_sem_tabela(tabela_base):
+def gerarHash(tamanho=16):
+    aux = string.ascii_lowercase + string.digits
 
+    saida = ''
+    for i in range(tamanho):
+        saida += random.choice(aux)
 
-    return campos_sem_tabela
+    return saida
