@@ -18,6 +18,7 @@ class Tabela(models.Model):
     data_adicionado = models.DateTimeField(auto_now_add=True)
     forma_normal = models.PositiveSmallIntegerField(default=0)
     tabela_tipo = models.PositiveSmallIntegerField(default=1)
+    renomear = models.BooleanField(default=False)
 
     def __str__(self):
         return self.nome

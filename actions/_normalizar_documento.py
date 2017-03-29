@@ -97,7 +97,24 @@ def run_normalizar_documento(request, documento_id):
 
             context = {'documento': documento, 'arrayTabelas': arrayTabelas, 'fn': fn}
         elif fn == 2:
-            context = {'documento': documento, 'fn': fn}
+            tabelas_renomear = documento.tabela_set.filter(renomear=True)
+
+            array_tabelas = []
+            for tabela in tabelas_renomear:
+                temp_rel = tabela.campo_tabela_set.all()
+
+                campos = []
+                for rel in temp_rel:
+                    temp_campo = Campo.objects.get(id=rel.campo.id)
+                    campos.append(temp_campo)
+
+                aux = {'tabela': tabela, 'campos': campos}
+                array_tabelas.append(aux)
+
+            if len(tabelas_renomear):
+                context = {'renomear_tabelas': True, 'tabelas': array_tabelas, 'documento': documento}
+            else:
+                context = {'documento': documento, 'fn': fn}
 
         return context
     else:
@@ -337,7 +354,7 @@ def run_normalizar_documento(request, documento_id):
                 #percorre o dicionario de novas tabelas e as cria
                 for chave_nome, campos in potenciais_tabelas.items():
                     hash = gerarHash(16)
-                    nova_tabela = Tabela(documento=documento, nome=hash, forma_normal=2)
+                    nova_tabela = Tabela(documento=documento, nome=hash, forma_normal=2, renomear=True)
                     nova_tabela.save()
 
                     #passa os campos para a nova tabela
@@ -350,7 +367,6 @@ def run_normalizar_documento(request, documento_id):
                     chave = Campo.objects.get(nome=chave_nome)
                     rel = Campo_Tabela(campo=chave, tabela=nova_tabela, tipo_campo='FK')
                     rel.save()
-
 
                 #verifica se sobrou algum campo na tabela antiga
                 for tabela in tabelas:
@@ -373,6 +389,9 @@ def run_normalizar_documento(request, documento_id):
                     if passar:
                         tabela.forma_normal = 2
                         tabela.save()
+
+            context = {}
+            return context
             """
                 TERMINAR AQUI
             """
@@ -420,5 +439,3 @@ def run_normalizar_documento(request, documento_id):
                 #tabela.forma_normal = 2
                 #tabela.save()
             """
-            context = {}
-            return context

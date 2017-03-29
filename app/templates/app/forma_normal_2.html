@@ -30,6 +30,7 @@
     <div class="aviso">
         <span class="titulo">2ª Forma Normal</span>
         <span id="texto-dica"></span>
+        <span id="mensagem-geral"></span>
     </div>
     <!--<img src="{% static 'imagens/green_key.png' %}" alt="Chave Estrangeira" title="Chave Estrangeira" />-->
 {% endblock header %}
@@ -122,7 +123,6 @@
                 id = id.replace("_campo", "");
                 $(id+"_top").val($(this).position().top);
                 $(id+"_left").val($(this).position().left);
-                console.log(id+' '+$(this).position().top);
             });
 
             $(".tabela").each(function(){
@@ -236,7 +236,6 @@
         });
 
         function drag(ev){
-            //console.log(ev.target.id);
             //ev.dataTransfer.setData("text", ev.target.id);
         }
 
@@ -348,5 +347,33 @@
                 }
             });
         }
+
+
+        $("form").submit(function(){
+            var enviar = true;
+
+            $(".campo").each(function(){
+                var nao_dep = true, nao_chave = true;
+
+                if($(this).attr("class").search("dependente") != -1)
+                    nao_dep = false;
+                if($(this).attr("class").search("chave-primaria") != -1)
+                    nao_chave = false;
+
+                if(nao_dep && nao_chave){
+                    $("#mensagem-geral").fadeIn();
+                    $("#mensagem-geral").text("Certifique-se de que todos os campos não chaves tenham dependências!");
+                    $("#mensagem-geral").fadeOut(3000);
+
+                    enviar = false;
+                    return false;
+                }
+            });
+
+            if(enviar)
+                return true;
+            else
+                return false;
+        });
     </script>
 {% endblock script %}

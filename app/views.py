@@ -18,6 +18,7 @@ from actions._ajax_add_tabela import run_ajax_add_tabela
 from actions._add_documento import run_add_documento
 from actions._normalizar_documento import run_normalizar_documento
 from actions._ajax_add_campo import run_ajax_add_campo
+from actions._ajax_renomear_tabela import run_ajax_renomear_tabela
 
 
 def index(request):
@@ -86,28 +87,22 @@ def normalizar(request, documento_id=0):
 
 def normalizar_documento(request, documento_id=0):
     context = run_normalizar_documento(request, documento_id)
+
     if request.method != 'POST':
-        nomes = context.get('nomes', None)
-        if nomes:
-            del context['nomes']
-            nomes_min = ''
-            for letra in nomes:
-                nomes_min += letra.lower()
 
-        fn = context.get('fn', None)
-        #1FN
-        if fn == 0:
-            response = render(request, 'app/forma_normal_1.html', context)
-        elif fn == 1:
-            response = render(request, 'app/forma_normal_2.html', context)
-        elif fn == 2:
-            #pass
-            response = render(request, 'app/forma_normal_3.html', context)
+        if context.get('renomear_tabelas', False):
+            response = render(request, 'app/renomear_tabelas.html', context)
         else:
-            response = render(request, 'app/normalizar.html', context)
+            fn = context.get('fn', None)
 
-        if nomes:
-            response.set_cookie('tabelas', nomes_min.strip(), 3600)
+            if fn == 0:
+                response = render(request, 'app/forma_normal_1.html', context)
+            elif fn == 1:
+                response = render(request, 'app/forma_normal_2.html', context)
+            elif fn == 2:
+                    response = render(request, 'app/forma_normal_3.html', context)
+            else:
+                response = render(request, 'app/normalizar.html', context)
 
         return response
     else:
@@ -143,3 +138,9 @@ def ajax_add_tabela(request):
 def ajax_add_campo(request):
     context = run_ajax_add_campo(request)
     return render(request, 'app/ajax_add_campo.html', context)
+
+
+@ajax
+def ajax_renomear_tabela(request):
+    context = run_ajax_renomear_tabela(request)
+    return render(request, 'app/ajax_renomear_tabela.html', context)
