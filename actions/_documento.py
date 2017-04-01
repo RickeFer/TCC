@@ -20,14 +20,27 @@ def run_documento(documento_id):
     fn = 3
     if tabelas:
         for tabela in tabelas:
-            campos = []
+            campos, chaves_primaria, chaves_estrangeiras = [], [], []
             #campos = tabela.campo_set.order_by('ordem')
-            array_campos = tabela.campo_tabela_set.all()
+            array_campos = tabela.campo_tabela_set.filter(tipo_campo='Normal')
             for rel in array_campos:
                 temp = Campo.objects.get(id=rel.campo.id)
                 campos.append(temp)
 
+            array_chaves = tabela.campo_tabela_set.filter(tipo_campo='PK')
+            for rel in array_chaves:
+                temp = Campo.objects.get(id=rel.campo.id)
+                chaves_primaria.append(temp)
+
+            array_chaves_estrangeiras = tabela.campo_tabela_set.filter(tipo_campo='FK')
+            for rel in array_chaves_estrangeiras:
+                temp = Campo.objects.get(id=rel.campo.id)
+                chaves_estrangeiras.append(temp)
+
             tabela.campos = campos
+            tabela.chaves = chaves_primaria
+            tabela.estrangeiras = chaves_estrangeiras
+
             if tabela.forma_normal < fn:
                 fn = tabela.forma_normal
     else:

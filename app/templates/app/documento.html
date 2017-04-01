@@ -11,7 +11,11 @@
         <!--<button type="button" id="add_tabela" class="btn btn-default btn-lg" data-toggle="modal" data-target="#addTabela">
           <span class="glyphicon glyphicon-plus" aria-hidden="true"></span>
         </button>-->
-        <small><a href="{% url 'app:normalizar' documento.id %}">normalizar</a></small>
+        <small>
+            {% if fn < 3 %}
+                <a href="{% url 'app:normalizar' documento.id %}">normalizar</a>
+            {% endif %}
+        </small>
     </h3>
 
     Forma Normal atual: {{fn}}
@@ -35,19 +39,29 @@
     <div class="espacamento"></div>
 
     {% if tabelas %}<h4>Tabelas do documento {{documento}}</h4>{% else %}<h4>Não há tabelas registradas para o documento {{documento}}</h4>{% endif %}
+
     <ul class="lista-tabelas">
         <!-- lista as demais tabelas -->
         {% for tabela in tabelas %}
-        <li class="lista-tabela-item">
-            <h4 style="display: inline; margin-right: 10px">{{tabela}}</h4>
-            <span class="glyphicon glyphicon-chevron-down" aria-hidden="true" id="{{tabela}}"></span>
-            <ul style="display: none" id="campos_{{tabela}}">
-                {% for campo in tabela.campos %}
-                    <li>{{campo}}</li>
-                {% endfor %}
-            </ul>
+            <li class="lista-tabela-item">
+                <h4 style="display: inline; margin-right: 10px">{{tabela}}</h4>
+                <span class="glyphicon glyphicon-chevron-down" aria-hidden="true" id="{{tabela}}"></span>
+
+                <ul style="display: none" id="campos_{{tabela}}">
+                    {% for chave in tabela.chaves %}
+                        <li>{{chave}} PK</li>
+                    {% endfor %}
+
+                    {% for chave in tabela.estrangeiras %}
+                        <li>{{chave}} FK</li>
+                    {% endfor %}
+
+                    {% for campo in tabela.campos %}
+                        <li>{{campo}}</li>
+                    {% endfor %}
+                </ul>
+            </li>
         {% endfor %}
-        </li>
     </ul>
 {% endblock content %}
 
@@ -58,11 +72,13 @@
             var id = "campos_"+$(this).attr("id");
 
             if($("#"+id).css("display")=="none"){
-                $("#"+id).css("display", "block");
+                //$("#"+id).css("display", "block");
+                $("#"+id).show();
                 $(this).attr("class", "glyphicon glyphicon-chevron-up");
             }
             else{
-                $("#"+id).css("display", "none");
+                //$("#"+id).css("display", "none");
+                $("#"+id).hide();
                 $(this).attr("class", "glyphicon glyphicon-chevron-down");
             }
         });

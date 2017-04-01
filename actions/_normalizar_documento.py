@@ -7,6 +7,25 @@ def run_normalizar_documento(request, documento_id):
     if request.method != 'POST':
         documento = Documento.objects.get(id=documento_id)
 
+
+        tabelas_renomear = documento.tabela_set.filter(renomear=True)
+        array_tabelas = []
+        if len(tabelas_renomear):
+            for tabela in tabelas_renomear:
+                temp_rel = tabela.campo_tabela_set.all()
+
+                campos = []
+                for rel in temp_rel:
+                    temp_campo = Campo.objects.get(id=rel.campo.id)
+                    campos.append(temp_campo)
+
+                aux = {'tabela': tabela, 'campos': campos}
+                array_tabelas.append(aux)
+
+            context = {'renomear_tabelas': True, 'tabelas': array_tabelas, 'documento': documento}
+            return context
+
+
         #pega outras tabela e seus campos
         tabelas = documento.tabela_set.exclude(nome='tabela_base')
         nomes_tabelas, fn, arrayTabelas = '', 3, []
@@ -97,14 +116,13 @@ def run_normalizar_documento(request, documento_id):
 
             context = {'documento': documento, 'arrayTabelas': arrayTabelas, 'fn': fn}
         elif fn == 2:
-            tabelas_renomear = documento.tabela_set.filter(renomear=True)
+            tabelas = documento.tabela_set.filter(tabela_tipo=1)
 
-            array_tabelas = []
-            if len(tabelas_renomear):
-                for tabela in tabelas_renomear:
-                    temp_rel = tabela.campo_tabela_set.all()
+            for tabela in tabelas:
+                temp_rel = tabela.campo_tabela_set.filter(tipo_campo='Normal')
 
-                    campos = []
+                campos = []
+                if len(temp_rel):
                     for rel in temp_rel:
                         temp_campo = Campo.objects.get(id=rel.campo.id)
                         campos.append(temp_campo)
@@ -112,29 +130,13 @@ def run_normalizar_documento(request, documento_id):
                     aux = {'tabela': tabela, 'campos': campos}
                     array_tabelas.append(aux)
 
-                context = {'renomear_tabelas': True, 'tabelas': array_tabelas, 'documento': documento}
-            else:
-                tabelas = documento.tabela_set.filter(tabela_tipo=1)
-
-                for tabela in tabelas:
-                    temp_rel = tabela.campo_tabela_set.filter(tipo_campo='Normal')
-
-                    campos = []
-                    if len(temp_rel):
-                        for rel in temp_rel:
-                            temp_campo = Campo.objects.get(id=rel.campo.id)
-                            campos.append(temp_campo)
-
-                        aux = {'tabela': tabela, 'campos': campos}
-                        array_tabelas.append(aux)
-
-                context = {'documento': documento, 'fn': fn, 'arrayTabelas': array_tabelas}
-
+            context = {'documento': documento, 'fn': fn, 'arrayTabelas': array_tabelas}
+        elif fn == 3:
+            context = {'documento': documento}
 
         return context
     else:
         aux = request.POST
-
 
         if aux['forma_normal'] == '1':
             """
@@ -407,50 +409,62 @@ def run_normalizar_documento(request, documento_id):
 
             context = {}
             return context
-            """
-                TERMINAR AQUI
-            """
+        elif aux['forma_normal'] == '3':
+            documento = Documento.objects.get(id=documento_id)
 
+            dicionario_dependencia, array_novas_tabelas = {}, []
             """
-            cont_nome = 0
-            for tabela in tabelas:
-                chaves, campos = [], []
-                array_temp = tabela.campo_set.all()
+                MONTA UM DICIONARIO COM AS DEPENDENCIAS
+                E CRIA UMA TABELA PARA CADA CHAVE NO DICIONARIO
+            """
+            for item in aux:
+                if 'dependencia' in item:
+                    nome_dependente = item.split('_dependencia')[0]
+                    nome_chave = aux[item]
 
-                for campo in array_temp:
-                    restricao = campo.restricao_set.filter(tipo='PK')
-                    if restricao:
-                        chaves.append(campo)
+                    if dicionario_dependencia.get(nome_chave, None):
+                        dicionario_dependencia[nome_chave].append(nome_dependente)
                     else:
-                        campos.append(campo)
+                        dicionario_dependencia[nome_chave] = [nome_dependente]
 
-                nova_tabela = Tabela(forma_normal=2, documento=documento)
-                flag_tabela = False
+                        hash = gerarHash(16)
+                        nova_tabela = Tabela(documento=documento, nome=hash, forma_normal=3, renomear=True)
+                        nova_tabela.save()
+                        array_novas_tabelas.append(nova_tabela)
 
-                for campo in campos:
-                    dependencias = Dependencia.objects.filter(campo=campo)
-                    cont = 0
-
-                    for dependencia in dependencias:
-                        for chave in chaves:
-                            if dependencia.chave == chave:
-                                cont += 1
-
-                    if len(chaves) > cont:
-                        if flag_tabela == False:
-                            nova_tabela.nome = 'nova_tabela_' + str(cont_nome)
-                            nova_tabela.forma_normal = 2
-                            nova_tabela.save()
-                            cont_nome += 1
-                            flag_tabela = True
-
-                        campo.table = nova_tabela
-                        campo.save()
-
-                        for dependencia in dependencias:
-                            fk = Restricao(campo=campo, tipo='FK')
-                            fk.save()
-
-                #tabela.forma_normal = 2
-                #tabela.save()
             """
+                PASSA OS CAMPOS DEPENDENTES PARA AS NOVAS TABELAS
+            """
+            for key, array_campos in dicionario_dependencia.items():
+                campo = Campo.objects.get(nome=key)
+                rel = campo.campo_tabela_set.get(tipo_campo='Normal')
+                rel.tipo_campo = 'FK'
+                rel.save()
+
+                tabela = array_novas_tabelas.pop()
+
+                #duplica a fk para ser pk na nova tabela
+                rel.id = None
+                rel.tipo_campo = 'PK'
+                rel.tabela = tabela
+                rel.save()
+
+                for nome_campo in array_campos:
+                    campo = Campo.objects.get(nome=nome_campo)
+                    rel = campo.campo_tabela_set.get(tipo_campo='Normal')
+                    rel.tabela = tabela
+                    rel.save()
+
+            """
+                PASSA AS TABELAS PARA A 3FN
+            """
+            tabelas = documento.tabela_set.filter(tabela_tipo=1)
+            for tabela in tabelas:
+                tabela.forma_normal = 3
+                tabela.save()
+
+
+
+
+            context = {'documento': documento}
+            return context
