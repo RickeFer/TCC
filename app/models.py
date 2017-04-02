@@ -55,3 +55,6 @@ class Campo_Tabela(models.Model):
     tabela = models.ForeignKey(Tabela)
     tipo_campo = models.CharField(max_length=20, choices=array_tipo_restricao)
 
+    def __str__(self):
+        return self.campo.nome
+

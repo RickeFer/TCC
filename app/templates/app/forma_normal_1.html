@@ -295,6 +295,8 @@
             for(var i=0; i<aux.length-1; i++)
                 temp += aux[i]+'_';
             temp = temp.substring(0,temp.length-1);
+            if(temp == "")
+                temp = aux[0];
 
             var id = "#"+temp+"_primaria";
             $(ev.target).css({
