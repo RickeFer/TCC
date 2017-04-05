@@ -20,8 +20,8 @@
     <ul id="lista-tabelas" style="list-style: none">
         {% for tab in tabelas %}
             <li id="tabela_{{tab.id}}">
-                <span class="glyphicon glyphicon-remove" onclick="alert({{tab.id}});"></span>
-                <span class="glyphicon glyphicon-pencil"></span>
+                <!--<span class="glyphicon glyphicon-remove" onclick="alert({{tab.id}});"></span>-->
+                <span class="glyphicon glyphicon-pencil" data-toggle="modal" data-target="#editar_tabela" onclick="abrir_editar({{tab.id}});"></span>
                 &nbsp;&nbsp;
                 <a href="{% url 'app:tabela' tab.id %}">{{tab}}</a>
             </li>
@@ -53,6 +53,24 @@
         </div>
 
       </div>
+    </div>
+
+    <!-- modal editar tabela -->
+    <div id="editar_tabela" class="modal fade" role="dialog">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                    <h4 class="modal-title">Editar Tabela </h4>
+                </div>
+                <div class="modal-body">
+
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal">Fechar</button>
+                </div>
+            </div>
+        </div>
     </div>
 
 {% endblock content %}
@@ -91,5 +109,14 @@
             else
                 alert("Selecione um documento!");
         });
+
+        function abrir_tabela(tabela_id){
+            tabela_id = tabela_id?tabela_id:0;
+
+            $.ajax({
+                type: "GET",
+                url: '{% url 'app:ajax_tabela' 0 %}',
+            });
+        }
     </script>
 {% endblock script %}

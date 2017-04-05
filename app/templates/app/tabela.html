@@ -7,55 +7,9 @@
 {% endblock css %}
 
 {% block header %}
-    <h3>
-        {% if tabela.forma_normal == -1 %}
-            Documento
-        {% else %}
-            Tabela {{tabela}}
-        {% endif %}
-        <small>
-            <a href="{% url 'app:normalizar' tabela.id %}">normalizar</a>
-        </small>
-        <p>
-            <small>
-                {% if tabela.forma_normal == 0 %}
-                    tabela ainda não normalizada
-                {% elif tabela.forma_normal > 0 %}
-                    tabela na {{tabela.forma_normal}}ª forma normal
-                {% endif %}
-            </small>
-        </p>
-    </h3>
+
 {% endblock header %}
 
 {% block content %}
-    <p>
-        <a href="{% url 'app:add_campo' tabela.id %}">adicionar campo</a>
-    </p>
-
-    <h4>Campos</h4>
-    <ul>
-        {% if chaves and campos %}
-            {% for chave in chaves %}
-                <li>
-                    <span class="ui-icon ui-icon-key"></span>
-                    <small>
-                        {{chave.name}}
-                    </small>
-                </li>
-            {% endfor %}
-
-            {% for campo in campos %}
-                <li>
-                    <span style="margin-left: 19px;"></span>
-                    <small>
-                        {{campo.name}}
-                    </small>
-                </li>
-            {% endfor %}
-        {% else %}
-            <li>Não há campos para essa tabela</li>
-        {% endif %}
-    </ul>
 
 {% endblock content %}

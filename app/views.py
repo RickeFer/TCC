@@ -19,6 +19,7 @@ from actions._add_documento import run_add_documento
 from actions._normalizar_documento import run_normalizar_documento
 from actions._ajax_add_campo import run_ajax_add_campo
 from actions._ajax_renomear_tabela import run_ajax_renomear_tabela
+from actions._ajax_tabela import run_ajax_tabela
 
 
 def index(request):
@@ -144,3 +145,9 @@ def ajax_add_campo(request):
 def ajax_renomear_tabela(request):
     context = run_ajax_renomear_tabela(request)
     return render(request, 'app/ajax_renomear_tabela.html', context)
+
+
+@ajax
+def ajax_tabela(request, tabela_id):
+    context = run_ajax_tabela(request)
+    return render(request, 'app/ajax_tabela.html', context)

@@ -30,6 +30,7 @@ urlpatterns = [
     url(r'^ajax_add_tabela/$', views.ajax_add_tabela, name='ajax_add_tabela'),
     url(r'^ajax_add_campo/$', views.ajax_add_campo, name='ajax_add_campo'),
     url(r'^ajax_renomear_tabela/$', views.ajax_renomear_tabela, name='ajax_renomear_tabela'),
+    url(r'^ajax_tabela/(?P<tabela_id>\d+)/$', views.ajax_tabela, name='ajax_tabela'),
 
     url(r'^mostrar_post/$', views.mostrar_post, name='mostrar_post'),
 ] + static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)
