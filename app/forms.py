@@ -1,5 +1,5 @@
 from django import forms
-from .models import Tabela, Campo, Documento
+from .models import *
 
 
 class TableForm(forms.ModelForm):
@@ -22,3 +22,9 @@ class DocumentForm(forms.ModelForm):
         model = Documento
         fields = ['nome']
         labels = {'nome': 'Documento'}
+
+
+class UsuarioForm(forms.ModelForm):
+    class Meta:
+        model = Usuario
+        fields = ['nome', 'email', 'senha']

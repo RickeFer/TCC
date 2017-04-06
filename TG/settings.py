@@ -39,9 +39,11 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     #minhas apps
     'app',
+    'users',
 
     #bootstrap
     'bootstrap3',
+    'bootstrapform',
 
     #jquery
     'jquery_ui',

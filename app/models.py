@@ -1,8 +1,22 @@
 from django.db import models
 
-from classes._util import Util
 
-array_tipo_restricao = Util.get_array_tipos_restricao()
+array_tipo_restricao = tupla = (
+        ('PK', 'Chave Primária'),
+        ('FK', 'Chave Estrangeira'),
+        ('Normal', 'Campo Normal')
+    )
+
+
+class Usuario(models.Model):
+    nome = models.CharField(max_length=50)
+    email = models.CharField(max_length=20)
+    senha = models.CharField(max_length=64)
+    ultima_hash = models.CharField(max_length=64)
+
+    def __str__(self):
+        return self.nome
+
 
 class Documento(models.Model):
     nome = models.CharField(max_length=20)

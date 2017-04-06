@@ -1,0 +1,28 @@
+{% extends "users/base.html" %}
+
+{% block content %}
+    {% if form.errors %}
+        <p>Usuário e senha não correspondem</p>
+    {% endif %}
+
+
+    <div style="text-align:center">
+        <h3>Entrar</h3>
+        <form action="{% url 'users:login' %}" method="POST">
+            {% csrf_token %}
+            <div class="form-group">
+                <input type="email" class="form-control" name="email" id="email" placeholder="email@email.com"/>
+            </div>
+            <div class="form-group">
+                <input type="password" class="form-control" name="senha" id="senha" placeholder="****"/>
+            </div>
+
+            <button class="btn btn-primary col-md-12" name="submit">ENTRAR</button>
+        </form>
+
+        <div style="margin-left: 70%">
+            <a href="{% url 'users:registrar' %}">registrar</a>
+        </div>
+    </div>
+
+{% endblock content %}

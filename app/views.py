@@ -21,10 +21,14 @@ from actions._ajax_add_campo import run_ajax_add_campo
 from actions._ajax_renomear_tabela import run_ajax_renomear_tabela
 from actions._ajax_tabela import run_ajax_tabela
 
+from classes._util import *
+
 
 def index(request):
-    #run(request)
-    return render(request, 'app/index.html')
+    if not verificar_sessao(request): return redirecionar_login()
+    context = {'usuario': get_usuario(request.session['usuario_id'])}
+
+    return render(request, 'app/index.html', context)
 
 
 def tabelas(request):
@@ -64,12 +68,20 @@ def add_campo(request, table_id):
 
 
 def documentos(request):
+    if not verificar_sessao(request): return redirecionar_login()
+
     context = run_documentos()
+    context['usuario'] = get_usuario(request.session['usuario_id'])
+
     return render(request, 'app/documentos.html', context)
 
 
 def documento(request, documento_id):
+    if not verificar_sessao(request): return redirecionar_login()
+
     context = run_documento(documento_id)
+    context['usuario'] = get_usuario(request.session['usuario_id'])
+
     return render(request, 'app/documento.html', context)
 
 
@@ -111,10 +123,6 @@ def normalizar_documento(request, documento_id=0):
         #return render(request, 'app/mostrar_post.html', context)
         return HttpResponseRedirect(reverse('app:normalizar', args=[documento_id]))
         #return render(request, reverse('normalizar', kwargs{'documento_id':documento_id}), context)
-
-
-def mostrar_post(request):
-    pass
 
 
 @ajax
