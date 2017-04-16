@@ -55,21 +55,17 @@
                     <tr>
                         <th> </th>
                         <th>Tipo</th>
-                        <th>Tamanho/Itens</th>
-                        <th>Unsigned</th>
-                        <th>NULL</th>
-                        <th>Zerofill</th>
                     </tr>
                 </thead>
             {% for estrangeira in tabela.estrangeiras %}
                 <tr>
-                    <td class="col-md-2" style="text-align: left; padding-left: 7px">
+                    <td class="col-md-3" style="text-align: left; padding-left: 7px">
                         <img src="{% static 'imagens/green_key.png' %}" />{{estrangeira}}
                     </td>
 
-                    <td class="col-md-1">
+                    <td class="col-md-3">
                         <select class="selectpicker form-control" name="tipo_{{estrangeira.id}}">
-                            {% for categoria, tipos in tipos_campo.items %}
+                            {% for categoria, tipos in tipos_chave.items %}
                                 <optgroup label="{{categoria}}">
                                     {% for tipo in tipos %}
                                         <option value="{{tipo}}">{{tipo}}</option>
@@ -79,18 +75,7 @@
                         </select>
                     </td>
 
-                    <td class="col-md-1">
-                        <input type="number" class="form-control"/>
-                    </td>
-                    <td class="col-md-1">
-                        <input type="checkbox" />
-                    </td>
-                    <td class="col-md-1">
-                        <input type="checkbox" />
-                    </td>
-                    <td class="col-md-1">
-                        <input type="checkbox" />
-                    </td>
+                    <td></td>
                 </tr>
             {% endfor %}
             </table>
@@ -134,13 +119,13 @@
                         <input type="number" class="form-control"/>
                     </td>
                     <td class="col-md-1">
-                        <input type="checkbox" />
+                        <input type="checkbox" {% if  campo.unsigned %} checked {% endif %}/>
                     </td>
                     <td class="col-md-1">
-                        <input type="checkbox" />
+                        <input type="checkbox" {% if  campo.null %} checked {% endif %}/>
                     </td>
                     <td class="col-md-1">
-                        <input type="checkbox" />
+                        <input type="checkbox" {% if  campo.zerofill %} checked {% endif %}/>
                     </td>
                 </tr>
             {% endfor %}

@@ -2,70 +2,10 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="28c31a9a-54a0-4691-b559-60d79594c587" name="Default" comment="">
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/actions/_grupo.py" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/actions/_grupo_adicionar_usuario.py" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/actions/_grupo_convite.py" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/actions/_grupo_registrar.py" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/actions/_grupos.py" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/app/templates/app/base2.html" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/app/templates/app/grupo.html" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/app/templates/app/grupo_adicionar_usuario.html" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/app/templates/app/grupo_registrar.html" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/app/templates/app/grupos.html" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/classes/util_documento.py" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/classes/util_grupo.py" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/classes/util_tabela.py" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/app/migrations/0002_auto_20161105_1835.py" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/app/migrations/0003_field_order.py" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/app/migrations/0004_auto_20161105_1908.py" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/app/migrations/0005_auto_20161106_1109.py" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/app/migrations/0006_auto_20161110_1953.py" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/app/migrations/0007_auto_20161110_1955.py" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/app/migrations/0008_auto_20161110_1959.py" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/app/migrations/0009_table_normal_form.py" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/app/migrations/0010_auto_20161206_2206.py" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/app/migrations/0011_auto_20161206_2217.py" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/app/migrations/0012_table_type_table.py" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/app/migrations/0013_dependencia.py" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/app/migrations/0014_auto_20170228_1042.py" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/app/migrations/0015_dependencia_chave.py" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/app/migrations/0016_auto_20170228_1110.py" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/app/migrations/0017_chaveestrangeira.py" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/app/migrations/0018_auto_20170311_1132.py" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/app/migrations/0019_auto_20170311_1155.py" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/app/migrations/0020_restricao_tipo.py" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/app/migrations/0021_auto_20170315_2124.py" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/app/migrations/0022_tabela_renomear.py" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/app/migrations/0023_auto_20170328_2211.py" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/app/migrations/0024_usuario.py" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/app/migrations/0025_usuario_ultima_hash.py" afterPath="" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/actions/_registrar.py" afterPath="$PROJECT_DIR$/actions/_usuario_registrar.py" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/app/templates/users/registrar.html" afterPath="$PROJECT_DIR$/app/templates/users/usuario_registrar.html" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/classes/_util.py" afterPath="$PROJECT_DIR$/classes/util.py" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/actions/_add_documento.py" afterPath="$PROJECT_DIR$/actions/_add_documento.py" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/actions/_documento.py" afterPath="$PROJECT_DIR$/actions/_documento.py" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/actions/_documentos.py" afterPath="$PROJECT_DIR$/actions/_documentos.py" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/actions/_index.py" afterPath="$PROJECT_DIR$/actions/_index.py" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/actions/_login.py" afterPath="$PROJECT_DIR$/actions/_login.py" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/actions/_normalizar_documento.py" afterPath="$PROJECT_DIR$/actions/_normalizar_documento.py" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/actions/_tabela.py" afterPath="$PROJECT_DIR$/actions/_tabela.py" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/actions/_tabelas.py" afterPath="$PROJECT_DIR$/actions/_tabelas.py" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/migrations/0001_initial.py" afterPath="$PROJECT_DIR$/app/migrations/0001_initial.py" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/models.py" afterPath="$PROJECT_DIR$/app/models.py" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/templates/app/add_documento.html" afterPath="$PROJECT_DIR$/app/templates/app/add_documento.html" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/templates/app/base.html" afterPath="$PROJECT_DIR$/app/templates/app/base.html" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/templates/app/forma_normal_1.html" afterPath="$PROJECT_DIR$/app/templates/app/forma_normal_1.html" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/templates/app/forma_normal_2.html" afterPath="$PROJECT_DIR$/app/templates/app/forma_normal_2.html" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/templates/app/index.html" afterPath="$PROJECT_DIR$/app/templates/app/index.html" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/templates/app/renomear_tabelas.html" afterPath="$PROJECT_DIR$/app/templates/app/renomear_tabelas.html" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/templates/app/tabela.html" afterPath="$PROJECT_DIR$/app/templates/app/tabela.html" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/templates/app/tabelas.html" afterPath="$PROJECT_DIR$/app/templates/app/tabelas.html" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/templates/users/login.html" afterPath="$PROJECT_DIR$/app/templates/users/login.html" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/urls.py" afterPath="$PROJECT_DIR$/app/urls.py" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/views.py" afterPath="$PROJECT_DIR$/app/views.py" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/static/style.css" afterPath="$PROJECT_DIR$/static/style.css" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/users/views.py" afterPath="$PROJECT_DIR$/users/views.py" />
     </list>
     <ignored path="TG.iws" />
     <ignored path=".idea/workspace.xml" />
@@ -95,11 +35,11 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="models.py" pinned="false" current-in-tab="true">
+      <file leaf-file-name="models.py" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/app/models.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="356">
-              <caret line="77" column="64" lean-forward="false" selection-start-line="77" selection-start-column="60" selection-end-line="77" selection-end-column="64" />
+            <state relative-caret-position="271">
+              <caret line="78" column="73" lean-forward="false" selection-start-line="78" selection-start-column="73" selection-end-line="78" selection-end-column="73" />
               <folding />
             </state>
           </provider>
@@ -127,11 +67,11 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="tabela.html" pinned="false" current-in-tab="false">
+      <file leaf-file-name="tabela.html" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/app/templates/app/tabela.html">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="177">
-              <caret line="57" column="41" lean-forward="false" selection-start-line="57" selection-start-column="41" selection-end-line="57" selection-end-column="41" />
+            <state relative-caret-position="379">
+              <caret line="127" column="68" lean-forward="false" selection-start-line="127" selection-start-column="68" selection-end-line="127" selection-end-column="68" />
               <folding>
                 <element signature="n#style#0;n#h4#0;n#div#0;n#!!top" expanded="true" />
                 <element signature="n#style#0;n#td#0;n#tr#0;n#table#0;n#div#0;n#!!top" expanded="true" />
@@ -148,7 +88,7 @@
         <entry file="file://$PROJECT_DIR$/static/style.css">
           <provider selected="true" editor-type-id="text-editor">
             <state relative-caret-position="382">
-              <caret line="54" column="0" lean-forward="true" selection-start-line="54" selection-start-column="0" selection-end-line="54" selection-end-column="0" />
+              <caret line="54" column="0" lean-forward="false" selection-start-line="54" selection-start-column="0" selection-end-line="54" selection-end-column="0" />
               <folding />
             </state>
           </provider>
@@ -264,8 +204,8 @@
         <option value="$PROJECT_DIR$/static/style.css" />
         <option value="$PROJECT_DIR$/classes/util.py" />
         <option value="$PROJECT_DIR$/actions/_tabela.py" />
-        <option value="$PROJECT_DIR$/app/templates/app/tabela.html" />
         <option value="$PROJECT_DIR$/app/models.py" />
+        <option value="$PROJECT_DIR$/app/templates/app/tabela.html" />
       </list>
     </option>
   </component>
@@ -912,7 +852,7 @@
     <entry file="file://$PROJECT_DIR$/static/style.css">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="382">
-          <caret line="54" column="0" lean-forward="true" selection-start-line="54" selection-start-column="0" selection-end-line="54" selection-end-column="0" />
+          <caret line="54" column="0" lean-forward="false" selection-start-line="54" selection-start-column="0" selection-end-line="54" selection-end-column="0" />
           <folding />
         </state>
       </provider>
@@ -935,10 +875,18 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/app/models.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="271">
+          <caret line="78" column="73" lean-forward="false" selection-start-line="78" selection-start-column="73" selection-end-line="78" selection-end-column="73" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/app/templates/app/tabela.html">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="177">
-          <caret line="57" column="41" lean-forward="false" selection-start-line="57" selection-start-column="41" selection-end-line="57" selection-end-column="41" />
+        <state relative-caret-position="379">
+          <caret line="127" column="68" lean-forward="false" selection-start-line="127" selection-start-column="68" selection-end-line="127" selection-end-column="68" />
           <folding>
             <element signature="n#style#0;n#h4#0;n#div#0;n#!!top" expanded="true" />
             <element signature="n#style#0;n#td#0;n#tr#0;n#table#0;n#div#0;n#!!top" expanded="true" />
@@ -947,14 +895,6 @@
             <element signature="n#style#0;n#h4#0;n#div#2;n#!!top" expanded="true" />
             <element signature="n#style#0;n#td#0;n#tr#0;n#table#0;n#div#2;n#!!top" expanded="true" />
           </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app/models.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="356">
-          <caret line="77" column="64" lean-forward="false" selection-start-line="77" selection-start-column="60" selection-end-line="77" selection-end-column="64" />
-          <folding />
         </state>
       </provider>
     </entry>
