@@ -8,18 +8,7 @@
 {% endblock css %}
 
 {% block header %}
-    <h3 style="display: inline;">Documento {{documento}}
-        <!--
-            <small>
-                <span data-toggle="modal" data-target="#addTabela" class="link" id="link-add-tabela">nova tabela</span>
-            </small>
-            <small>
-                <span data-toggle="modal" data-target="#addCampo" class="link">novo campo</span>
-            </small>
-        -->
-    </h3>
-
-    <!--<img src="{% static 'imagens/gold_key.png' %}" alt="Chave Primária" title="Chave Primária" draggable="true" ondragstart="drag(event)" />-->
+    <h3 style="display: inline;">Documento {{documento}}</h3>
 
     <h3 style="display: inline;">
         <small>
@@ -53,15 +42,15 @@
 
                 {% for campo in tabela.campos %}
                     <div class="dropdown" style="display: inline">
-                        <div class="campo {% if campo.primary %}chave-primaria{% endif %}" id="{{campo}}_campo"
-                         onmouseover="mostrarOp('{{campo}}')"
-                         onmouseout="esconderOp('{{campo}}')"style="cursor: context-menu">
-                            {{campo}}
-                            <span class="caret opcoes" style="display: none" id="{{campo}}_op" id="dropdownMenu_{{campo}}" data-toggle="dropdown" aria-haspopup="true"
-                                    aria-expanded="true"></span>
+                        <div class="campo {% if campo.primary %}chave-primaria{% endif %} dropdown-toggle" id="{{campo}}_campo"
+                             onmouseover="mostrarOp('{{campo}}')"
+                             onmouseout="esconderOp('{{campo}}')" style="cursor: context-menu">
 
-                            <ul class="dropdown-menu dropdown-menu-meu" aria-labelledby="dropdownMenu_{{campo}}">
-                                <li onclick="setarDependencia('{{campo}}', '{% for chave in tabela.chaves %}{{chave}} {% endfor %}');" id="li_chave_{{campo}}">Chave Inteira</li>
+                            {{campo}}
+                            <span class="caret opcoes" style="display: none" id="{{campo}}_op" data-toggle="dropdown" aria-haspopup="false" aria-expanded="false"></span>
+
+                            <ul class="dropdown-menu dropdown-menu-meu" aria-labelledby="{{campo}}_op">
+                                <li onclick="setarDependencia('{{campo}}', '{% for chave in tabela.chaves %} {{chave}} {% endfor %}');" id="li_chave_{{campo}}">Chave Inteira</li>
                                 <li role="separator" class="divider"></li>
                                 {% for chave in tabela.chaves %}
                                     <li onclick="setarDependencia('{{campo}}', '{{chave}}');" class="item_chave_{{campo}}" id="{{campo}}_{{chave}}">{{chave}}</li>
@@ -97,6 +86,8 @@
     <script src="{% static 'scripts/normalizar.js' %}"></script>
     <script>
         var id_mensagem = 0;
+
+        //$(".opcoes").click(function(){console.log('aqui');});
 
         function verificaQuantidadeTabelas(){
 

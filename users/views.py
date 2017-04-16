@@ -3,15 +3,14 @@ from django.http import HttpResponseRedirect
 from django.core.urlresolvers import reverse
 
 from actions._login import run_login
-from actions._registrar import run_registrar
+from actions._usuario_registrar import run_usuario_registrar
 
-from classes._util import *
+from classes.util import *
 
 
 
 def login(request):
     #print(request.session.get('sessao_hash', 'nem tem'))
-
     if request.method == 'POST':
         context = run_login(request)
 
@@ -22,18 +21,18 @@ def login(request):
             request.session['usuario_id'] = context['usuario_id']
             return response
         else:
-            return render(request, 'users/login.html', {})
+            return render(request, 'users/login.html', context)
     else:
         return render(request, 'users/login.html', {})
 
 
 def registrar(request):
     if request.method == 'POST':
-        context = run_registrar(request)
+        context = run_usuario_registrar(request)
 
         if context['resultado']:
             return HttpResponseRedirect(reverse('users:login'))#render(request, 'users/login.html', {})
         else:
-            return render(request, 'users/registrar.html', {})
+            return render(request, 'users/usuario_registrar.html', {})
     else:
-        return render(request, 'users/registrar.html', {})
+        return render(request, 'users/usuario_registrar.html', {})

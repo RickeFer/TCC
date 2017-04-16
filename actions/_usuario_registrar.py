@@ -2,7 +2,7 @@ import hashlib
 from app.models import Usuario
 
 
-def run_registrar(request):
+def run_usuario_registrar(request):
     if request.method == 'POST':
         email = request.POST['email']
 

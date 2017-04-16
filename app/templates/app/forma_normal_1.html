@@ -85,7 +85,7 @@
 
                   {% csrf_token %}
                   {% buttons %}
-                        <button name="submit" class="btn btn-primary" id="btnAddTabela">ADICIONAR</button>
+                        <button name="submit" class="btn btn-primary" id="btnAddTabela" data-dismiss="modal">ADICIONAR</button>
                   {% endbuttons %}
                 </div>
                 <div class="modal-footer">
@@ -112,11 +112,11 @@
 
                   {% csrf_token %}
                   {% buttons %}
-                        <button name="submit" class="btn btn-primary" id="btnAddCampo">ADICIONAR</button>
+                        <button name="submit" class="btn btn-primary" id="btnAddCampo" data-dismiss="modal">ADICIONAR</button>
                   {% endbuttons %}
                 </div>
                 <div class="modal-footer">
-                    <button type="button" class="btn btn-default" data-dismiss="modal">Fechar</button>
+                    <button type="button" class="btn btn-default">Fechar</button>
                 </div>
             </div>
         </div>
@@ -140,6 +140,8 @@
                 id_mensagem++;
                 $("#enviar").show();
             }
+
+            console.log(qtde_tabelas);
         }
 
         function setarMensagem(){
@@ -198,6 +200,7 @@
         function atualizarTabelas(){
             var nomes = '';
 
+            /*
             $(".tabela").each(function(){
                 var id = "#"+$(this).attr('id');
                 $(id+"_top").val($(this).position().top);
@@ -205,9 +208,10 @@
                 if($(this).attr('id') != 'sem_tabela')
                     nomes += $(this).attr('id')+'666';
             });
+            */
 
             //ATUALIZA OS COOKIES COM OS NOMES DAS TABELAS
-            Cookies.set('tabelas', String(nomes.toLowerCase()), {expires: 1});
+            //Cookies.set('tabelas', String(nomes.toLowerCase()), {expires: 1});
         }
 
         //submissao ajax para adicionar tabela
@@ -235,7 +239,7 @@
                             alert('Já existe uma tabela com esse nome!');
                         else{
                             $("#todas_tabelas").append(ret.content);
-                            $("#addTabela").modal("hide");
+                            //$("#addTabela").modal("hide");
                             $("#nova_tabela").val("");
                             atualizarTabelas();
                             verificaQuantidadeTabelas();
@@ -270,7 +274,7 @@
                     success: function(ret){
                         $(ret.content).insertAfter($("#sem_tabela"));
                         $("#novo_campo").val("");
-                        $("#addCampo").modal("hide");
+                        //$("#addCampo").modal("hide");
                         $("#sem_tabela").show();
                         $("#espaco-sem-tabela").show();
                     }

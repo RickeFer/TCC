@@ -21,7 +21,7 @@
         {% for tab in tabelas %}
             <li id="tabela_{{tab.id}}">
                 <!--<span class="glyphicon glyphicon-remove" onclick="alert({{tab.id}});"></span>-->
-                <span class="glyphicon glyphicon-pencil" data-toggle="modal" data-target="#editar_tabela" onclick="abrir_editar({{tab.id}});"></span>
+                <!--<span class="glyphicon glyphicon-pencil" data-toggle="modal" data-target="#editar_tabela" onclick="abrir_editar({{tab.id}});"></span>-->
                 &nbsp;&nbsp;
                 <a href="{% url 'app:tabela' tab.id %}">{{tab}}</a>
             </li>

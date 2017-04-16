@@ -1,0 +1,30 @@
+{% extends "app/base.html" %}
+{% load bootstrap %}
+{% load static %}
+
+{% block css %}
+    <title>Adicionar usuário | {{grupo}}</title>
+{% endblock css %}
+
+{% block header %}
+    <h3>Enviar solicitação</h3>
+{% endblock header %}
+
+{% block content %}
+    {% if erro %}
+        <div class="erro">
+            <span>{{erro}}</span>
+        </div>
+    {% endif %}
+
+    <form action="{% url 'app:grupo_adicionar_usuario' grupo.id %}" method="POST">
+        {% csrf_token %}
+        <div class="row">
+            <div class="form-group col-md-6">
+                <input type="email" class="form-control" name="email" id="email" placeholder="usuario@email"/>
+            </div>
+        </div>
+
+        <button class="btn btn-primary">ENVIAR SOLICITAÇÃO</button>
+    </form>
+{% endblock content %}

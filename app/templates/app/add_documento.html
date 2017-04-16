@@ -16,9 +16,18 @@
         {% csrf_token %}
         {% bootstrap_form formDoc %}
 
+        <div class="input" style="margin-bottom: 10px">
+            <label for="temp_name">Grupo</label>
+            <select class="form-control" name="grupo" required>
+                {% for grupo in grupos %}
+                    <option value="{{grupo.id}}">{{grupo}}</option>
+                {% endfor %}
+            </select>
+        </div>
+
         <div style="margin: 30px 0 50px 0">
             <h4>Campos
-                <button type="button" id="add_tabela" class="btn btn-default btn-lg" data-toggle="modal" data-target="#addCampo">
+                <button type="button" id="add_campo" class="btn btn-default btn-lg" data-toggle="modal" data-target="#addCampo">
                     <span class="glyphicon glyphicon-plus" aria-hidden="true"></span>
                 </button>
             </h4>
@@ -30,13 +39,14 @@
         {% endbuttons %}
     </form>
 
+{% endblock content %}
 
-    <!-- modal add campo -->
+{% block modal %}
     <div id="addCampo" class="modal fade" role="dialog">
       <div class="modal-dialog">
         <div class="modal-content">
           <div class="modal-header">
-            <button type="button" class="close" data-dismiss="modal">&times;</button>
+            <button type="button" class="close" data-dismiss="modal">&times</button>
             <h4 class="modal-title">Adicionar Campo</h4>
           </div>
           <div class="modal-body">
@@ -46,17 +56,17 @@
               </div>
 
               {% buttons %}
-                    <button name="submit" class="btn btn-primary" id="btnAddCampo">ADICIONAR</button>
+                    <button name="submit" class="btn btn-primary" id="btnAddCampo" data-dismiss="modal">ADICIONAR</button>
               {% endbuttons %}
           </div>
           <div class="modal-footer">
-            <button type="button" class="btn btn-default" data-dismiss="modal">Fechar</button>
+            <button type="button" class="btn btn-default" id="fechar_modal" data-dismiss="modal">Fechar</button>
           </div>
         </div>
       </div>
     </div>
+{% endblock modal %}
 
-{% endblock content %}
 
 {% block script %}
     <script>
@@ -65,7 +75,7 @@
         $("#btnAddCampo").click(function(){
             var nome = '';
             var nome = $("#temp_name").val();
-            var pk = $("#temp_primary").prop('checked')?1:0;
+            var pk = $("#temp_primary").attr('checked')?1:0;
 
             nome = normalizarNome(nome);
 
@@ -75,7 +85,7 @@
                 var dom = '<div id="item_'+num+'"><span class="glyphicon glyphicon-remove remove" aria-hidden="true" id="remove_'+num+'" onclick="removeCampo('+num+');"></span>';
                 dom += '<input type="text" class="form-control item-lista" id="campo_'+num+'" name="campo['+num+']" value="'+nome+'" onfocusout="atualizaNormal('+num+');" /></div>';
                 $("#campos").append(dom);
-                $("#addCampo").modal("hide");
+
                 $("#temp_name").val("");
             }
 

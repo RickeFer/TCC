@@ -1,0 +1,22 @@
+{% extends "app/base.html" %}
+{% load bootstrap %}
+{% load static %}
+
+{% block css %}
+    <title>Grupos</title>
+{% endblock css %}
+
+{% block header %}
+    <h3>Grupos</h3>
+    <a href="{% url 'app:grupo_registrar' %}">Novo Grupo</a>
+{% endblock header %}
+
+{% block content %}
+    <ul>
+        {% for grupo in grupos %}
+            <li>
+                <a href="{% url 'app:grupo' grupo.id %}">{{grupo}}</a>
+            </li>
+        {% endfor %}
+    </ul>
+{% endblock content %}

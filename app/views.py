@@ -7,8 +7,9 @@ from .models import *
 from .forms import TableForm, FieldForm
 
 #meus modulos
-from actions._tabelas import runTabelas
-from actions._tabela import runTabela
+from actions._index import run_index
+from actions._tabelas import run_tabelas
+from actions._tabela import run_tabela
 from actions._add_tabela import runAdd_tabela
 from actions._add_campo import runAdd_campo
 from actions._documentos import run_documentos
@@ -20,24 +21,36 @@ from actions._normalizar_documento import run_normalizar_documento
 from actions._ajax_add_campo import run_ajax_add_campo
 from actions._ajax_renomear_tabela import run_ajax_renomear_tabela
 from actions._ajax_tabela import run_ajax_tabela
+from actions._grupo_registrar import run_grupo_registrar
+from actions._grupos import run_grupos
+from actions._grupo import run_grupo
+from actions._grupo_adicionar_usuario import run_grupo_adicionar_usuario
+from actions._grupo_convite import run_grupo_convite
 
-from classes._util import *
+from classes.util import *
 
 
 def index(request):
     if not verificar_sessao(request): return redirecionar_login()
-    context = {'usuario': get_usuario(request.session['usuario_id'])}
+    context = run_index(request)
+    context['usuario'] = get_usuario(request.session['usuario_id'])
 
     return render(request, 'app/index.html', context)
 
 
 def tabelas(request):
-    context = runTabelas()
+    if not verificar_sessao(request): return redirecionar_login()
+    context = run_tabelas()
+    context['usuario'] = get_usuario(request.session['usuario_id'])
+
     return render(request, 'app/tabelas.html', context)
 
 
 def tabela(request, table_id):
-    context = runTabela(table_id)
+    if not verificar_sessao(request): return redirecionar_login()
+    context = run_tabela(table_id)
+    context['usuario'] = get_usuario(request.session['usuario_id'])
+
     return render(request, 'app/tabela.html', context)
 
 
@@ -70,7 +83,7 @@ def add_campo(request, table_id):
 def documentos(request):
     if not verificar_sessao(request): return redirecionar_login()
 
-    context = run_documentos()
+    context = run_documentos(request)
     context['usuario'] = get_usuario(request.session['usuario_id'])
 
     return render(request, 'app/documentos.html', context)
@@ -82,26 +95,35 @@ def documento(request, documento_id):
     context = run_documento(documento_id)
     context['usuario'] = get_usuario(request.session['usuario_id'])
 
+    if context.get('renomear_tabelas', False):
+        return render(request, 'app/renomear_tabelas.html', context)
+
     return render(request, 'app/documento.html', context)
 
 
 def add_documento(request):
+    if not verificar_sessao(request): return redirecionar_login()
     context = run_add_documento(request)
-    if context:
-        return render(request, 'app/add_documento.html', context)
+    context['usuario'] = get_usuario(request.session['usuario_id'])
+
+    if context['resultado']:
+        if request.method == 'POST':
+            return HttpResponseRedirect(reverse('app:documentos'))
+        elif request.method == 'GET':
+            return render(request, 'app/add_documento.html', context)
     else:
         return HttpResponseRedirect(reverse('app:documentos'))
 
-
+"""
 def normalizar(request, documento_id=0):
     context = run_normalizar(documento_id)
     return render(request, 'app/normalizar2.html', context)
-
+"""
 
 def normalizar_documento(request, documento_id=0):
     context = run_normalizar_documento(request, documento_id)
 
-    if request.method != 'POST':
+    if request.method == 'GET':
 
         if context.get('renomear_tabelas', False):
             response = render(request, 'app/renomear_tabelas.html', context)
@@ -115,13 +137,13 @@ def normalizar_documento(request, documento_id=0):
             elif fn == 2:
                     response = render(request, 'app/forma_normal_3.html', context)
             else:
-                response = render(request, 'app/normalizar.html', context)
+                response = HttpResponseRedirect(reverse('app:documento', args=[documento_id]))#render(request, 'app/normalizar.html', context)
 
         return response
     else:
         context = {'post': request.POST}
         #return render(request, 'app/mostrar_post.html', context)
-        return HttpResponseRedirect(reverse('app:normalizar', args=[documento_id]))
+        return HttpResponseRedirect(reverse('app:documento', args=[documento_id]))
         #return render(request, reverse('normalizar', kwargs{'documento_id':documento_id}), context)
 
 
@@ -159,3 +181,63 @@ def ajax_renomear_tabela(request):
 def ajax_tabela(request, tabela_id):
     context = run_ajax_tabela(request)
     return render(request, 'app/ajax_tabela.html', context)
+
+
+"""
+    GRUPO
+"""
+def grupos(request):
+    if not verificar_sessao(request): return redirecionar_login()
+    context = run_grupos(request)
+    context['usuario'] = get_usuario(request.session['usuario_id'])
+
+    return render(request, 'app/grupos.html', context)
+
+
+def grupo(request, grupo_id):
+    if not verificar_sessao(request): return redirecionar_login()
+    context = run_grupo(request, grupo_id)
+    context['usuario'] = get_usuario(request.session['usuario_id'])
+
+    return render(request, 'app/grupo.html', context)
+
+
+def grupo_registrar(request):
+    if not verificar_sessao(request): return redirecionar_login()
+    context = run_grupo_registrar(request)
+    context['usuario'] = get_usuario(request.session['usuario_id'])
+
+    if context['resultado']:
+        if request.method == 'POST':
+            return HttpResponseRedirect(reverse('app:grupos'))
+        else:
+            return render(request, 'app/grupo_registrar.html', context)
+    else:
+        return render(request, 'app/grupo_registrar.html', context)
+
+
+def grupo_adicionar_usuario(request, grupo_id):
+    if not verificar_sessao(request): return redirecionar_login()
+    context = run_grupo_adicionar_usuario(request, grupo_id)
+    context['usuario'] = get_usuario(request.session['usuario_id'])
+
+    if context['resultado']:
+        if request.method == 'GET':
+            return render(request, 'app/grupo_adicionar_usuario.html', context)
+
+        if request.method == 'POST':
+            return HttpResponseRedirect(reverse('app:grupo', args=[grupo_id]))
+    else:
+        if request.method == 'POST':
+            context['erro'] = 'Erro ao tentar enviar a solicitação<br>Verifique se o email está correto!'
+
+            return render(request, 'app/grupo_adicionar_usuario.html', context)
+
+
+def grupo_convite(request):
+    if not verificar_sessao(request): return redirecionar_login()
+    context = run_grupo_convite(request)
+    context['usuario'] = get_usuario(request.session['usuario_id'])
+
+    if context['resultado']:
+        return HttpResponseRedirect(reverse('app:index'))

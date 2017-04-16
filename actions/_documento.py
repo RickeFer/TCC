@@ -43,6 +43,24 @@ def run_documento(documento_id):
 
             if tabela.forma_normal < fn:
                 fn = tabela.forma_normal
+
+        tabelas_renomear = documento.tabela_set.filter(renomear=True)
+        array_tabelas = []
+        if len(tabelas_renomear):
+            for tabela in tabelas_renomear:
+                temp_rel = tabela.campo_tabela_set.all()
+
+                campos = []
+                for rel in temp_rel:
+                    temp_campo = Campo.objects.get(id=rel.campo.id)
+                    campos.append(temp_campo)
+
+                aux = {'tabela': tabela, 'campos': campos}
+                array_tabelas.append(aux)
+
+            context = {'renomear_tabelas': True, 'tabelas': array_tabelas, 'documento': documento}
+            return context
+
     else:
         fn = 0
 

@@ -1,1 +1,63 @@
 {% extends 'app/base.html' %}
+
+{% block header %}
+    <title>Dashboard | {{usuario}}</title>
+{% endblock header %}
+
+{% block content %}
+
+    {% if solicitacoes %}
+        <h4>Solicitações</h4>
+        <div style="padding:10px">
+            <ul>
+                {% for solicitacao in solicitacoes %}
+                    <li>
+                        {{solicitacao.grupo}}
+                        <span class="glyphicon glyphicon-ok" alt="Aceitar" title="Aceitar" onclick="aceitar({{solicitacao.grupo.id}});"></span>
+                        <span class="glyphicon glyphicon-remove" alt="Excluir" title="Excluir" onclick="if(confirm('Deseja rejeitar a solicitação do grupo?')) rejeitar({{solicitacao.grupo.id}});"></span>
+                    </li>
+                {% endfor %}
+            </ul>
+        </div>
+    {% endif %}
+    {% csrf_token %}
+
+{% endblock %}
+
+{% block script %}
+    <script>
+        function aceitar(id_grupo){
+            var token = $("input[name=csrfmiddlewaretoken]").val();
+
+            $.ajax({
+                type: "POST",
+                url: '{% url 'app:grupo_convite' %}',
+                data: {
+                    'csrfmiddlewaretoken': token,
+                    'aceitar': '1',
+                    'grupo': id_grupo
+                },
+                success: function(ret){
+                    location.reload();
+                }
+            });
+        }
+
+        function rejeitar(id_grupo){
+            var token = $("input[name=csrfmiddlewaretoken]").val();
+
+            $.ajax({
+                type: "POST",
+                url: '{% url 'app:grupo_convite' %}',
+                data: {
+                    'csrfmiddlewaretoken': token,
+                    'rejeitar': '1',
+                    'grupo': id_grupo
+                },
+                success: function(ret){
+                    location.reload();
+                }
+            });
+        }
+    </script>
+{% endblock script %}

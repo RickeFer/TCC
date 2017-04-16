@@ -32,5 +32,11 @@ urlpatterns = [
     url(r'^ajax_renomear_tabela/$', views.ajax_renomear_tabela, name='ajax_renomear_tabela'),
     url(r'^ajax_tabela/(?P<tabela_id>\d+)/$', views.ajax_tabela, name='ajax_tabela'),
 
-    #url(r'^mostrar_post/$', views.mostrar_post, name='mostrar_post'),
+    #grupo
+    url(r'^grupos/$', views.grupos, name='grupos'),
+    url(r'^grupo/(?P<grupo_id>\d+)/$', views.grupo, name='grupo'),
+    url(r'^grupo/registrar/$', views.grupo_registrar, name='grupo_registrar'),
+    url(r'^grupo/(?P<grupo_id>\d+)/usuario/$', views.grupo_adicionar_usuario, name='grupo_adicionar_usuario'),
+    url(r'^grupo/convite/$', views.grupo_convite, name='grupo_convite'),
+
 ] + static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)

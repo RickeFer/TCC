@@ -1,11 +1,23 @@
 from django.db import models
 
 
-array_tipo_restricao = tupla = (
+array_tipo_restricao = (
         ('PK', 'Chave Primária'),
         ('FK', 'Chave Estrangeira'),
         ('Normal', 'Campo Normal')
     )
+array_situacao = (
+    ('OK', 'Membro'),
+    ('Pendente', 'Pendente')
+)
+
+
+class Grupo(models.Model):
+    nome = models.CharField(max_length=50)
+    data_adicionado = models.DateTimeField(auto_now_add=True)
+
+    def __str__(self):
+        return self.nome
 
 
 class Usuario(models.Model):
@@ -13,13 +25,24 @@ class Usuario(models.Model):
     email = models.CharField(max_length=20)
     senha = models.CharField(max_length=64)
     ultima_hash = models.CharField(max_length=64)
+    ultimo_login = models.DateTimeField()
 
     def __str__(self):
         return self.nome
 
 
+class Grupo_Usuario(models.Model):
+    usuario = models.ForeignKey(Usuario)
+    grupo = models.ForeignKey(Grupo)
+    situacao = models.CharField(max_length=10, choices=array_situacao, default='pendente')
+
+    def __str__(self):
+        return self.usuario.nome + ' - ' + self.grupo.nome
+
+
 class Documento(models.Model):
     nome = models.CharField(max_length=20)
+    grupo = models.ForeignKey(Grupo)
     data_adicionado = models.DateTimeField(auto_now_add=True)
 
     def __str__(self):
@@ -51,6 +74,12 @@ class Campo(models.Model):
     nome = models.CharField(max_length=20)
     data_adicionado = models.DateTimeField(auto_now_add=True)
     ordem = models.PositiveSmallIntegerField()
+
+    tipo_atributo = models.CharField(max_length=20, default=None)
+    tamanho_itens = models.CharField(max_length=10, default=None)
+    unsigned = models.BooleanField(default=False)
+    null = models.BooleanField(default=False)
+    zerofill = models.BooleanField(default=False)
 
     def __str__(self):
         return self.nome

@@ -1,30 +1,36 @@
 from app.forms import DocumentForm, FieldForm
-from app.models import Documento, Tabela, Campo, Campo_Tabela
-import pprint
+from app.models import Documento, Tabela, Campo, Campo_Tabela, Grupo
+from classes.util_grupo import *
 
 
 def run_add_documento(request):
+    id_usuario = request.session['usuario_id']
     formDoc = DocumentForm()
     formCamp = FieldForm()
 
     if request.method == 'POST':
-        postDic = request.POST.dict()
+        array_post = request.POST
 
         #cria um novo documento
         documento_novo = Documento()
-        documento_novo.nome = postDic['nome']
+        documento_novo.nome = array_post['nome']
+        
+        #seleciona o grupo do documento
+        grupo = Grupo.objects.get(id=array_post['grupo'])
+        documento_novo.grupo = grupo
+        
         documento_novo.save()
 
         #cria uma tabela base com o mesmo nome do documento
         #para armazenar os campos
         tabela_base = Tabela()
         tabela_base.documento = documento_novo
-        tabela_base.nome = 'tabela_base'#postDic['name']
+        tabela_base.nome = 'tabela_base'#array_post['name']
         tabela_base.tabela_tipo = 0
         tabela_base.save()
 
         array_campos = []
-        for key, val in postDic.items():
+        for key, val in array_post.items():
             if 'campo' in key:
                 aux = {
                     'nome': val,
@@ -43,4 +49,10 @@ def run_add_documento(request):
             tb_campo.save()
 
 
-    return {'formDoc': formDoc, 'formCamp': formCamp}
+        return {'resultado': True, 'formDoc': formDoc, 'formCamp': formCamp}
+
+    elif request.method == 'GET':
+        grupos = listar_grupos_do_usuario(id_usuario, 'normal')
+
+        return {'resultado': True, 'formDoc': formDoc, 'formCamp': formCamp, 'grupos': grupos}
+

@@ -1,0 +1,24 @@
+{% extends "app/base.html" %}
+{% load bootstrap %}
+{% load static %}
+
+{% block header %}
+    <h3>Novo Grupo</h3>
+{% endblock header %}
+
+{% block content %}
+    <div style="text-align:center">
+        <form action="#" method="POST">
+            {% csrf_token %}
+            <div class="row">
+                <div class="form-group col-md-6">
+                    <input type="text" class="form-control" name="nome" id="nome" placeholder="nome"/>
+                </div>
+            </div>
+
+            <input type="hidden" name="id_usuario" value="{{usuario.id}}">
+
+            <button class="btn btn-primary col-md-3">SALVAR</button>
+        </form>
+    </div>
+{% endblock %}

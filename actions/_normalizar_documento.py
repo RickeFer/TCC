@@ -1,6 +1,9 @@
 from app.models import *
 from app.forms import TableForm
-from classes._util import gerarHash
+from classes.util import gerarHash
+
+from classes.util_tabela import *
+from classes.util_documento import *
 
 
 def run_normalizar_documento(request, documento_id):
@@ -214,9 +217,10 @@ def run_normalizar_documento(request, documento_id):
             for tab in tabs:
                 if tab['nome'] == 'sem_tabela':
                     tab['nome'] = documento.name
-                try:
-                    aux = Tabela.objects.get(nome=tab['nome'])
-                except Tabela.DoesNotExist:
+
+                aux = get_tabela_do_documento(documento_id, nome=tab['nome'])
+
+                if aux == None:
                     aux = Tabela(nome=tab['nome'], documento=documento, tabela_tipo=1)
                     aux.save()
 
@@ -224,9 +228,9 @@ def run_normalizar_documento(request, documento_id):
                     for c in tab['campos']:
                         nome = c['nome'].split('[')
 
-                        try:
-                            campo = Campo.objects.get(nome=nome[0])
-                        except Campo.DoesNotExist:
+                        campo = get_campo_documento(documento_id, nome=nome[0])
+
+                        if campo == None:
                             campo = Campo(nome=nome[0], ordem=1)
 
                         campo.save()
@@ -260,7 +264,7 @@ def run_normalizar_documento(request, documento_id):
 
             if flag_fn:
                 for tab in tabs:
-                    aux = Tabela.objects.get(nome=tab['nome'])
+                    aux = get_tabela_do_documento(documento_id, nome=tab['nome'])
                     aux.forma_normal = 1
                     aux.save()
 
@@ -305,7 +309,8 @@ def run_normalizar_documento(request, documento_id):
                             break
                         nome += temp+'_'
 
-                    campo = Campo.objects.get(nome=nome[0:-1])
+                    campo = get_campo_documento(documento_id, nome=nome[0:-1])
+                    #campo = Campo.objects.get(nome=nome[0:-1])
 
                     if nome not in ja_atualizados:
                         ja_atualizados.append(nome)
@@ -313,7 +318,8 @@ def run_normalizar_documento(request, documento_id):
                         for dep in dep_del:
                             dep.delete()
 
-                    aux_chave = Campo.objects.get(nome=valor)
+                    aux_chave = get_chave_documento(documento_id, nome=valor)
+                    #aux_chave = Campo.objects.get(id=valor)
 
                     temp = Dependencia(campo=campo, chave=aux_chave)
                     temp.save()
@@ -388,7 +394,8 @@ def run_normalizar_documento(request, documento_id):
                             rel.save()
 
                         #cria uma chave estrangeira na nova tabela
-                        chave = Campo.objects.get(nome=chave_nome)
+                        chave = get_chave_documento(documento_id, nome=chave_nome, restricao='PK')
+                        #chave = Campo.objects.get(nome=chave_nome)
 
                         #passa a pk para fk
                         array_rel = Campo_Tabela.objects.filter(campo=chave)
@@ -451,7 +458,8 @@ def run_normalizar_documento(request, documento_id):
                 PASSA OS CAMPOS DEPENDENTES PARA AS NOVAS TABELAS
             """
             for key, array_campos in dicionario_dependencia.items():
-                campo = Campo.objects.get(nome=key)
+                campo = get_campo_documento(documento_id, nome=key)
+                #campo = Campo.objects.get(nome=key)
                 rel = campo.campo_tabela_set.get(tipo_campo='Normal')
                 rel.tipo_campo = 'FK'
                 rel.save()
@@ -465,7 +473,8 @@ def run_normalizar_documento(request, documento_id):
                 rel.save()
 
                 for nome_campo in array_campos:
-                    campo = Campo.objects.get(nome=nome_campo)
+                    campo = get_campo_documento(documento_id, nome=nome_campo)
+                    #campo = Campo.objects.get(nome=nome_campo)
                     rel = campo.campo_tabela_set.get(tipo_campo='Normal')
                     rel.tabela = tabela
                     rel.save()

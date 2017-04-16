@@ -2,14 +2,150 @@
 {% load static %}
 
 {% block css %}
-    <title>Tabela {{tabela}}</title>
+    <title>Tabela | {{tabela}}</title>
     <link href="{% static 'css/jquery-ui/start/jquery-ui.css' %}" rel="stylesheet">
 {% endblock css %}
 
 {% block header %}
-
+    <h3>Tabela {{tabela}}</h3>
 {% endblock header %}
 
 {% block content %}
+
+    {% if tabela.primarias %}
+        <div>
+            <h4 style="margin-bottom:0px">Chave Primária</h4>
+            <table class="tabela-campos col-md-12">
+                <thead>
+                    <tr>
+                        <th> </th>
+                        <th>Tipo</th>
+                    </tr>
+                </thead>
+                {% for primaria in tabela.primarias %}
+                    <tr>
+                        <td class="col-md-3" style="text-align: left; padding-left: 7px">
+                            <img src="{% static 'imagens/gold_key.png' %}" />{{primaria}}
+                        </td>
+
+                        <td class="col-md-3">
+                            <select class="selectpicker form-control" name="tipo_{{primaria.id}}">
+                                {% for categoria, tipos in tipos_chave.items %}
+                                    <optgroup label="{{categoria}}">
+                                        {% for tipo in tipos %}
+                                            <option value="{{tipo}}">{{tipo}}</option>
+                                        {% endfor %}
+                                    </optgroup>
+                                {% endfor %}
+                            </select>
+                        </td>
+
+                        <td></td>
+                    </tr>
+                {% endfor %}
+            </table>
+        </div>
+    {% endif %}
+
+    {% if tabela.estrangeiras %}
+        <div>
+            <h4 style="margin-bottom:0px">Chave Estrangeira</h4>
+            <table class="tabela-campos col-md-12">
+                <thead>
+                    <tr>
+                        <th> </th>
+                        <th>Tipo</th>
+                        <th>Tamanho/Itens</th>
+                        <th>Unsigned</th>
+                        <th>NULL</th>
+                        <th>Zerofill</th>
+                    </tr>
+                </thead>
+            {% for estrangeira in tabela.estrangeiras %}
+                <tr>
+                    <td class="col-md-2" style="text-align: left; padding-left: 7px">
+                        <img src="{% static 'imagens/green_key.png' %}" />{{estrangeira}}
+                    </td>
+
+                    <td class="col-md-1">
+                        <select class="selectpicker form-control" name="tipo_{{estrangeira.id}}">
+                            {% for categoria, tipos in tipos_campo.items %}
+                                <optgroup label="{{categoria}}">
+                                    {% for tipo in tipos %}
+                                        <option value="{{tipo}}">{{tipo}}</option>
+                                    {% endfor %}
+                                </optgroup>
+                            {% endfor %}
+                        </select>
+                    </td>
+
+                    <td class="col-md-1">
+                        <input type="number" class="form-control"/>
+                    </td>
+                    <td class="col-md-1">
+                        <input type="checkbox" />
+                    </td>
+                    <td class="col-md-1">
+                        <input type="checkbox" />
+                    </td>
+                    <td class="col-md-1">
+                        <input type="checkbox" />
+                    </td>
+                </tr>
+            {% endfor %}
+            </table>
+        </div>
+    {% endif %}
+
+    {% if tabela.campos %}
+        <div>
+            <h4 style="margin-bottom:0px">Campos</h4>
+            <table class="tabela-campos col-md-12">
+                <thead>
+                    <tr>
+                        <th> </th>
+                        <th>Tipo</th>
+                        <th>Tamanho/Itens</th>
+                        <th>Unsigned</th>
+                        <th>NULL</th>
+                        <th>Zerofill</th>
+                    </tr>
+                </thead>
+            {% for campo in tabela.campos %}
+                <tr>
+                    <td class="col-md-2" style="text-align: left; padding-left: 20px">
+                        {{campo}}
+                    </td>
+
+
+                    <td class="col-md-1">
+                        <select class="selectpicker form-control" name="tipo_{{campo.id}}">
+                            {% for categoria, tipos in tipos_campo.items %}
+                                <optgroup label="{{categoria}}">
+                                    {% for tipo in tipos %}
+                                        <option value="{{tipo}}">{{tipo}}</option>
+                                    {% endfor %}
+                                </optgroup>
+                            {% endfor %}
+                        </select>
+                    </td>
+
+                    <td class="col-md-1">
+                        <input type="number" class="form-control"/>
+                    </td>
+                    <td class="col-md-1">
+                        <input type="checkbox" />
+                    </td>
+                    <td class="col-md-1">
+                        <input type="checkbox" />
+                    </td>
+                    <td class="col-md-1">
+                        <input type="checkbox" />
+                    </td>
+                </tr>
+            {% endfor %}
+            </table>
+        </div>
+    {% endif %}
 
 {% endblock content %}

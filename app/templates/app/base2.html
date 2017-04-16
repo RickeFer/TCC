@@ -1,0 +1,42 @@
+{% load bootstrap3 %}
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="pt">
+    <head>
+        <meta charset="utf-8">
+        <!--<meta http-equiv="X-UA-COMPATIBLE" content="IE=edge">-->
+        <!--<meta name="viewport" content="width=device-width, initial-scale=1">-->
+
+        {% bootstrap_css %}
+        {% bootstrap_javascript %}
+
+        {% block css %}
+        {% endblock css %}
+
+
+        <script type="text/javascript" src="{% static 'jquery/jquery-3.1.1.js' %}"></script>
+        <!--<script type="text/javascript" src="{% static 'bootstrap/js/bootstrap.js' %}"></script>-->
+
+        <link rel="stylesheet" href="{% static 'style.css' %}">
+
+        <script type="text/javascript" src="{% static 'js/jquery-ui.js' %}"></script>
+        <script type="text/javascript" src="{% static 'scripts/util.js' %}"></script>
+    </head>
+
+    <body>
+
+        {% block header %}
+        {% endblock header %}
+
+        {% block content %}
+        {% endblock content %}
+
+        {% block modal %}
+        {% endblock modal %}
+
+    </body>
+</html>
+
+{% block script %}
+{% endblock script %}

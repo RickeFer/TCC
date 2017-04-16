@@ -1,5 +1,6 @@
 from django.http import HttpResponseRedirect
 from django.core.urlresolvers import reverse
+from django.utils import timezone
 import random
 import string
 import hashlib
@@ -61,3 +62,59 @@ def get_usuario(id):
     usuario = Usuario.objects.get(id=id)
 
     return usuario
+
+
+def get_array_tipos_campo():
+    array = {
+        'Numérico': [
+            'BIT',
+            'TINYINT',
+            'BOOL',
+            'SMALLINT',
+            'MEDIUMINT',
+            'INT',
+            'BIGINT',
+            'DECIMAL',
+            'FLOAT',
+            'DOUBLE'
+        ],
+        'Texto': [
+            'CHAR',
+            'VARCHAR',
+            'BINARY',
+            'TINYBLOB',
+            'TINYTEXT',
+            'BLOB',
+            'TEXT',
+            'MEDIUMBLOB',
+            'MEDIUMTEXT',
+            'LONGBLOB',
+            'LONGTEXT',
+            'ENUM',
+            'SET'
+        ],
+        'Data e Hora': [
+            'DATE',
+            'DATETIME',
+            'TIMESTAMP',
+            'TIME',
+            'YEAR'
+        ]
+    }
+
+    return array
+
+def get_array_tipos_chave():
+    array = {
+        'Inteiro': [
+            'BIT',
+            'TINYINT',
+            'BOOL',
+            'SMALLINT',
+            'MEDIUMINT',
+            'INT',
+            'BIGINT',
+        ]
+    }
+
+    return array

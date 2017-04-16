@@ -38,7 +38,7 @@
 
 
 {% block content %}
-    <form action="{% url 'app:normalizar' documento.id %}" method="POST">
+    <form action="{% url 'app:documento' documento.id %}" method="POST">
         <ul class="lista">
             {% for tabela in tabelas %}
                 <li style="margin-bottom: 20px">
