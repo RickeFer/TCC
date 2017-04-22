@@ -1,0 +1,19 @@
+{% extends  'app/base.html' %}
+{% load bootstrap3 %}
+{% load static %}
+
+{% block css %}
+    <title>Script | {{documento}}</title>
+{% endblock css %}
+
+{% block header %}
+    <h3>Script {{documento}}</h3>
+{% endblock header %}
+
+{% block content %}
+    <pre>/*CREATE DAS TABELAS*/<br>{{script_create}}</pre>
+
+    <pre>/*ALTER TABLE PRIMARY KEY*/<br>{{script_alter_primaria}}</pre>
+
+    <pre>/*ALTER TABLE FOREIGN KEY*/<br>{{script_alter_estrangeira}}</pre>
+{% endblock content %}

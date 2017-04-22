@@ -18,23 +18,29 @@
         </small>
     </h3>
 
-    Forma Normal atual: {{fn}}
+    {% if fn < 3 %}
+        Forma Normal atual: {{fn}}
+    {% elif fn == 3 %}
+        Documento Normalizado<br>
+        <a href="{% url 'app:script_documento' documento.id %}">gerar script</a>
+    {% endif %}
 {% endblock header %}
 
 {% block content %}
-    <ul class="lista-tabelas">
-        <!-- lista os campos sem tabelas -->
-        {% if sem_tabela %}<h4>Campos sem tabela</h4>{% endif %}
-        <ul>
-            {% for campo in sem_tabela %}
-                <li>
-                    {{campo}}
-                </li>
-            {% empty %}
-                <h4>Não há campos sem tabelas</h4>
-            {% endfor %}
+    {% if fn < 3 %}
+        <ul class="lista-tabelas">
+            {% if sem_tabela %}<h4>Campos sem tabela</h4>{% endif %}
+            <ul>
+                {% for campo in sem_tabela %}
+                    <li>
+                        {{campo}}
+                    </li>
+                {% empty %}
+                    <h4>Não há campos sem tabelas</h4>
+                {% endfor %}
+            </ul>
         </ul>
-    </ul>
+    {% endif %}
 
     <div class="espacamento"></div>
 
