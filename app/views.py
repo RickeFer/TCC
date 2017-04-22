@@ -26,6 +26,7 @@ from actions._grupos import run_grupos
 from actions._grupo import run_grupo
 from actions._grupo_adicionar_usuario import run_grupo_adicionar_usuario
 from actions._grupo_convite import run_grupo_convite
+from actions._script_documento import run_script_documento
 
 from classes.util import *
 
@@ -113,6 +114,14 @@ def add_documento(request):
             return render(request, 'app/add_documento.html', context)
     else:
         return HttpResponseRedirect(reverse('app:documentos'))
+
+
+def script_documento(request, documento_id):
+    if not verificar_sessao(request): return redirecionar_login()
+    context = run_script_documento(request, documento_id)
+    context['usuario'] = get_usuario(request.session['usuario_id'])
+
+    return render(request, 'app/script_documento.html', context)
 
 """
 def normalizar(request, documento_id=0):

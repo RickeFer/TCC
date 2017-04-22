@@ -60,3 +60,16 @@ def listar_tabelas_documento(documento_id):
     tabelas = documento.tabela_set.all().exclude(tabela_tipo=0)
 
     return tabelas
+
+
+def get_documento_completo(documento_id):
+    documento = Documento.objects.get(id=documento_id)
+
+    documento.tabelas = documento.tabela_set.all().exclude(tabela_tipo=0)
+
+    for tabela in documento.tabelas:
+        tabela.campos = listar_campos_tabela(tabela, False)
+        tabela.primarias = listar_chaves_tabela(tabela, 'PK')
+        tabela.estrangeiras = listar_chaves_tabela(tabela, 'FK')
+
+    return documento

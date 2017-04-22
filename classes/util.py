@@ -118,3 +118,17 @@ def get_array_tipos_chave():
     }
 
     return array
+
+
+def get_tipo_propriedade(tipo):
+    if tipo in ['BIT', 'TINYINT', 'BOOL', 'SMALLINT', 'MEDIUMINT', 'INT', 'BIGINT']:
+        return 'INT'
+
+    if tipo in ['DECIMAL', 'FLOAT', 'DOUBLE']:
+        return 'FLOAT'
+
+    if tipo in ['DATE', 'DATETIME', 'TIMESTAMP', 'TIME', 'YEAR']:
+        return 'DATE'
+
+    if tipo in ['CHAR', 'VARCHAR', 'BINARY', 'TINYBLOB', 'TINYTEXT', 'BLOB', 'TEXT', 'MEDIUMBLOB', 'MEDIUMTEXT', 'LONGBLOB', 'LONGTEXT', 'ENUM', 'SET']:
+        return 'TEXT'
