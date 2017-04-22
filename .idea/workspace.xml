@@ -1,7 +1,17 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="28c31a9a-54a0-4691-b559-60d79594c587" name="Default" comment="" />
+    <list default="true" id="28c31a9a-54a0-4691-b559-60d79594c587" name="Default" comment="">
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/actions/_tabela.py" afterPath="$PROJECT_DIR$/actions/_tabela.py" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/actions/_tabelas.py" afterPath="$PROJECT_DIR$/actions/_tabelas.py" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/templates/app/base.html" afterPath="$PROJECT_DIR$/app/templates/app/base.html" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/templates/app/tabela.html" afterPath="$PROJECT_DIR$/app/templates/app/tabela.html" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/templates/app/tabelas.html" afterPath="$PROJECT_DIR$/app/templates/app/tabelas.html" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/views.py" afterPath="$PROJECT_DIR$/app/views.py" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/classes/util_documento.py" afterPath="$PROJECT_DIR$/classes/util_documento.py" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/static/style.css" afterPath="$PROJECT_DIR$/static/style.css" />
+    </list>
     <ignored path="TG.iws" />
     <ignored path=".idea/workspace.xml" />
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
@@ -24,6 +34,7 @@
         <entry file="file://$PROJECT_DIR$/app/templates/app/tabela.html">
           <provider selected="true" editor-type-id="text-editor">
             <state relative-caret-position="1019">
+<<<<<<< HEAD
               <caret line="135" column="22" lean-forward="false" selection-start-line="135" selection-start-column="22" selection-end-line="135" selection-end-column="22" />
               <folding>
                 <element signature="n#style#0;n#h4#0;n#div#0;n#!!top" expanded="true" />
@@ -33,6 +44,10 @@
                 <element signature="n#style#0;n#h4#0;n#div#2;n#!!top" expanded="true" />
                 <element signature="n#style#0;n#td#0;n#tr#0;n#table#0;n#div#2;n#!!top" expanded="true" />
               </folding>
+=======
+              <caret line="261" column="11" lean-forward="false" selection-start-line="261" selection-start-column="11" selection-end-line="261" selection-end-column="11" />
+              <folding />
+>>>>>>> script
             </state>
           </provider>
         </entry>
@@ -41,7 +56,11 @@
         <entry file="file://$PROJECT_DIR$/classes/util.py">
           <provider selected="true" editor-type-id="text-editor">
             <state relative-caret-position="229">
+<<<<<<< HEAD
               <caret line="78" column="20" lean-forward="false" selection-start-line="69" selection-start-column="12" selection-end-line="78" selection-end-column="20" />
+=======
+              <caret line="78" column="20" lean-forward="true" selection-start-line="69" selection-start-column="12" selection-end-line="78" selection-end-column="20" />
+>>>>>>> script
               <folding />
             </state>
           </provider>
@@ -51,10 +70,15 @@
         <entry file="file://$PROJECT_DIR$/actions/_tabela.py">
           <provider selected="true" editor-type-id="text-editor">
             <state relative-caret-position="16">
+<<<<<<< HEAD
               <caret line="6" column="0" lean-forward="false" selection-start-line="6" selection-start-column="0" selection-end-line="6" selection-end-column="0" />
               <folding>
                 <marker date="1492885441208" expanded="true" signature="114:528" ph="..." />
               </folding>
+=======
+              <caret line="27" column="31" lean-forward="false" selection-start-line="27" selection-start-column="31" selection-end-line="27" selection-end-column="31" />
+              <folding />
+>>>>>>> script
             </state>
           </provider>
         </entry>
@@ -64,6 +88,7 @@
           <provider selected="true" editor-type-id="text-editor">
             <state relative-caret-position="255">
               <caret line="50" column="19" lean-forward="false" selection-start-line="50" selection-start-column="19" selection-end-line="50" selection-end-column="19" />
+<<<<<<< HEAD
               <folding>
                 <marker date="1492885441333" expanded="true" signature="1506:1599" ph="..." />
                 <marker date="1492885441333" expanded="true" signature="1850:1983" ph="..." />
@@ -96,6 +121,9 @@
                 <marker date="1492885441333" expanded="true" signature="7723:7910" ph="..." />
                 <marker date="1492885441333" expanded="true" signature="7940:8203" ph="..." />
               </folding>
+=======
+              <folding />
+>>>>>>> script
             </state>
           </provider>
         </entry>
@@ -104,7 +132,11 @@
         <entry file="file://$PROJECT_DIR$/static/style.css">
           <provider selected="true" editor-type-id="text-editor">
             <state relative-caret-position="303">
+<<<<<<< HEAD
               <caret line="62" column="2" lean-forward="false" selection-start-line="62" selection-start-column="2" selection-end-line="62" selection-end-column="2" />
+=======
+              <caret line="64" column="2" lean-forward="false" selection-start-line="64" selection-start-column="1" selection-end-line="64" selection-end-column="2" />
+>>>>>>> script
               <folding />
             </state>
           </provider>
@@ -122,12 +154,6 @@
   </component>
   <component name="FindInProjectRecents">
     <findStrings>
-      <find>classe</find>
-      <find>classes</find>
-      <find>reverse</find>
-      <find>tupla</find>
-      <find>postDic</find>
-      <find>ti</find>
       <find>timezo</find>
       <find>timezon</find>
       <find>timezone</find>
@@ -152,6 +178,12 @@
       <find>get_tabela_do_documento</find>
       <find>forma_normal_2</find>
       <find>Tamanho</find>
+      <find>btn</find>
+      <find>uti</find>
+      <find>util</find>
+      <find>util.</find>
+      <find>util.p</find>
+      <find>util.py</find>
     </findStrings>
     <replaceStrings>
       <replace>tabela_set</replace>
@@ -171,7 +203,6 @@
   <component name="IdeDocumentHistory">
     <option name="CHANGED_PATHS">
       <list>
-        <option value="$PROJECT_DIR$/app/templates/usuarios/base.html" />
         <option value="$PROJECT_DIR$/usuarios/urls.py" />
         <option value="$PROJECT_DIR$/usuarios/views.py" />
         <option value="$PROJECT_DIR$/TG/urls.py" />
@@ -207,20 +238,21 @@
         <option value="$PROJECT_DIR$/actions/_grupo_convite.py" />
         <option value="$PROJECT_DIR$/classes/util_grupo.py" />
         <option value="$PROJECT_DIR$/app/templates/app/base2.html" />
-        <option value="$PROJECT_DIR$/app/templates/app/base.html" />
         <option value="$PROJECT_DIR$/app/templates/app/forma_normal_1.html" />
-        <option value="$PROJECT_DIR$/classes/util_documento.py" />
         <option value="$PROJECT_DIR$/app/templates/app/forma_normal_2.html" />
         <option value="$PROJECT_DIR$/actions/_documento.py" />
         <option value="$PROJECT_DIR$/actions/_normalizar_documento.py" />
         <option value="$PROJECT_DIR$/app/templates/app/renomear_tabelas.html" />
-        <option value="$PROJECT_DIR$/app/templates/app/tabelas.html" />
-        <option value="$PROJECT_DIR$/app/views.py" />
         <option value="$PROJECT_DIR$/classes/util_tabela.py" />
-        <option value="$PROJECT_DIR$/static/style.css" />
         <option value="$PROJECT_DIR$/classes/util.py" />
-        <option value="$PROJECT_DIR$/actions/_tabela.py" />
         <option value="$PROJECT_DIR$/app/models.py" />
+        <option value="$PROJECT_DIR$/actions/_tabelas.py" />
+        <option value="$PROJECT_DIR$/classes/util_documento.py" />
+        <option value="$PROJECT_DIR$/app/templates/app/tabelas.html" />
+        <option value="$PROJECT_DIR$/static/style.css" />
+        <option value="$PROJECT_DIR$/app/templates/app/base.html" />
+        <option value="$PROJECT_DIR$/app/views.py" />
+        <option value="$PROJECT_DIR$/actions/_tabela.py" />
         <option value="$PROJECT_DIR$/app/templates/app/tabela.html" />
       </list>
     </option>
@@ -451,7 +483,11 @@
   <component name="ToolWindowManager">
     <frame x="-8" y="-8" width="1382" height="744" extended-state="6" />
     <layout>
+<<<<<<< HEAD
       <window_info id="Project" active="true" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.24886535" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
+=======
+      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.24886535" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
+>>>>>>> script
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
       <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.3289689" sideWeight="0.5" order="7" side_tool="true" content_ui="tabs" />
       <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.30932897" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
@@ -474,9 +510,12 @@
       <window_info id="Python Console" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.3289689" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Hierarchy" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="2" side_tool="false" content_ui="combo" />
+<<<<<<< HEAD
       <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.24130106" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
       <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.30932897" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
+=======
+>>>>>>> script
       <window_info id="Ant Build" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.4" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Favorites" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="2" side_tool="true" content_ui="tabs" />
@@ -566,13 +605,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="0">
           <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/actions/_tabelas.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="51">
-          <caret line="4" column="4" lean-forward="false" selection-start-line="4" selection-start-column="4" selection-end-line="4" selection-end-column="4" />
         </state>
       </provider>
     </entry>
@@ -758,20 +790,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/app/templates/app/base.html">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="102">
-          <caret line="18" column="8" lean-forward="false" selection-start-line="18" selection-start-column="8" selection-end-line="18" selection-end-column="102" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app/templates/app/forma_normal_1.html">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="177">
-          <caret line="276" column="46" lean-forward="false" selection-start-line="276" selection-start-column="40" selection-end-line="276" selection-end-column="46" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/actions/_normalizar.py">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="-18">
@@ -790,13 +808,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="228">
           <caret line="55" column="87" lean-forward="true" selection-start-line="55" selection-start-column="87" selection-end-line="55" selection-end-column="87" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/classes/util_documento.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="612">
-          <caret line="38" column="23" lean-forward="false" selection-start-line="38" selection-start-column="4" selection-end-line="38" selection-end-column="23" />
         </state>
       </provider>
     </entry>
@@ -821,22 +832,30 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/app/templates/app/tabelas.html">
+    <entry file="file://$PROJECT_DIR$/app/templates/app/add_documento.html">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="306">
-          <caret line="24" column="28" lean-forward="true" selection-start-line="24" selection-start-column="28" selection-end-line="24" selection-end-column="28" />
+        <state relative-caret-position="297">
+          <caret line="58" column="103" lean-forward="false" selection-start-line="58" selection-start-column="83" selection-end-line="58" selection-end-column="103" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/models.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="373">
+          <caret line="89" column="63" lean-forward="false" selection-start-line="89" selection-start-column="63" selection-end-line="89" selection-end-column="63" />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/classes/util_tabela.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="407">
-          <caret line="37" column="63" lean-forward="false" selection-start-line="37" selection-start-column="63" selection-end-line="37" selection-end-column="63" />
+        <state relative-caret-position="51">
+          <caret line="3" column="4" lean-forward="false" selection-start-line="3" selection-start-column="4" selection-end-line="3" selection-end-column="4" />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/app/views.py">
+    <entry file="file://$PROJECT_DIR$/app/templates/app/base.html">
       <provider selected="true" editor-type-id="text-editor">
+<<<<<<< HEAD
         <state relative-caret-position="255">
           <caret line="50" column="19" lean-forward="false" selection-start-line="50" selection-start-column="19" selection-end-line="50" selection-end-column="19" />
           <folding>
@@ -871,28 +890,64 @@
             <marker date="1492885441333" expanded="true" signature="7723:7910" ph="..." />
             <marker date="1492885441333" expanded="true" signature="7940:8203" ph="..." />
           </folding>
+=======
+        <state relative-caret-position="322">
+          <caret line="84" column="45" lean-forward="false" selection-start-line="84" selection-start-column="45" selection-end-line="84" selection-end-column="45" />
+>>>>>>> script
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/app/templates/app/add_documento.html">
+    <entry file="file://$PROJECT_DIR$/app/templates/app/tabelas.html">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="297">
-          <caret line="58" column="103" lean-forward="false" selection-start-line="58" selection-start-column="83" selection-end-line="58" selection-end-column="103" />
+        <state relative-caret-position="220">
+          <caret line="22" column="66" lean-forward="false" selection-start-line="22" selection-start-column="66" selection-end-line="22" selection-end-column="66" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/classes/util_documento.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="390">
+          <caret line="57" column="54" lean-forward="false" selection-start-line="57" selection-start-column="54" selection-end-line="57" selection-end-column="54" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/actions/_tabelas.py">
+      <provider selected="true" editor-type-id="text-editor">
+<<<<<<< HEAD
+        <state relative-caret-position="303">
+          <caret line="62" column="2" lean-forward="false" selection-start-line="62" selection-start-column="2" selection-end-line="62" selection-end-column="2" />
+=======
+        <state relative-caret-position="204">
+          <caret line="12" column="42" lean-forward="false" selection-start-line="12" selection-start-column="42" selection-end-line="12" selection-end-column="42" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/templates/app/forma_normal_1.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="17">
+          <caret line="1" column="0" lean-forward="true" selection-start-line="1" selection-start-column="0" selection-end-line="1" selection-end-column="21" />
+>>>>>>> script
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/views.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="255">
+          <caret line="50" column="19" lean-forward="false" selection-start-line="50" selection-start-column="19" selection-end-line="50" selection-end-column="19" />
+          <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/static/style.css">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="303">
-          <caret line="62" column="2" lean-forward="false" selection-start-line="62" selection-start-column="2" selection-end-line="62" selection-end-column="2" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/classes/util.py">
-      <provider selected="true" editor-type-id="text-editor">
+<<<<<<< HEAD
         <state relative-caret-position="229">
           <caret line="78" column="20" lean-forward="false" selection-start-line="69" selection-start-column="12" selection-end-line="78" selection-end-column="20" />
+=======
+        <state relative-caret-position="303">
+          <caret line="64" column="2" lean-forward="false" selection-start-line="64" selection-start-column="1" selection-end-line="64" selection-end-column="2" />
+>>>>>>> script
           <folding />
         </state>
       </provider>
@@ -900,15 +955,21 @@
     <entry file="file://$PROJECT_DIR$/actions/_tabela.py">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="16">
+<<<<<<< HEAD
           <caret line="6" column="0" lean-forward="false" selection-start-line="6" selection-start-column="0" selection-end-line="6" selection-end-column="0" />
           <folding>
             <marker date="1492885441208" expanded="true" signature="114:528" ph="..." />
           </folding>
+=======
+          <caret line="27" column="31" lean-forward="false" selection-start-line="27" selection-start-column="31" selection-end-line="27" selection-end-column="31" />
+          <folding />
+>>>>>>> script
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/app/templates/app/tabela.html">
+    <entry file="file://$PROJECT_DIR$/classes/util.py">
       <provider selected="true" editor-type-id="text-editor">
+<<<<<<< HEAD
         <state relative-caret-position="1019">
           <caret line="135" column="22" lean-forward="false" selection-start-line="135" selection-start-column="22" selection-end-line="135" selection-end-column="22" />
           <folding>
@@ -919,13 +980,18 @@
             <element signature="n#style#0;n#h4#0;n#div#2;n#!!top" expanded="true" />
             <element signature="n#style#0;n#td#0;n#tr#0;n#table#0;n#div#2;n#!!top" expanded="true" />
           </folding>
+=======
+        <state relative-caret-position="229">
+          <caret line="78" column="20" lean-forward="true" selection-start-line="69" selection-start-column="12" selection-end-line="78" selection-end-column="20" />
+          <folding />
+>>>>>>> script
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/app/models.py">
+    <entry file="file://$PROJECT_DIR$/app/templates/app/tabela.html">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="373">
-          <caret line="89" column="63" lean-forward="false" selection-start-line="89" selection-start-column="63" selection-end-line="89" selection-end-column="63" />
+        <state relative-caret-position="1019">
+          <caret line="261" column="11" lean-forward="false" selection-start-line="261" selection-start-column="11" selection-end-line="261" selection-end-column="11" />
           <folding />
         </state>
       </provider>

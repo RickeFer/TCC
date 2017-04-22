@@ -1,4 +1,5 @@
 {% extends 'app/base.html' %}
+{% load bootstrap3 %}
 {% load static %}
 
 {% block css %}
@@ -12,28 +13,72 @@
 
 {% block content %}
 
-    {% if tabela.primarias %}
-        <div>
-            <h4 style="margin-bottom:0px">Chave Primária</h4>
-            <table class="tabela-campos col-md-12">
-                <thead>
-                    <tr>
-                        <th> </th>
-                        <th>Tipo</th>
-                    </tr>
-                </thead>
-                {% for primaria in tabela.primarias %}
+    <form action="{% url 'app:tabela' tabela.id %}" method="POST">
+        {% if tabela.primarias %}
+            <div>
+                <h4 style="margin-bottom:0px">Chave Primária</h4>
+                <table class="tabela-campos col-md-12">
+                    <thead>
+                        <tr>
+                            <th> </th>
+                            <th>Tipo</th>
+                        </tr>
+                    </thead>
+                    {% for primaria in tabela.primarias %}
+                        <tr>
+                            <td class="col-md-3" style="text-align: left; padding-left: 7px">
+                                <img src="{% static 'imagens/gold_key.png' %}" />{{primaria}}
+                            </td>
+
+                            <td class="col-md-3">
+                                <select class="selectpicker form-control" name="tipo_{{primaria.id}}">
+                                    {% for categoria, tipos in tipos_chave.items %}
+                                        <optgroup label="{{categoria}}">
+                                            {% for tipo in tipos %}
+                                                {% if tipo == primaria.tipo_atributo %}
+                                                    <option value="{{tipo}}" selected>{{tipo}}</option>
+                                                {% else %}
+                                                    <option value="{{tipo}}">{{tipo}}</option>
+                                                {% endif %}
+                                            {% endfor %}
+                                        </optgroup>
+                                    {% endfor %}
+                                </select>
+                            </td>
+
+                            <td></td>
+                        </tr>
+                    {% endfor %}
+                </table>
+            </div>
+        {% endif %}
+
+        {% if tabela.estrangeiras %}
+            <div>
+                <h4 style="margin-bottom:0px">Chave Estrangeira</h4>
+                <table class="tabela-campos col-md-12">
+                    <thead>
+                        <tr>
+                            <th> </th>
+                            <th>Tipo</th>
+                        </tr>
+                    </thead>
+                {% for estrangeira in tabela.estrangeiras %}
                     <tr>
                         <td class="col-md-3" style="text-align: left; padding-left: 7px">
-                            <img src="{% static 'imagens/gold_key.png' %}" />{{primaria}}
+                            <img src="{% static 'imagens/green_key.png' %}" />{{estrangeira}}
                         </td>
 
                         <td class="col-md-3">
-                            <select class="selectpicker form-control" name="tipo_{{primaria.id}}">
+                            <select class="selectpicker form-control" name="tipo_{{estrangeira.id}}">
                                 {% for categoria, tipos in tipos_chave.items %}
                                     <optgroup label="{{categoria}}">
                                         {% for tipo in tipos %}
-                                            <option value="{{tipo}}">{{tipo}}</option>
+                                            {% if tipo == estrangeira.tipo_atributo %}
+                                                <option value="{{tipo}}" selected>{{tipo}}</option>
+                                            {% else %}
+                                                <option value="{{tipo}}">{{tipo}}</option>
+                                            {% endif %}
                                         {% endfor %}
                                     </optgroup>
                                 {% endfor %}
@@ -43,94 +88,177 @@
                         <td></td>
                     </tr>
                 {% endfor %}
-            </table>
-        </div>
-    {% endif %}
+                </table>
+            </div>
+        {% endif %}
 
-    {% if tabela.estrangeiras %}
-        <div>
-            <h4 style="margin-bottom:0px">Chave Estrangeira</h4>
-            <table class="tabela-campos col-md-12">
-                <thead>
+        {% if tabela.campos %}
+            <div>
+                <h4 style="margin-bottom:0px">Campos</h4>
+                <table class="tabela-campos col-md-12">
+                    <thead>
+                        <tr>
+                            <th> </th>
+                            <th>Tipo</th>
+                            <th>Tamanho/Itens</th>
+                            <th>Unsigned</th>
+                            <th>NULL</th>
+                            <th>Zerofill</th>
+                        </tr>
+                    </thead>
+                {% for campo in tabela.campos %}
                     <tr>
-                        <th> </th>
-                        <th>Tipo</th>
+                        <td class="col-md-2" style="text-align: left; padding-left: 20px">
+                            {{campo}}
+                        </td>
+
+
+                        <td class="col-md-1">
+                            <select class="selectpicker form-control tipo-atributo" name="tipo_{{campo.id}}" id-campo="{{campo.id}}">
+                                {% for categoria, tipos in tipos_campo.items %}
+                                    <optgroup label="{{categoria}}">
+                                        {% for tipo in tipos %}
+                                            {% if tipo == campo.tipo_atributo %}
+                                                <option value="{{tipo}}" selected>{{tipo}}</option>
+                                            {% else %}
+                                                <option value="{{tipo}}">{{tipo}}</option>
+                                            {% endif %}
+                                        {% endfor %}
+                                    </optgroup>
+                                {% endfor %}
+                            </select>
+                        </td>
+
+                        <td class="col-md-1">
+                            <input type="text" class="form-control" id="tamanho_{{campo.id}}" name="tamanho_{{campo.id}}" value="{{campo.tamanho_itens}}"/>
+                        </td>
+                        <td class="col-md-1">
+                            <input type="checkbox" {% if campo.unsigned %} checked {% endif %} id="unsigned_{{campo.id}}" name="unsigned_{{campo.id}}"/>
+                        </td>
+                        <td class="col-md-1">
+                            <input type="checkbox" {% if campo.null %} checked {% endif %} id="null_{{campo.id}}" name="null_{{campo.id}}"/>
+                        </td>
+                        <td class="col-md-1">
+                            <input type="checkbox" {% if campo.zerofill %} checked {% endif %} id="zerofill_{{campo.id}}" name="zerofill_{{campo.id}}"/>
+                        </td>
                     </tr>
-                </thead>
-            {% for estrangeira in tabela.estrangeiras %}
-                <tr>
-                    <td class="col-md-3" style="text-align: left; padding-left: 7px">
-                        <img src="{% static 'imagens/green_key.png' %}" />{{estrangeira}}
-                    </td>
+                {% endfor %}
+                </table>
+            </div>
+        {% endif %}
 
-                    <td class="col-md-3">
-                        <select class="selectpicker form-control" name="tipo_{{estrangeira.id}}">
-                            {% for categoria, tipos in tipos_chave.items %}
-                                <optgroup label="{{categoria}}">
-                                    {% for tipo in tipos %}
-                                        <option value="{{tipo}}">{{tipo}}</option>
-                                    {% endfor %}
-                                </optgroup>
-                            {% endfor %}
-                        </select>
-                    </td>
+        {% csrf_token %}
 
-                    <td></td>
-                </tr>
-            {% endfor %}
-            </table>
-        </div>
-    {% endif %}
-
-    {% if tabela.campos %}
-        <div>
-            <h4 style="margin-bottom:0px">Campos</h4>
-            <table class="tabela-campos col-md-12">
-                <thead>
-                    <tr>
-                        <th> </th>
-                        <th>Tipo</th>
-                        <th>Tamanho/Itens</th>
-                        <th>Unsigned</th>
-                        <th>NULL</th>
-                        <th>Zerofill</th>
-                    </tr>
-                </thead>
-            {% for campo in tabela.campos %}
-                <tr>
-                    <td class="col-md-2" style="text-align: left; padding-left: 20px">
-                        {{campo}}
-                    </td>
-
-
-                    <td class="col-md-1">
-                        <select class="selectpicker form-control" name="tipo_{{campo.id}}">
-                            {% for categoria, tipos in tipos_campo.items %}
-                                <optgroup label="{{categoria}}">
-                                    {% for tipo in tipos %}
-                                        <option value="{{tipo}}">{{tipo}}</option>
-                                    {% endfor %}
-                                </optgroup>
-                            {% endfor %}
-                        </select>
-                    </td>
-
-                    <td class="col-md-1">
-                        <input type="number" class="form-control"/>
-                    </td>
-                    <td class="col-md-1">
-                        <input type="checkbox" {% if  campo.unsigned %} checked {% endif %}/>
-                    </td>
-                    <td class="col-md-1">
-                        <input type="checkbox" {% if  campo.null %} checked {% endif %}/>
-                    </td>
-                    <td class="col-md-1">
-                        <input type="checkbox" {% if  campo.zerofill %} checked {% endif %}/>
-                    </td>
-                </tr>
-            {% endfor %}
-            </table>
-        </div>
-    {% endif %}
+        {% buttons %}
+            <button type="submit" class="btn btn-primary">SALVAR</button>
+        {% endbuttons %}
+    </form>
 
 {% endblock content %}
+
+
+{% block script %}
+    <script>
+        var array_texto = [
+            'CHAR',
+            'VARCHAR',
+            'BINARY',
+            'TINYBLOB',
+            'TINYTEXT',
+            'BLOB',
+            'TEXT',
+            'MEDIUMBLOB',
+            'MEDIUMTEXT',
+            'LONGBLOB',
+            'LONGTEXT',
+            'ENUM',
+            'SET'
+        ];
+
+        var array_data = [
+            'DATE',
+            'DATETIME',
+            'TIMESTAMP',
+            'TIME',
+            'YEAR'
+        ];
+
+        var array_numerico = [
+            'BIT',
+            'TINYINT',
+            'BOOL',
+            'SMALLINT',
+            'MEDIUMINT',
+            'INT',
+            'BIGINT',
+            'DECIMAL',
+            'FLOAT',
+            'DOUBLE'
+        ];
+
+
+        $(".tipo-atributo").change(function(){
+            var id = $(this).attr('id-campo');
+
+            /*TEXTO*/
+            if(array_texto.indexOf($(this).val())>-1){
+                $("#unsigned_"+id).hide();
+                $("#zerofill_"+id).hide();
+
+                $("#null_"+id).show();
+                $("#tamanho_"+id).show();
+            }
+
+            /*DATA HORA*/
+            if(array_data.indexOf($(this).val())>-1){
+                $("#unsigned_"+id).hide();
+                $("#zerofill_"+id).hide();
+                $("#null_"+id).hide();
+                $("#tamanho_"+id).hide();
+            }
+
+            /*NUMERICO*/
+            if(array_numerico.indexOf($(this).val())>-1){
+                $("#unsigned_"+id).show();
+                $("#zerofill_"+id).show();
+                $("#null_"+id).show();
+                $("#tamanho_"+id).show();
+                $("#tamanho_"+id).attr("type", "number");
+            }
+        });
+
+
+
+        $(document).ready(function(){
+            $(".tipo-atributo").each(function(){
+                var id = $(this).attr('id-campo');
+
+                /*TEXTO*/
+                if(array_texto.indexOf($(this).val())>-1){
+                    $("#unsigned_"+id).hide();
+                    $("#zerofill_"+id).hide();
+
+                    $("#null_"+id).show();
+                    $("#tamanho_"+id).show();
+                }
+
+                /*DATA HORA*/
+                if(array_data.indexOf($(this).val())>-1){
+                    $("#unsigned_"+id).hide();
+                    $("#zerofill_"+id).hide();
+                    $("#null_"+id).hide();
+                    $("#tamanho_"+id).hide();
+                }
+
+                /*NUMERICO*/
+                if(array_numerico.indexOf($(this).val())>-1){
+                    $("#unsigned_"+id).show();
+                    $("#zerofill_"+id).show();
+                    $("#null_"+id).show();
+                    $("#tamanho_"+id).show();
+                    $("#tamanho_"+id).attr("type", "number");
+                }
+            });
+        });
+    </script>
+{% endblock script %}

@@ -52,3 +52,11 @@ def get_chave_documento(id_documento, nome=False, id=False, restricao='PK'):
                     return campo
 
     return None
+
+
+def listar_tabelas_documento(documento_id):
+    documento = Documento.objects.get(id=documento_id)
+
+    tabelas = documento.tabela_set.all().exclude(tabela_tipo=0)
+
+    return tabelas

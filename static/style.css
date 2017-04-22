@@ -61,3 +61,14 @@
 .tabela-campos tr td { text-align: center; padding: 3px }
 .tabela-campos tr td select { width: 150px; display: inline; margin: 3px 15px }
 .tabela-campos tr td img { width: 15px }
+
+.btn-toggle
+{
+    margin-top: 10px;
+    background-color: rgb(61, 61, 103);
+    color: #CCC;
+    border-top-left-radius: 0px;
+    border-bottom-left-radius: 0px;
+}
+
+.btn-toggle:hover { color: white; }
