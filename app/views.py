@@ -40,7 +40,7 @@ def index(request):
 
 def tabelas(request):
     if not verificar_sessao(request): return redirecionar_login()
-    context = run_tabelas()
+    context = run_tabelas(request)
     context['usuario'] = get_usuario(request.session['usuario_id'])
 
     return render(request, 'app/tabelas.html', context)
@@ -48,7 +48,7 @@ def tabelas(request):
 
 def tabela(request, table_id):
     if not verificar_sessao(request): return redirecionar_login()
-    context = run_tabela(table_id)
+    context = run_tabela(request, table_id)
     context['usuario'] = get_usuario(request.session['usuario_id'])
 
     return render(request, 'app/tabela.html', context)
