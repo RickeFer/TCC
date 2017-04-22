@@ -3,5 +3,5 @@ tgenv/
 app/__pycache__
 actions/__pycache__
 *.sqlite3
-.idea
+.idea/
 *.xml

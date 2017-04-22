@@ -2,15 +2,8 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="28c31a9a-54a0-4691-b559-60d79594c587" name="Default" comment="">
+      <change type="DELETED" beforePath="$PROJECT_DIR$/requitements.txt" afterPath="" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/actions/_tabela.py" afterPath="$PROJECT_DIR$/actions/_tabela.py" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/actions/_tabelas.py" afterPath="$PROJECT_DIR$/actions/_tabelas.py" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/templates/app/base.html" afterPath="$PROJECT_DIR$/app/templates/app/base.html" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/templates/app/tabela.html" afterPath="$PROJECT_DIR$/app/templates/app/tabela.html" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/templates/app/tabelas.html" afterPath="$PROJECT_DIR$/app/templates/app/tabelas.html" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/views.py" afterPath="$PROJECT_DIR$/app/views.py" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/classes/util_documento.py" afterPath="$PROJECT_DIR$/classes/util_documento.py" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/static/style.css" afterPath="$PROJECT_DIR$/static/style.css" />
     </list>
     <ignored path="TG.iws" />
     <ignored path=".idea/workspace.xml" />
@@ -29,25 +22,13 @@
     <favorites_list name="TG" />
   </component>
   <component name="FileEditorManager">
-    <leaf>
+    <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
       <file leaf-file-name="tabela.html" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/app/templates/app/tabela.html">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="1019">
-<<<<<<< HEAD
-              <caret line="135" column="22" lean-forward="false" selection-start-line="135" selection-start-column="22" selection-end-line="135" selection-end-column="22" />
-              <folding>
-                <element signature="n#style#0;n#h4#0;n#div#0;n#!!top" expanded="true" />
-                <element signature="n#style#0;n#td#0;n#tr#0;n#table#0;n#div#0;n#!!top" expanded="true" />
-                <element signature="n#style#0;n#h4#0;n#div#1;n#!!top" expanded="true" />
-                <element signature="n#style#0;n#td#0;n#tr#0;n#table#0;n#div#1;n#!!top" expanded="true" />
-                <element signature="n#style#0;n#h4#0;n#div#2;n#!!top" expanded="true" />
-                <element signature="n#style#0;n#td#0;n#tr#0;n#table#0;n#div#2;n#!!top" expanded="true" />
-              </folding>
-=======
+            <state relative-caret-position="475">
               <caret line="261" column="11" lean-forward="false" selection-start-line="261" selection-start-column="11" selection-end-line="261" selection-end-column="11" />
               <folding />
->>>>>>> script
             </state>
           </provider>
         </entry>
@@ -55,12 +36,8 @@
       <file leaf-file-name="util.py" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/classes/util.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="229">
-<<<<<<< HEAD
+            <state relative-caret-position="1207">
               <caret line="78" column="20" lean-forward="false" selection-start-line="69" selection-start-column="12" selection-end-line="78" selection-end-column="20" />
-=======
-              <caret line="78" column="20" lean-forward="true" selection-start-line="69" selection-start-column="12" selection-end-line="78" selection-end-column="20" />
->>>>>>> script
               <folding />
             </state>
           </provider>
@@ -69,16 +46,9 @@
       <file leaf-file-name="_tabela.py" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/actions/_tabela.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="16">
-<<<<<<< HEAD
-              <caret line="6" column="0" lean-forward="false" selection-start-line="6" selection-start-column="0" selection-end-line="6" selection-end-column="0" />
-              <folding>
-                <marker date="1492885441208" expanded="true" signature="114:528" ph="..." />
-              </folding>
-=======
+            <state relative-caret-position="425">
               <caret line="27" column="31" lean-forward="false" selection-start-line="27" selection-start-column="31" selection-end-line="27" selection-end-column="31" />
               <folding />
->>>>>>> script
             </state>
           </provider>
         </entry>
@@ -86,44 +56,9 @@
       <file leaf-file-name="views.py" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/app/views.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="255">
+            <state relative-caret-position="357">
               <caret line="50" column="19" lean-forward="false" selection-start-line="50" selection-start-column="19" selection-end-line="50" selection-end-column="19" />
-<<<<<<< HEAD
-              <folding>
-                <marker date="1492885441333" expanded="true" signature="1506:1599" ph="..." />
-                <marker date="1492885441333" expanded="true" signature="1850:1983" ph="..." />
-                <marker date="1492885441333" expanded="true" signature="2010:2462" ph="..." />
-                <marker date="1492885441333" expanded="true" signature="2015:2276" ph="&quot;&quot;&quot;...&quot;&quot;&quot;" />
-                <marker date="1492885441333" expanded="true" signature="2498:2708" ph="..." />
-                <marker date="1492885441333" expanded="true" signature="2735:2968" ph="..." />
-                <marker date="1492885441333" expanded="true" signature="3008:3361" ph="..." />
-                <marker date="1492885441333" expanded="true" signature="3391:3881" ph="..." />
-                <marker date="1492885441333" expanded="true" signature="3596:3808" ph="..." />
-                <marker date="1492885441333" expanded="true" signature="3883:4034" ph="&quot;&quot;&quot;...&quot;&quot;&quot;" />
-                <marker date="1492885441333" expanded="true" signature="4086:5170" ph="..." />
-                <marker date="1492885441333" expanded="true" signature="4181:4869" ph="..." />
-                <marker date="1492885441333" expanded="true" signature="4324:4844" ph="..." />
-                <marker date="1492885441333" expanded="true" signature="4879:5170" ph="..." />
-                <marker date="1492885441333" expanded="true" signature="5208:5690" ph="..." />
-                <marker date="1492885441333" expanded="true" signature="5347:5449" ph="..." />
-                <marker date="1492885441333" expanded="true" signature="5459:5669" ph="..." />
-                <marker date="1492885441333" expanded="true" signature="5727:5832" ph="..." />
-                <marker date="1492885441333" expanded="true" signature="5875:5992" ph="..." />
-                <marker date="1492885441333" expanded="true" signature="6037:6136" ph="..." />
-                <marker date="1492885441333" expanded="true" signature="6139:6156" ph="&quot;&quot;&quot;...&quot;&quot;&quot;" />
-                <marker date="1492885441333" expanded="true" signature="6177:6401" ph="..." />
-                <marker date="1492885441333" expanded="true" signature="6433:6665" ph="..." />
-                <marker date="1492885441333" expanded="true" signature="6697:7168" ph="..." />
-                <marker date="1492885441333" expanded="true" signature="6904:7090" ph="..." />
-                <marker date="1492885441333" expanded="true" signature="7218:7910" ph="..." />
-                <marker date="1492885441333" expanded="true" signature="7443:7676" ph="..." />
-                <marker date="1492885441333" expanded="true" signature="7686:7910" ph="..." />
-                <marker date="1492885441333" expanded="true" signature="7723:7910" ph="..." />
-                <marker date="1492885441333" expanded="true" signature="7940:8203" ph="..." />
-              </folding>
-=======
               <folding />
->>>>>>> script
             </state>
           </provider>
         </entry>
@@ -131,12 +66,8 @@
       <file leaf-file-name="style.css" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/static/style.css">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="303">
-<<<<<<< HEAD
-              <caret line="62" column="2" lean-forward="false" selection-start-line="62" selection-start-column="2" selection-end-line="62" selection-end-column="2" />
-=======
+            <state relative-caret-position="1088">
               <caret line="64" column="2" lean-forward="false" selection-start-line="64" selection-start-column="1" selection-end-line="64" selection-end-column="2" />
->>>>>>> script
               <folding />
             </state>
           </provider>
@@ -482,44 +413,26 @@
   </component>
   <component name="ToolWindowManager">
     <frame x="-8" y="-8" width="1382" height="744" extended-state="6" />
+    <editor active="true" />
     <layout>
-<<<<<<< HEAD
-      <window_info id="Project" active="true" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.24886535" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
-=======
       <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.24886535" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
->>>>>>> script
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
       <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.3289689" sideWeight="0.5" order="7" side_tool="true" content_ui="tabs" />
-      <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.30932897" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
+      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.3289689" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Python Console" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.3289689" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
-      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
-      <window_info id="Favorites" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="2" side_tool="true" content_ui="tabs" />
       <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.4" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
+      <window_info id="Favorites" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="2" side_tool="true" content_ui="tabs" />
       <window_info id="Data View" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32980332" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Cvs" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
-      <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
       <window_info id="Message" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
       <window_info id="Commander" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.4" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
-      <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.3289689" sideWeight="0.5" order="7" side_tool="true" content_ui="tabs" />
       <window_info id="Inspection" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.4" sideWeight="0.5" order="5" side_tool="false" content_ui="tabs" />
-      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
-      <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.3289689" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
-      <window_info id="Python Console" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.3289689" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
-      <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Hierarchy" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="2" side_tool="false" content_ui="combo" />
-<<<<<<< HEAD
-      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.24130106" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
       <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.30932897" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
-      <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
-=======
->>>>>>> script
       <window_info id="Ant Build" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
-      <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.4" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
-      <window_info id="Favorites" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="2" side_tool="true" content_ui="tabs" />
-      <window_info id="Data View" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32980332" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
     </layout>
   </component>
   <component name="UnknownFeatures">
@@ -855,45 +768,8 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/app/templates/app/base.html">
       <provider selected="true" editor-type-id="text-editor">
-<<<<<<< HEAD
-        <state relative-caret-position="255">
-          <caret line="50" column="19" lean-forward="false" selection-start-line="50" selection-start-column="19" selection-end-line="50" selection-end-column="19" />
-          <folding>
-            <marker date="1492885441333" expanded="true" signature="1506:1599" ph="..." />
-            <marker date="1492885441333" expanded="true" signature="1850:1983" ph="..." />
-            <marker date="1492885441333" expanded="true" signature="2010:2462" ph="..." />
-            <marker date="1492885441333" expanded="true" signature="2015:2276" ph="&quot;&quot;&quot;...&quot;&quot;&quot;" />
-            <marker date="1492885441333" expanded="true" signature="2498:2708" ph="..." />
-            <marker date="1492885441333" expanded="true" signature="2735:2968" ph="..." />
-            <marker date="1492885441333" expanded="true" signature="3008:3361" ph="..." />
-            <marker date="1492885441333" expanded="true" signature="3391:3881" ph="..." />
-            <marker date="1492885441333" expanded="true" signature="3596:3808" ph="..." />
-            <marker date="1492885441333" expanded="true" signature="3883:4034" ph="&quot;&quot;&quot;...&quot;&quot;&quot;" />
-            <marker date="1492885441333" expanded="true" signature="4086:5170" ph="..." />
-            <marker date="1492885441333" expanded="true" signature="4181:4869" ph="..." />
-            <marker date="1492885441333" expanded="true" signature="4324:4844" ph="..." />
-            <marker date="1492885441333" expanded="true" signature="4879:5170" ph="..." />
-            <marker date="1492885441333" expanded="true" signature="5208:5690" ph="..." />
-            <marker date="1492885441333" expanded="true" signature="5347:5449" ph="..." />
-            <marker date="1492885441333" expanded="true" signature="5459:5669" ph="..." />
-            <marker date="1492885441333" expanded="true" signature="5727:5832" ph="..." />
-            <marker date="1492885441333" expanded="true" signature="5875:5992" ph="..." />
-            <marker date="1492885441333" expanded="true" signature="6037:6136" ph="..." />
-            <marker date="1492885441333" expanded="true" signature="6139:6156" ph="&quot;&quot;&quot;...&quot;&quot;&quot;" />
-            <marker date="1492885441333" expanded="true" signature="6177:6401" ph="..." />
-            <marker date="1492885441333" expanded="true" signature="6433:6665" ph="..." />
-            <marker date="1492885441333" expanded="true" signature="6697:7168" ph="..." />
-            <marker date="1492885441333" expanded="true" signature="6904:7090" ph="..." />
-            <marker date="1492885441333" expanded="true" signature="7218:7910" ph="..." />
-            <marker date="1492885441333" expanded="true" signature="7443:7676" ph="..." />
-            <marker date="1492885441333" expanded="true" signature="7686:7910" ph="..." />
-            <marker date="1492885441333" expanded="true" signature="7723:7910" ph="..." />
-            <marker date="1492885441333" expanded="true" signature="7940:8203" ph="..." />
-          </folding>
-=======
         <state relative-caret-position="322">
           <caret line="84" column="45" lean-forward="false" selection-start-line="84" selection-start-column="45" selection-end-line="84" selection-end-column="45" />
->>>>>>> script
         </state>
       </provider>
     </entry>
@@ -913,10 +789,6 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/actions/_tabelas.py">
       <provider selected="true" editor-type-id="text-editor">
-<<<<<<< HEAD
-        <state relative-caret-position="303">
-          <caret line="62" column="2" lean-forward="false" selection-start-line="62" selection-start-column="2" selection-end-line="62" selection-end-column="2" />
-=======
         <state relative-caret-position="204">
           <caret line="12" column="42" lean-forward="false" selection-start-line="12" selection-start-column="42" selection-end-line="12" selection-end-column="42" />
         </state>
@@ -926,14 +798,12 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="17">
           <caret line="1" column="0" lean-forward="true" selection-start-line="1" selection-start-column="0" selection-end-line="1" selection-end-column="21" />
->>>>>>> script
-          <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/app/views.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="255">
+        <state relative-caret-position="357">
           <caret line="50" column="19" lean-forward="false" selection-start-line="50" selection-start-column="19" selection-end-line="50" selection-end-column="19" />
           <folding />
         </state>
@@ -941,56 +811,31 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/static/style.css">
       <provider selected="true" editor-type-id="text-editor">
-<<<<<<< HEAD
-        <state relative-caret-position="229">
-          <caret line="78" column="20" lean-forward="false" selection-start-line="69" selection-start-column="12" selection-end-line="78" selection-end-column="20" />
-=======
-        <state relative-caret-position="303">
+        <state relative-caret-position="1088">
           <caret line="64" column="2" lean-forward="false" selection-start-line="64" selection-start-column="1" selection-end-line="64" selection-end-column="2" />
->>>>>>> script
           <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/actions/_tabela.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="16">
-<<<<<<< HEAD
-          <caret line="6" column="0" lean-forward="false" selection-start-line="6" selection-start-column="0" selection-end-line="6" selection-end-column="0" />
-          <folding>
-            <marker date="1492885441208" expanded="true" signature="114:528" ph="..." />
-          </folding>
-=======
+        <state relative-caret-position="425">
           <caret line="27" column="31" lean-forward="false" selection-start-line="27" selection-start-column="31" selection-end-line="27" selection-end-column="31" />
           <folding />
->>>>>>> script
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/classes/util.py">
       <provider selected="true" editor-type-id="text-editor">
-<<<<<<< HEAD
-        <state relative-caret-position="1019">
-          <caret line="135" column="22" lean-forward="false" selection-start-line="135" selection-start-column="22" selection-end-line="135" selection-end-column="22" />
-          <folding>
-            <element signature="n#style#0;n#h4#0;n#div#0;n#!!top" expanded="true" />
-            <element signature="n#style#0;n#td#0;n#tr#0;n#table#0;n#div#0;n#!!top" expanded="true" />
-            <element signature="n#style#0;n#h4#0;n#div#1;n#!!top" expanded="true" />
-            <element signature="n#style#0;n#td#0;n#tr#0;n#table#0;n#div#1;n#!!top" expanded="true" />
-            <element signature="n#style#0;n#h4#0;n#div#2;n#!!top" expanded="true" />
-            <element signature="n#style#0;n#td#0;n#tr#0;n#table#0;n#div#2;n#!!top" expanded="true" />
-          </folding>
-=======
-        <state relative-caret-position="229">
-          <caret line="78" column="20" lean-forward="true" selection-start-line="69" selection-start-column="12" selection-end-line="78" selection-end-column="20" />
+        <state relative-caret-position="1207">
+          <caret line="78" column="20" lean-forward="false" selection-start-line="69" selection-start-column="12" selection-end-line="78" selection-end-column="20" />
           <folding />
->>>>>>> script
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/app/templates/app/tabela.html">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="1019">
+        <state relative-caret-position="475">
           <caret line="261" column="11" lean-forward="false" selection-start-line="261" selection-start-column="11" selection-end-line="261" selection-end-column="11" />
           <folding />
         </state>
