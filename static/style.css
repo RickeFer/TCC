@@ -64,11 +64,30 @@
 
 .btn-toggle
 {
-    margin-top: 10px;
+    position: fixed;
+    top: 10px;
     background-color: rgb(61, 61, 103);
     color: #CCC;
     border-top-left-radius: 0px;
     border-bottom-left-radius: 0px;
+    z-index: 666;
 }
 
 .btn-toggle:hover { color: white; }
+
+.div-tabela
+{
+    padding: 7px;
+    border: 1px solid black;
+    display: inline;
+}
+
+.item
+{
+    position: absolute;
+    height: 50px;
+    width: 50px;
+    border: 1px solid black;
+    border-radius: 7px;
+    text-align: center;
+}

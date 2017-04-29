@@ -17,8 +17,6 @@ def get_tabela_do_documento(id_documento, nome=False, id=False):
 
         return None
 
-    return None
-
 
 def listar_campos_tabela(tabela, chaves=True):
     if chaves:
@@ -86,7 +84,7 @@ def gerar_script_create(tabela):
 
         script += ','
 
-    script = script[:-1]+'\n);\n\n';
+    script = script[:-1]+'\n);\n\n'
 
     return script
 
@@ -105,6 +103,7 @@ def gerar_script_alter_primaria(tabela):
 
     return script
 
+
 def gerar_script_alter_estrangeira(tabela):
     script = 'ALTER TABLE ' + tabela.nome.lower()
 
@@ -117,8 +116,23 @@ def gerar_script_alter_estrangeira(tabela):
             script += '\nFOREIGN KEY ('+chave.nome.lower()+')'
             script += ' REFERENCES '+rel_temp.tabela.nome.lower()
             script += '('+chave.nome.lower()+');'
-            script += '\n\n';
+            script += '\n\n'
 
         return script
     else:
         return ''
+
+
+def listar_dependencias(tabela):
+    campos = listar_campos_tabela(tabela)
+
+    for campo in campos:
+        dependencias = Dependencia.objects.filter(campo=campo)
+
+    return dependencias
+
+
+def listar_relacao_campo(tabela):
+    relacao = tabela.campo_tabela_set.all()
+
+    return relacao

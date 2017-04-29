@@ -1,0 +1,39 @@
+{% extends  'app/base.html' %}
+{% load bootstrap3 %}
+{% load static %}
+
+{% block css %}
+    <title>Documento - {{documento}}</title>
+{% endblock css %}
+
+{% block header %}
+    <h3>Diagrama {{documento}}</h3>
+{% endblock header %}
+
+
+{% block content %}
+
+    <div id="left" class="item">left</div>
+
+    <div id="right" class="item" style="left:50%">right</div>
+
+{% endblock content %}
+
+
+{% block script %}
+    <script src="{% static '3rd/jsplumb.js' %}"></script>
+    <script>
+        jsPlumb.ready(function(){
+            jsPlumb.draggable("left");
+            jsPlumb.draggable("right");
+
+            jsPlumb.connect({
+                source:"left",
+                target:"right",
+                endpoint:["Rectangle", { width:7, height:7 }],
+                detachable: false
+            });
+        });
+
+    </script>
+{% endblock script %}

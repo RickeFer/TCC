@@ -22,7 +22,8 @@
         Forma Normal atual: {{fn}}
     {% elif fn == 3 %}
         Documento Normalizado<br>
-        <a href="{% url 'app:script_documento' documento.id %}">gerar script</a>
+        <a href="{% url 'app:script_documento' documento.id %}">gerar script</a><br>
+        <a href="{% url 'app:diagrama_documento' documento.id %}">gerar diagrama</a>
     {% endif %}
 {% endblock header %}
 
@@ -55,11 +56,17 @@
 
                 <ul style="display: none" id="campos_{{tabela}}">
                     {% for chave in tabela.chaves %}
-                        <li>{{chave}} PK</li>
+                        <li>
+                            {{chave}}
+                            <img src="{% static 'imagens/gold_key.png' %}" width="17"/>
+                        </li>
                     {% endfor %}
 
                     {% for chave in tabela.estrangeiras %}
-                        <li>{{chave}} FK</li>
+                        <li>
+                            {{chave}}
+                            <img src="{% static 'imagens/green_key.png' %}" width="17"/>
+                        </li>
                     {% endfor %}
 
                     {% for campo in tabela.campos %}
