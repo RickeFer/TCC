@@ -151,7 +151,9 @@ def normalizar(request, documento_id=0):
 """
 
 def normalizar_documento(request, documento_id=0):
+    if not verificar_sessao(request): return redirecionar_login()
     context = run_normalizar_documento(request, documento_id)
+    context['usuario'] = get_usuario(request.session['usuario_id'])
 
     if request.method == 'GET':
 

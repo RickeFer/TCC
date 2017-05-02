@@ -113,5 +113,13 @@
             $("#item_"+num).remove();
         }
 
+
+        $("#temp_name").keyup(function(e){
+            let codigo = e.which;
+
+            if(codigo==13)
+                $("#btnAddCampo").click();
+        });
+
     </script>
 {% endblock script %}

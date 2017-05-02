@@ -75,7 +75,7 @@ class Campo(models.Model):
     data_adicionado = models.DateTimeField(auto_now_add=True)
     ordem = models.PositiveSmallIntegerField()
 
-    tipo_atributo = models.CharField(max_length=20, blank=True, null=True)
+    tipo_atributo = models.CharField(max_length=20, default='INT')
     tamanho_itens = models.CharField(max_length=10, blank=True, null=True)
     unsigned = models.BooleanField(default=False)
     null = models.BooleanField(default=False)

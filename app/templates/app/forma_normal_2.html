@@ -27,50 +27,52 @@
 
 {% block content %}
     <form action="{% url 'app:normalizar' documento.id %}" method="POST">
-        {% for tabela in arrayTabelas %}
-            <div style="padding: 15px">
-                <h4>{{tabela.tabela}}</h4>
+        <div class="col-md-12">
+            {% for tabela in arrayTabelas %}
+                <div style="padding: 15px">
+                    <h4>{{tabela.tabela}}</h4>
 
-                {% for campo in tabela.chaves %}
-                    <div class="dropdown" style="display: inline">
-                        <div class="campo chave-primaria" id="{{campo}}_campo" style="cursor: context-menu">
-                            {{campo}}
+                    {% for campo in tabela.chaves %}
+                        <div class="dropdown" style="display: inline">
+                            <div class="campo chave-primaria" id="{{campo}}_campo" style="cursor: context-menu">
+                                {{campo}}
+                            </div>
                         </div>
-                    </div>
-                {% endfor %}
+                    {% endfor %}
 
 
-                {% for campo in tabela.campos %}
-                    <div class="dropdown" style="display: inline">
-                        <div class="campo {% if campo.primary %}chave-primaria{% endif %} dropdown-toggle" id="{{campo}}_campo"
-                             onmouseover="mostrarOp('{{campo}}')"
-                             onmouseout="esconderOp('{{campo}}')" style="cursor: context-menu">
+                    {% for campo in tabela.campos %}
+                        <div class="dropdown" style="display: inline">
+                            <div class="campo {% if campo.primary %}chave-primaria{% endif %} dropdown-toggle" id="{{campo}}_campo"
+                                 onmouseover="mostrarOp('{{campo}}')"
+                                 onmouseout="esconderOp('{{campo}}')" style="cursor: context-menu">
 
-                            {{campo}}
-                            <span class="caret opcoes" style="display: none" id="{{campo}}_op" data-toggle="dropdown" aria-haspopup="false" aria-expanded="false"></span>
+                                {{campo}}
+                                <span class="caret opcoes" style="display: none" id="{{campo}}_op" data-toggle="dropdown" aria-haspopup="false" aria-expanded="false"></span>
 
-                            <ul class="dropdown-menu dropdown-menu-meu" aria-labelledby="{{campo}}_op">
-                                <li onclick="setarDependencia('{{campo}}', '{% for chave in tabela.chaves %} {{chave}} {% endfor %}');" id="li_chave_{{campo}}">Chave Inteira</li>
-                                <li role="separator" class="divider"></li>
-                                {% for chave in tabela.chaves %}
-                                    <li onclick="setarDependencia('{{campo}}', '{{chave}}');" class="item_chave_{{campo}}" id="{{campo}}_{{chave}}">{{chave}}</li>
+                                <ul class="dropdown-menu dropdown-menu-meu" aria-labelledby="{{campo}}_op">
+                                    <li onclick="setarDependencia('{{campo}}', '{% for chave in tabela.chaves %} {{chave}} {% endfor %}');" id="li_chave_{{campo}}">Chave Inteira</li>
+                                    <li role="separator" class="divider"></li>
+                                    {% for chave in tabela.chaves %}
+                                        <li onclick="setarDependencia('{{campo}}', '{{chave}}');" class="item_chave_{{campo}}" id="{{campo}}_{{chave}}">{{chave}}</li>
+                                    {% endfor %}
+                                    <li role="separator" class="divider"></li>
+                                    <li onclick="limparDependencia('{{campo}}');">Limpar Dependências</li>
+                                </ul>
+
+                                {% for dep in tabela.dependencias %}
+                                    {% if campo == dep.campo %}
+                                        <input type="hidden" class="{{campo}}_dependencia" value="{{dep.chave}}" />
+                                    {% endif %}
                                 {% endfor %}
-                                <li role="separator" class="divider"></li>
-                                <li onclick="limparDependencia('{{campo}}');">Limpar Dependências</li>
-                            </ul>
-
-                            {% for dep in tabela.dependencias %}
-                                {% if campo == dep.campo %}
-                                    <input type="hidden" class="{{campo}}_dependencia" value="{{dep.chave}}" />
-                                {% endif %}
-                            {% endfor %}
+                            </div>
                         </div>
-                    </div>
-                {% endfor %}
-            </div>
-        {% endfor %}
+                    {% endfor %}
+                </div>
+            {% endfor %}
+        </div>
 
-        <div style="height: 50px"></div>
+        <div class="col-md-12" style="height: 50px"></div>
 
         <input type="hidden" name="forma_normal" value="2" />
         {% csrf_token %}
@@ -153,96 +155,7 @@
             });
 
             //ATUALIZA OS COOKIES COM OS NOMES DAS TABELAS
-            Cookies.set('tabelas', String(nomes.toLowerCase()), {expires: 1});
-        }
-
-        //submissao ajax para adicionar tabela
-        $("#btnAddTabela").click(function(){
-            var nome = $("#nova_tabela").val();
-            var pag = 'normalizar';
-            var documento = {{documento.id}};
-            var token = $("input[name=csrfmiddlewaretoken]").val();
-
-            nome = normalizarNome(nome);
-
-            if(nome != ""){
-                $.ajax({
-                    type: 'POST',
-                    url: '{% url 'app:ajax_add_tabela' %}',
-                    data: {
-                        'nome': nome,
-                        'pag': pag,
-                        'documento': documento,
-                        'csrfmiddlewaretoken': token
-                    },
-                    success: function(ret){
-                        var aux = parseInt(ret.content);
-                        if(aux === 1)
-                            alert('Já existe uma tabela com esse nome!');
-                        else{
-                            $("#todas_tabelas").append(ret.content);
-                            $("#addTabela").modal("hide");
-                            $("#nova_tabela").val("");
-                            atualizarTabelas();
-                            verificaQuantidadeTabelas();
-                            setarMensagem();
-                        }
-                    }
-                });
-            }
-            else
-                alert("Insira um nome para a nova tabela!");
-        });
-
-        //submissao ajax para adicionar campo
-        $("#btnAddCampo").click(function(){
-            var nome = $("#novo_campo").val();
-            var pag = 'normalizar';
-            var documento = {{documento.id}};
-            var token = $("input[name=csrfmiddlewaretoken]").val();
-
-            nome = normalizarNome(nome);
-
-            if(nome != ""){
-                $.ajax({
-                    type: 'POST',
-                    url: '{% url 'app:ajax_add_campo' %}',
-                    data: {
-                        'nome': nome,
-                        'pag': pag,
-                        'documento': documento,
-                        'csrfmiddlewaretoken': token
-                    },
-                    success: function(ret){
-                        $(ret.content).insertAfter($("#sem_tabela"));
-                        $("#novo_campo").val("");
-                        $("#addCampo").modal("hide");
-                        $("#sem_tabela").show();
-                        $("#espaco-sem-tabela").show();
-                    }
-                });
-            }
-            else
-                alert("Insira um nome para o novo campo!");
-        });
-
-        function drag(ev){
-            //ev.dataTransfer.setData("text", ev.target.id);
-        }
-
-        function drop(ev){
-            //ev.preventDefault();
-            //var data = ev.dataTransfer.getData("text");
-            //ev.target.appendChild(document.getElementById(data));
-            var aux = $(ev.target).attr("id").split("_")[0];
-            var id = "#"+aux+"_primaria";
-            $(ev.target).css("background-color", "rgb(119, 138, 102)");
-            $(ev.target).css("border", "1px solid rgb(218, 213, 94)");
-            $(ev.target).css("background", "rgb(255, 250, 144)");
-            $(id).val(1);
-        }
-        function allowDrop(ev){
-            ev.preventDefault();
+            //Cookies.set('tabelas', String(nomes.toLowerCase()), {expires: 1});
         }
 
 
@@ -357,6 +270,7 @@
                     $("#mensagem-geral").fadeOut(3000);
 
                     enviar = false;
+
                     return false;
                 }
             });

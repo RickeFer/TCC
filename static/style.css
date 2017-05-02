@@ -82,6 +82,7 @@
     display: inline;
 }
 
+
 .item
 {
     position: absolute;
@@ -90,4 +91,20 @@
     border: 1px solid black;
     border-radius: 7px;
     text-align: center;
+}
+
+
+.lista .header
+{
+    padding: 10px;
+    background-color: rgb(61, 61, 103);
+    color: white;
+    font-weight: bold;
+}
+.lista  .header:hover { background-color: rgba(61, 61, 103, .9); }
+
+.lista .item-tabela
+{
+    padding: 10px 30px;
+    background-color: rgba(61, 61, 103, .2);
 }

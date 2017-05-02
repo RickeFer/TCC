@@ -12,18 +12,18 @@
 {% endblock header %}
 
 {% block content %}
-    <ul id="lista-tabelas">
-        {% for doc in documentos %}
-            <li>
+    <div class="lista">
+        {% for documento in documentos %}
+            <div class="header" onclick="abrir_documento({{documento.id}});">
                 <span class="glyphicon glyphicon-remove" aria-hidden="true" onclick="if(confirm('Deseja deletar este documento?'))deletar_documento({{doc.id}});"></span>
-                <a href="{% url 'app:documento' doc.id %}">{{doc}}</a>
-            </li>
+                {{documento}}
+            </div>
         {% empty %}
-            <li>
+            <div>
                 Não há documentos cadastrados
-            </li>
+            </div>
         {% endfor %}
-    </ul>
+    </div>
 
 {% endblock content %}
 
@@ -38,6 +38,10 @@
                     console.log(ret);
                 }
             });
+        }
+
+        function abrir_documento(documento_id){
+            location.href = "/documentos/"+documento_id;
         }
     </script>
 {% endblock script %}

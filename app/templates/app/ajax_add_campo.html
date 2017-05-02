@@ -1,7 +1,8 @@
 
 {% if pag == 'normalizar' %}
 <!--    <li class="ui-state-default campo" id="{{campo}}">-->
-    <li class="ui-state-default campo" id="{{campo}}" onfocusout="atualizaPosCampo({{campo}});"  ondragover="allowDrop(event)" ondrop="drop(event)">
+    <li class="ui-state-default campo col-md-1" id="{{campo}}" onfocusout="atualizaPosCampo({{campo}});"  ondragover="allowDrop(event)" ondrop="drop(event)"
+            alt="{{campo}}" title="{{campo}}">
         {{campo}}
         <input type="hidden" id="{{campo}}_primaria" name="{{campo}}[primaria]" value="0" />
         <input type="hidden" id="{{campo}}_top" name="{{campo}}['top']" value="0" />

@@ -1,6 +1,8 @@
 from app.forms import DocumentForm, FieldForm
 from app.models import Documento, Tabela, Campo, Campo_Tabela, Grupo
+
 from classes.util_grupo import *
+from classes.util import *
 
 
 def run_add_documento(request):
@@ -42,7 +44,7 @@ def run_add_documento(request):
             temp = Campo()
             #temp.tabela = tabela_base
             temp.ordem = campo['pos']
-            temp.nome = campo['nome']
+            temp.nome = underlined(campo['nome'])
             temp.save()
 
             tb_campo = Campo_Tabela(campo=temp, tabela=tabela_base, tipo_campo='Normal')

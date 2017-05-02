@@ -19,10 +19,14 @@ def get_tabela_do_documento(id_documento, nome=False, id=False):
 
 
 def listar_campos_tabela(tabela, chaves=True):
-    if chaves:
-        rel_temp = tabela.campo_tabela_set.all()
-    else:
-        rel_temp = tabela.campo_tabela_set.filter(tipo_campo='Normal')
+    try:
+        if chaves:
+            rel_temp = tabela.campo_tabela_set.all()
+        else:
+            rel_temp = tabela.campo_tabela_set.filter(tipo_campo='Normal')
+    except:
+
+        return []
 
     array_campo = []
     for rel in rel_temp:
@@ -133,6 +137,22 @@ def listar_dependencias(tabela):
 
 
 def listar_relacao_campo(tabela):
-    relacao = tabela.campo_tabela_set.all()
+    try:
+        relacao = tabela.campo_tabela_set.all()
 
-    return relacao
+        return relacao
+    except:
+        return []
+
+
+def get_relacionamento(tabela):
+    array_relacao = []
+
+    array_temp = tabela.campo_tabela_set.all()
+
+    for rel_temp in array_temp:
+        if rel_temp.tipo_campo == 'FK':
+            rel = Campo_Tabela.objects.get(campo=rel_temp.campo, tipo_campo='PK')
+            array_relacao.append(rel.tabela.id)
+
+    return array_relacao
