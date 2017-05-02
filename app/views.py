@@ -6,6 +6,8 @@ from django_ajax.decorators import ajax
 from .models import *
 from .forms import TableForm, FieldForm
 
+import json
+
 #meus modulos
 from actions._index import run_index
 from actions._tabelas import run_tabelas
@@ -27,6 +29,8 @@ from actions._grupo import run_grupo
 from actions._grupo_adicionar_usuario import run_grupo_adicionar_usuario
 from actions._grupo_convite import run_grupo_convite
 from actions._script_documento import run_script_documento
+from actions._diagrama_documento import run_diagrama_documento
+from actions._documento_deletar import run_documento_deletar
 
 from classes.util import *
 
@@ -116,12 +120,29 @@ def add_documento(request):
         return HttpResponseRedirect(reverse('app:documentos'))
 
 
+@ajax
+def documento_deletar(request, documento_id):
+    if not verificar_sessao(request): return redirecionar_login()
+    context = run_documento_deletar(request, documento_id)
+    #context['usuario'] = get_usuario(request.session['usuario_id'])
+
+    return HttpResponse(json.dumps(context), content_type="application/json")
+
+
 def script_documento(request, documento_id):
     if not verificar_sessao(request): return redirecionar_login()
     context = run_script_documento(request, documento_id)
     context['usuario'] = get_usuario(request.session['usuario_id'])
 
     return render(request, 'app/script_documento.html', context)
+
+
+def diagrama_documento(request, documento_id):
+    if not verificar_sessao(request): return redirecionar_login()
+    context = run_diagrama_documento(request, documento_id)
+    context['usuario'] = get_usuario(request.session['usuario_id'])
+
+    return render(request, 'app/diagrama_documento.html', context)
 
 """
 def normalizar(request, documento_id=0):
@@ -130,7 +151,9 @@ def normalizar(request, documento_id=0):
 """
 
 def normalizar_documento(request, documento_id=0):
+    if not verificar_sessao(request): return redirecionar_login()
     context = run_normalizar_documento(request, documento_id)
+    context['usuario'] = get_usuario(request.session['usuario_id'])
 
     if request.method == 'GET':
 

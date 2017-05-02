@@ -1,0 +1,110 @@
+{% extends  'app/base.html' %}
+{% load bootstrap3 %}
+{% load static %}
+
+{% block css %}
+    <title>Documento - {{documento}}</title>
+
+    <style>
+        .tabela
+        {
+            border:1px solid black;
+            text-align: center;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+    </style>
+{% endblock css %}
+
+{% block header %}
+    <h3>Diagrama {{documento}}</h3>
+{% endblock header %}
+
+
+{% block content %}
+
+    <div>
+        {% for tabela in documento.tabelas %}
+            <div class="tabela item" id="tabela_{{tabela.id}}" tabela-id="{{tabela.id}}" relacoes="{{tabela.relacao}}" style="left:{{tabela.pos}}px; width:150px;z-index:666; background-color:#CCC">
+                {{tabela}}
+            </div>
+        {% endfor %}
+    </div>
+
+    <br><br><br>
+
+    <!--
+    <div id="tabela_1" class="item col-md-1" style="border:1px solid black; padding:5px;">1</div>
+    <div id="tabela_2" class="item col-md-1" style="border:1px solid black; padding:5px; left:300px">2</div>
+    -->
+{% endblock content %}
+
+
+{% block script %}
+    <script src="{% static '3rd/jsplumb.js' %}"></script>
+    <script>
+        $(window).ready(function(){
+            $("#wrapper").toggleClass("toggled");
+        });
+
+        jsPlumb.ready(function(){
+            let conexoes = []
+
+            $(".item").each(function(){
+                let id = $(this).attr("id");
+                let relacoes = $(this).attr("relacoes").replace("[", "").replace("]", "").split(",");
+                let tabela = $(this).attr("tabela-id");
+
+                for(let i=0; i<relacoes.length; i++){
+                    let aux = {"source":tabela, "target":relacoes[i]};
+
+                    if(tabela && relacoes[i])
+                        conexoes.push(aux);
+                }
+
+                jsPlumb.draggable(id);
+            });
+
+            console.log(conexoes);
+
+            for(let i=0; i<conexoes.length; i++){
+                jsPlumb.connect({
+                    source:"tabela_"+conexoes[i].source,
+                    target:"tabela_"+conexoes[i].target,
+                    anchor:[ "Continuous", { faces:["top","bottom", "left", "right"] }],
+                    //paintStyle:{ stroke:"red", strokeWidth: 1 },
+                    Endpoint: ["Dot", {radius: 2}],
+                    connector: "StateMachine",
+                    detachable: false
+                });
+            }
+
+
+            /*
+            jsPlumb.connect({
+                source:"tabela_125",
+                target:"tabela_127",
+                anchor:[ "Continuous", { faces:["top","bottom", "left", "right"] }],
+                Endpoint: ["Dot", {radius: 2}],
+                connector: "StateMachine",
+                paintStyle: { stroke: "red", strokeWidth: 4 },
+                HoverPaintStyle: { stroke: "blue" },
+                overlays: [
+                    "Arrow"
+                ]
+                //HoverPaintStyle: {stroke: "#1e8151", strokeWidth: 2 },
+                ConnectionOverlays: [
+                    [ "Arrow", {
+                        location: 1,
+                        id: "arrow",
+                        length: 14,
+                        foldback: 0.8
+                    } ],
+                ],
+                detachable: false
+            });
+            */
+        });
+
+    </script>
+{% endblock script %}

@@ -8,15 +8,24 @@
 
 {% block header %}
     <h3>Grupos</h3>
-    <a href="{% url 'app:grupo_registrar' %}">Novo Grupo</a>
+    <a href="{% url 'app:grupo_registrar' %}">novo grupo</a>
 {% endblock header %}
 
 {% block content %}
-    <ul>
+    <div class="lista">
         {% for grupo in grupos %}
-            <li>
-                <a href="{% url 'app:grupo' grupo.id %}">{{grupo}}</a>
-            </li>
+            <div class="header" onclick="abrir_grupo({{grupo.id}});">
+                {{grupo}}
+            </div>
         {% endfor %}
-    </ul>
+    </div>
 {% endblock content %}
+
+
+{% block script %}
+    <script>
+        function abrir_grupo(grupo_id){
+            location.href = "/grupos/"+grupo_id;
+        }
+    </script>
+{% endblock script %}

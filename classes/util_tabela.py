@@ -17,14 +17,16 @@ def get_tabela_do_documento(id_documento, nome=False, id=False):
 
         return None
 
-    return None
-
 
 def listar_campos_tabela(tabela, chaves=True):
-    if chaves:
-        rel_temp = tabela.campo_tabela_set.all()
-    else:
-        rel_temp = tabela.campo_tabela_set.filter(tipo_campo='Normal')
+    try:
+        if chaves:
+            rel_temp = tabela.campo_tabela_set.all()
+        else:
+            rel_temp = tabela.campo_tabela_set.filter(tipo_campo='Normal')
+    except:
+
+        return []
 
     array_campo = []
     for rel in rel_temp:
@@ -86,7 +88,7 @@ def gerar_script_create(tabela):
 
         script += ','
 
-    script = script[:-1]+'\n);\n\n';
+    script = script[:-1]+'\n);\n\n'
 
     return script
 
@@ -105,6 +107,7 @@ def gerar_script_alter_primaria(tabela):
 
     return script
 
+
 def gerar_script_alter_estrangeira(tabela):
     script = 'ALTER TABLE ' + tabela.nome.lower()
 
@@ -117,8 +120,39 @@ def gerar_script_alter_estrangeira(tabela):
             script += '\nFOREIGN KEY ('+chave.nome.lower()+')'
             script += ' REFERENCES '+rel_temp.tabela.nome.lower()
             script += '('+chave.nome.lower()+');'
-            script += '\n\n';
+            script += '\n\n'
 
         return script
     else:
         return ''
+
+
+def listar_dependencias(tabela):
+    campos = listar_campos_tabela(tabela)
+
+    for campo in campos:
+        dependencias = Dependencia.objects.filter(campo=campo)
+
+    return dependencias
+
+
+def listar_relacao_campo(tabela):
+    try:
+        relacao = tabela.campo_tabela_set.all()
+
+        return relacao
+    except:
+        return []
+
+
+def get_relacionamento(tabela):
+    array_relacao = []
+
+    array_temp = tabela.campo_tabela_set.all()
+
+    for rel_temp in array_temp:
+        if rel_temp.tipo_campo == 'FK':
+            rel = Campo_Tabela.objects.get(campo=rel_temp.campo, tipo_campo='PK')
+            array_relacao.append(rel.tabela.id)
+
+    return array_relacao

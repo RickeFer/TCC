@@ -18,7 +18,7 @@ def get_array_tipos_restricao():
     return tupla
 
 
-def gerarHash(tamanho=16):
+def gerar_hash(tamanho=16):
     aux = string.ascii_lowercase + string.digits
 
     saida = ''
@@ -132,3 +132,9 @@ def get_tipo_propriedade(tipo):
 
     if tipo in ['CHAR', 'VARCHAR', 'BINARY', 'TINYBLOB', 'TINYTEXT', 'BLOB', 'TEXT', 'MEDIUMBLOB', 'MEDIUMTEXT', 'LONGBLOB', 'LONGTEXT', 'ENUM', 'SET']:
         return 'TEXT'
+
+
+def underlined(entr):
+    saida = entr.replace(' ', '_')
+
+    return saida

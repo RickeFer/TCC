@@ -8,7 +8,6 @@ def listar_documentos_usuario(id_usuario):
 
     array_grupo = listar_grupos_do_usuario(id_usuario, 'normal')
 
-    print(array_grupo)
     array_documento = []
     for grupo in array_grupo:
         array_temp = Documento.objects.filter(grupo=grupo)

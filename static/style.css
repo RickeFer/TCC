@@ -6,12 +6,23 @@
     cursor: pointer;
 }
 
+.btn-enviar
+{
+    background-color: rgb(85, 86, 123);
+    color: white;
+}
+.btn-enviar:hover
+{
+    background-color: rgba(85, 86, 123, .9);
+    color: white;
+}
+/*
 .item-lista
 {
     margin-bottom: 10px;
     display: inline;
     width: 400px;
-}
+}*/
 
 .lista-tabelas li
 {
@@ -64,11 +75,50 @@
 
 .btn-toggle
 {
-    margin-top: 10px;
+    position: fixed;
+    top: 10px;
     background-color: rgb(61, 61, 103);
     color: #CCC;
     border-top-left-radius: 0px;
     border-bottom-left-radius: 0px;
+    z-index: 666;
 }
 
 .btn-toggle:hover { color: white; }
+
+.div-tabela
+{
+    padding: 7px;
+    border: 1px solid black;
+    display: inline;
+}
+
+
+.item
+{
+    position: absolute;
+    height: 50px;
+    width: 50px;
+    border: 1px solid black;
+    border-radius: 7px;
+    text-align: center;
+}
+
+
+.lista .header
+{
+    padding: 10px;
+    background-color: rgb(61, 61, 103);
+    color: white;
+    font-weight: bold;
+}
+.lista  .header:hover { background-color: rgba(61, 61, 103, .9); }
+
+.lista .item-lista
+{
+    padding: 10px 30px;
+    background-color: rgba(61, 61, 103, .2);
+}
+.lista .item-lista:hover { background-color: rgba(61, 61, 103, .4); }
+
+.redirecionar { cursor: pointer }

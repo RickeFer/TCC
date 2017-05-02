@@ -1,3 +1,7 @@
+$(window).ready(function(){
+    $("#wrapper").toggleClass("toggled");
+});
+
 $(function(){
     //$(".sortable").each(function(){
         $(".sortable").sortable({

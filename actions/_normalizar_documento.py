@@ -1,6 +1,6 @@
 from app.models import *
 from app.forms import TableForm
-from classes.util import gerarHash
+from classes.util import gerar_hash
 
 from classes.util_tabela import *
 from classes.util_documento import *
@@ -383,7 +383,7 @@ def run_normalizar_documento(request, documento_id):
                 for chave_nome, campos in potenciais_tabelas.items():
 
                     if len(campos):
-                        hash = gerarHash(16)
+                        hash = gerar_hash(16)
                         nova_tabela = Tabela(documento=documento, nome=hash, forma_normal=2, renomear=True)
                         nova_tabela.save()
 
@@ -449,7 +449,7 @@ def run_normalizar_documento(request, documento_id):
                     else:
                         dicionario_dependencia[nome_chave] = [nome_dependente]
 
-                        hash = gerarHash(16)
+                        hash = gerar_hash(16)
                         nova_tabela = Tabela(documento=documento, nome=hash, forma_normal=3, renomear=True)
                         nova_tabela.save()
                         array_novas_tabelas.append(nova_tabela)

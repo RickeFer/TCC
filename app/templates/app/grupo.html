@@ -12,12 +12,12 @@
 {% endblock header %}
 
 {% block content %}
-    <ul>
+    <div class="lista">
         {% for usuario in grupo.usuarios %}
-            <li>
-                <a href="#">{{usuario}}</a>
-            </li>
+            <div class="header">
+                {{usuario}}
+            </div>
         {% endfor %}
-    </ul>
+    </div>
 
 {% endblock content %}

@@ -18,7 +18,9 @@ urlpatterns = [
     url(r'^documentos/$', views.documentos, name='documentos'),
     url(r'^documentos/(?P<documento_id>\d+)/$', views.documento, name='documento'),
     url(r'^add_documento/$', views.add_documento, name='add_documento'),
+    url(r'^documentos/(?P<documento_id>\d+)/deletar/$', views.documento_deletar, name='documento_deletar'),
     url(r'^documentos/(?P<documento_id>\d+)/script/$', views.script_documento, name='script_documento'),
+    url(r'^documentos/(?P<documento_id>\d+)/diagrama/$', views.diagrama_documento, name='diagrama_documento'),
 
     #url normalizar
     #url(r'^normalizar/$', views.normalizar, name='normalizar'),
@@ -35,9 +37,9 @@ urlpatterns = [
 
     #grupo
     url(r'^grupos/$', views.grupos, name='grupos'),
-    url(r'^grupo/(?P<grupo_id>\d+)/$', views.grupo, name='grupo'),
-    url(r'^grupo/registrar/$', views.grupo_registrar, name='grupo_registrar'),
-    url(r'^grupo/(?P<grupo_id>\d+)/usuario/$', views.grupo_adicionar_usuario, name='grupo_adicionar_usuario'),
-    url(r'^grupo/convite/$', views.grupo_convite, name='grupo_convite'),
+    url(r'^grupos/(?P<grupo_id>\d+)/$', views.grupo, name='grupo'),
+    url(r'^grupos/registrar/$', views.grupo_registrar, name='grupo_registrar'),
+    url(r'^grupos/(?P<grupo_id>\d+)/usuario/$', views.grupo_adicionar_usuario, name='grupo_adicionar_usuario'),
+    url(r'^grupos/convite/$', views.grupo_convite, name='grupo_convite'),
 
 ] + static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)

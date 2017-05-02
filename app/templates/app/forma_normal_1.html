@@ -34,31 +34,32 @@
 
 {% block content %}
     <form action="{% url 'app:normalizar' documento.id %}" method="POST">
-        <ul class="sortable lista-tabelas" id="todas_tabelas">
-            <li class="tabela" id="sem_tabela">
+        <ul class="sortable lista-tabelas col-md-12" id="todas_tabelas">
+            <li class="tabela col-md-12" id="sem_tabela">
                 <h4>Campos sem tabela</h4>
             </li>
-            <div id="espaco-sem-tabela" style="margin-bottom: 30px"></div>
+            <div class="col-md-12" id="espaco-sem-tabela" style="margin-bottom: 30px"></div>
 
             {% for tabela in arrayTabelas %}
-                <li class="tabela" id="{{tabela.tabela}}">
+                <li class="tabela col-md-12" id="{{tabela.tabela}}" draggable="false">
                     <h4>{{tabela.tabela}}</h4>
                     <input type="hidden" name="tabela_{{tabela.tabela}}" value="{{tabela.tabela}}"/>
                     <input type="hidden" id="{{tabela.tabela}}_top" name="{{tabela.tabela}}_top" value="0" />
                 </li>
                 {% for campo in tabela.campos %}
-                    <li class="ui-state-default campo {% if campo.id in tabela.restricoes_pk %}chave-primaria{% endif %}" id="{{campo}}_campo" onfocusout="atualizaPosCampo({{campo}});"  ondragover="allowDrop(event)" ondrop="drop(event)">
+                    <li class="ui-state-default campo {% if campo.id in tabela.restricoes_pk %}chave-primaria{% endif %} col-md-1" id="{{campo}}_campo"
+                        onfocusout="atualizaPosCampo({{campo}});" ondragover="allowDrop(event)" ondrop="drop(event)" alt="{{campo}}" title="{{campo}}">
                         {{campo}}
                         <input type="hidden" id="{{campo}}_primaria" name="{{campo}}[primaria]" value="{% if campo.id in tabela.restricoes_pk %}1{% else %}0{% endif %}" />
                         <input type="hidden" id="{{campo}}_top" name="{{campo}}['top']" value="0" />
                         <input type="hidden" id="{{campo}}_left" name="{{campo}}['left']" value="0" />
                     </li>
                 {% endfor %}
-                <div style="height: 30px"></div>
+                <div class="col-md-12" style="height: 30px"></div>
             {% endfor %}
         </ul>
 
-        <div style="height: 50px"></div>
+        <div class="col-md-12" style="height: 50px"></div>
 
         <input type="hidden" name="forma_normal" value="1" />
         {% csrf_token %}

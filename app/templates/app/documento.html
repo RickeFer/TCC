@@ -22,7 +22,10 @@
         Forma Normal atual: {{fn}}
     {% elif fn == 3 %}
         Documento Normalizado<br>
-        <a href="{% url 'app:script_documento' documento.id %}">gerar script</a>
+        <a href="#">gerenciar relacionamentos</a>
+        <br><br>
+        <a href="{% url 'app:script_documento' documento.id %}">gerar script</a><br>
+        <a href="{% url 'app:diagrama_documento' documento.id %}">gerar diagrama</a>
     {% endif %}
 {% endblock header %}
 
@@ -46,34 +49,37 @@
 
     {% if tabelas %}<h4>Tabelas do documento {{documento}}</h4>{% else %}<h4>Não há tabelas registradas para o documento {{documento}}</h4>{% endif %}
 
-    <ul class="lista-tabelas">
-        <!-- lista as demais tabelas -->
+    <div class="lista">
         {% for tabela in tabelas %}
-            <li class="lista-tabela-item">
-                <h4 style="display: inline; margin-right: 10px">{{tabela}}</h4>
-                <span class="glyphicon glyphicon-chevron-down" aria-hidden="true" id="{{tabela}}"></span>
+            <div class="header" onclick="mostrar_campos({{tabela.id}});">
+                {{tabela}}
+            </div>
 
-                <ul style="display: none" id="campos_{{tabela}}">
-                    {% for chave in tabela.chaves %}
-                        <li>{{chave}} PK</li>
-                    {% endfor %}
-
-                    {% for chave in tabela.estrangeiras %}
-                        <li>{{chave}} FK</li>
-                    {% endfor %}
-
-                    {% for campo in tabela.campos %}
-                        <li>{{campo}}</li>
-                    {% endfor %}
-                </ul>
-            </li>
+            <div style="display:none" id="campos_{{tabela.id}}">
+                {% for chave in tabela.chaves %}
+                    <div class="item-lista">
+                        {{chave}}
+                        <img src="{% static 'imagens/gold_key.png' %}" width="17"/>
+                    </div>
+                {% endfor %}
+                {% for chave in tabela.estrangeiras %}
+                    <div class="item-lista">
+                        {{chave}}
+                        <img src="{% static 'imagens/green_key.png' %}" width="17"/>
+                    </div>
+                {% endfor %}
+                {% for campo in tabela.campos %}
+                    <div class="item-lista">{{campo}}</div>
+                {% endfor %}
+            </div>
         {% endfor %}
-    </ul>
+    </div>
 {% endblock content %}
 
 
 {% block script %}
     <script>
+        /*
         $("span").click(function(){
             var id = "campos_"+$(this).attr("id");
 
@@ -87,6 +93,13 @@
                 $("#"+id).hide();
                 $(this).attr("class", "glyphicon glyphicon-chevron-down");
             }
-        });
+        });*/
+
+        function mostrar_campos(tabela_id){
+            if($("#campos_"+tabela_id).css("display") == "none")
+                $("#campos_"+tabela_id).show();
+            else
+                $("#campos_"+tabela_id).hide();
+        }
     </script>
 {% endblock script %}
