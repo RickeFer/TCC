@@ -8,13 +8,13 @@
 
 {% block header %}
     <h3>Documentos</h3>
-    <a href="{% url 'app:add_documento' %}">Novo documento</a>
+    <a href="{% url 'app:add_documento' %}">novo documento</a>
 {% endblock header %}
 
 {% block content %}
     <div class="lista">
         {% for documento in documentos %}
-            <div class="header" onclick="abrir_documento({{documento.id}});">
+            <div class="header redirecionar" onclick="abrir_documento({{documento.id}});">
                 <span class="glyphicon glyphicon-remove" aria-hidden="true" onclick="if(confirm('Deseja deletar este documento?'))deletar_documento({{doc.id}});"></span>
                 {{documento}}
             </div>

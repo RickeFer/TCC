@@ -6,12 +6,23 @@
     cursor: pointer;
 }
 
+.btn-enviar
+{
+    background-color: rgb(85, 86, 123);
+    color: white;
+}
+.btn-enviar:hover
+{
+    background-color: rgba(85, 86, 123, .9);
+    color: white;
+}
+/*
 .item-lista
 {
     margin-bottom: 10px;
     display: inline;
     width: 400px;
-}
+}*/
 
 .lista-tabelas li
 {
@@ -103,8 +114,11 @@
 }
 .lista  .header:hover { background-color: rgba(61, 61, 103, .9); }
 
-.lista .item-tabela
+.lista .item-lista
 {
     padding: 10px 30px;
     background-color: rgba(61, 61, 103, .2);
 }
+.lista .item-lista:hover { background-color: rgba(61, 61, 103, .4); }
+
+.redirecionar { cursor: pointer }

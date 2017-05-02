@@ -2,26 +2,15 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="28c31a9a-54a0-4691-b559-60d79594c587" name="Default" comment="">
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/app/migrations/0031_auto_20170429_1820.py" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/actions/_add_documento.py" afterPath="$PROJECT_DIR$/actions/_add_documento.py" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/actions/_diagrama_documento.py" afterPath="$PROJECT_DIR$/actions/_diagrama_documento.py" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/actions/_normalizar_documento.py" afterPath="$PROJECT_DIR$/actions/_normalizar_documento.py" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/models.py" afterPath="$PROJECT_DIR$/app/models.py" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/templates/app/add_documento.html" afterPath="$PROJECT_DIR$/app/templates/app/add_documento.html" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/templates/app/ajax_add_campo.html" afterPath="$PROJECT_DIR$/app/templates/app/ajax_add_campo.html" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/templates/app/ajax_add_tabela.html" afterPath="$PROJECT_DIR$/app/templates/app/ajax_add_tabela.html" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/templates/app/diagrama_documento.html" afterPath="$PROJECT_DIR$/app/templates/app/diagrama_documento.html" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/templates/app/documento.html" afterPath="$PROJECT_DIR$/app/templates/app/documento.html" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/templates/app/documentos.html" afterPath="$PROJECT_DIR$/app/templates/app/documentos.html" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/templates/app/forma_normal_1.html" afterPath="$PROJECT_DIR$/app/templates/app/forma_normal_1.html" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/templates/app/forma_normal_2.html" afterPath="$PROJECT_DIR$/app/templates/app/forma_normal_2.html" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/templates/app/forma_normal_3.html" afterPath="$PROJECT_DIR$/app/templates/app/forma_normal_3.html" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/views.py" afterPath="$PROJECT_DIR$/app/views.py" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/classes/util.py" afterPath="$PROJECT_DIR$/classes/util.py" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/classes/util_tabela.py" afterPath="$PROJECT_DIR$/classes/util_tabela.py" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/static/normalizar.css" afterPath="$PROJECT_DIR$/static/normalizar.css" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/static/scripts/normalizar.js" afterPath="$PROJECT_DIR$/static/scripts/normalizar.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/templates/app/grupo.html" afterPath="$PROJECT_DIR$/app/templates/app/grupo.html" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/templates/app/grupo_registrar.html" afterPath="$PROJECT_DIR$/app/templates/app/grupo_registrar.html" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/templates/app/grupos.html" afterPath="$PROJECT_DIR$/app/templates/app/grupos.html" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/templates/app/tabela.html" afterPath="$PROJECT_DIR$/app/templates/app/tabela.html" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/templates/app/tabelas.html" afterPath="$PROJECT_DIR$/app/templates/app/tabelas.html" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/urls.py" afterPath="$PROJECT_DIR$/app/urls.py" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/static/style.css" afterPath="$PROJECT_DIR$/static/style.css" />
     </list>
     <ignored path="TG.iws" />
@@ -42,44 +31,24 @@
   </component>
   <component name="FileEditorManager">
     <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
-      <file leaf-file-name="documento.html" pinned="false" current-in-tab="false">
+      <file leaf-file-name="style.css" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/static/style.css">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="204">
+              <caret line="12" column="1" lean-forward="true" selection-start-line="12" selection-start-column="1" selection-end-line="12" selection-end-column="1" />
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="documento.html" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/app/templates/app/documento.html">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="391">
-              <caret line="69" column="43" lean-forward="false" selection-start-line="69" selection-start-column="43" selection-end-line="69" selection-end-column="43" />
+            <state relative-caret-position="238">
+              <caret line="24" column="45" lean-forward="false" selection-start-line="24" selection-start-column="45" selection-end-line="24" selection-end-column="45" />
               <folding>
                 <element signature="n#style#0;n#div#1;n#div#1;n#!!top" expanded="true" />
               </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="documentos.html" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/app/templates/app/documentos.html">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="144">
-              <caret line="16" column="30" lean-forward="false" selection-start-line="16" selection-start-column="30" selection-end-line="16" selection-end-column="30" />
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="style.css" pinned="false" current-in-tab="true">
-        <entry file="file://$PROJECT_DIR$/static/style.css">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="178">
-              <caret line="84" column="0" lean-forward="true" selection-start-line="84" selection-start-column="0" selection-end-line="84" selection-end-column="0" />
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="base.html" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/app/templates/app/base.html">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="203">
-              <caret line="23" column="43" lean-forward="false" selection-start-line="23" selection-start-column="43" selection-end-line="23" selection-end-column="43" />
-              <folding />
             </state>
           </provider>
         </entry>
@@ -145,11 +114,8 @@
   <component name="IdeDocumentHistory">
     <option name="CHANGED_PATHS">
       <list>
-        <option value="$PROJECT_DIR$/app/templates/app/grupo_registrar.html" />
         <option value="$PROJECT_DIR$/actions/_grupo_registrar.py" />
-        <option value="$PROJECT_DIR$/app/templates/app/grupos.html" />
         <option value="$PROJECT_DIR$/actions/_grupo.py" />
-        <option value="$PROJECT_DIR$/app/templates/app/grupo.html" />
         <option value="$PROJECT_DIR$/app/templates/app/grupo_adicionar_usuario.html" />
         <option value="$PROJECT_DIR$/actions/_grupo_adicionar_usuario.py" />
         <option value="$PROJECT_DIR$/actions/_documentos.py" />
@@ -168,14 +134,11 @@
         <option value="$PROJECT_DIR$/app/templates/app/renomear_tabelas.html" />
         <option value="$PROJECT_DIR$/actions/_tabelas.py" />
         <option value="$PROJECT_DIR$/actions/_tabela.py" />
-        <option value="$PROJECT_DIR$/app/templates/app/tabela.html" />
-        <option value="$PROJECT_DIR$/app/templates/app/tabelas.html" />
         <option value="$PROJECT_DIR$/app/templates/app/script_document.html" />
         <option value="$PROJECT_DIR$/actions/_script_documento.py" />
         <option value="$PROJECT_DIR$/app/templates/app/script_documento.html" />
         <option value="$PROJECT_DIR$/actions/_diagrama_documento.html" />
         <option value="$PROJECT_DIR$/classes/util_documento.py" />
-        <option value="$PROJECT_DIR$/app/urls.py" />
         <option value="$PROJECT_DIR$/actions/_documento_deletar.py" />
         <option value="$PROJECT_DIR$/classes/util.py" />
         <option value="$PROJECT_DIR$/actions/_add_documento.py" />
@@ -193,9 +156,15 @@
         <option value="$PROJECT_DIR$/actions/_diagrama_documento.py" />
         <option value="$PROJECT_DIR$/classes/util_tabela.py" />
         <option value="$PROJECT_DIR$/app/templates/app/diagrama_documento.html" />
+        <option value="$PROJECT_DIR$/app/urls.py" />
+        <option value="$PROJECT_DIR$/app/templates/app/grupo.html" />
+        <option value="$PROJECT_DIR$/app/templates/app/tabelas.html" />
+        <option value="$PROJECT_DIR$/app/templates/app/grupo_registrar.html" />
+        <option value="$PROJECT_DIR$/static/style.css" />
+        <option value="$PROJECT_DIR$/app/templates/app/tabela.html" />
+        <option value="$PROJECT_DIR$/app/templates/app/grupos.html" />
         <option value="$PROJECT_DIR$/app/templates/app/documentos.html" />
         <option value="$PROJECT_DIR$/app/templates/app/documento.html" />
-        <option value="$PROJECT_DIR$/static/style.css" />
       </list>
     </option>
   </component>
@@ -522,27 +491,6 @@
     <watches-manager />
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/actions/_grupo_adicionar_usuario.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="408">
-          <caret line="24" column="54" lean-forward="false" selection-start-line="24" selection-start-column="54" selection-end-line="24" selection-end-column="54" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app/templates/app/grupo_registrar.html">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="272">
-          <caret line="16" column="18" lean-forward="false" selection-start-line="16" selection-start-column="18" selection-end-line="16" selection-end-column="18" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app/templates/app/grupos.html">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="289">
-          <caret line="17" column="61" lean-forward="false" selection-start-line="17" selection-start-column="61" selection-end-line="17" selection-end-column="61" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/TG/static/style.css">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="0">
@@ -662,13 +610,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/app/templates/app/tabelas.html">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="127">
-          <caret line="15" column="32" lean-forward="false" selection-start-line="15" selection-start-column="32" selection-end-line="15" selection-end-column="32" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/actions/_script_documento.py">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="187">
@@ -680,13 +621,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="306">
           <caret line="18" column="22" lean-forward="true" selection-start-line="18" selection-start-column="22" selection-end-line="18" selection-end-column="22" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app/templates/app/tabela.html">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="187">
-          <caret line="29" column="93" lean-forward="true" selection-start-line="29" selection-start-column="32" selection-end-line="29" selection-end-column="93" />
         </state>
       </provider>
     </entry>
@@ -717,13 +651,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="136">
           <caret line="10" column="24" lean-forward="false" selection-start-line="10" selection-start-column="24" selection-end-line="10" selection-end-column="24" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app/urls.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="289">
-          <caret line="20" column="104" lean-forward="false" selection-start-line="20" selection-start-column="104" selection-end-line="20" selection-end-column="104" />
         </state>
       </provider>
     </entry>
@@ -834,7 +761,7 @@
         <state relative-caret-position="170">
           <caret line="10" column="32" lean-forward="true" selection-start-line="10" selection-start-column="32" selection-end-line="10" selection-end-column="32" />
           <folding>
-            <element signature="e#0#36#0" expanded="true" />
+            <element signature="e#0#36#0" expanded="false" />
           </folding>
         </state>
       </provider>
@@ -857,24 +784,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/app/templates/app/documentos.html">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="144">
-          <caret line="16" column="30" lean-forward="false" selection-start-line="16" selection-start-column="30" selection-end-line="16" selection-end-column="30" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app/templates/app/documento.html">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="391">
-          <caret line="69" column="43" lean-forward="false" selection-start-line="69" selection-start-column="43" selection-end-line="69" selection-end-column="43" />
-          <folding>
-            <element signature="n#style#0;n#div#1;n#div#1;n#!!top" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/app/templates/app/base.html">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="203">
@@ -883,11 +792,77 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/app/urls.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="510">
+          <caret line="42" column="17" lean-forward="false" selection-start-line="42" selection-start-column="17" selection-end-line="42" selection-end-column="17" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/templates/app/grupo.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="289">
+          <caret line="17" column="27" lean-forward="true" selection-start-line="17" selection-start-column="27" selection-end-line="17" selection-end-column="27" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/templates/app/tabelas.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="254">
+          <caret line="19" column="30" lean-forward="true" selection-start-line="19" selection-start-column="30" selection-end-line="19" selection-end-column="30" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/templates/app/grupo_registrar.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="340">
+          <caret line="20" column="41" lean-forward="false" selection-start-line="20" selection-start-column="41" selection-end-line="20" selection-end-column="41" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/templates/app/tabela.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="187">
+          <caret line="152" column="64" lean-forward="false" selection-start-line="152" selection-start-column="64" selection-end-line="152" selection-end-column="64" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/templates/app/grupos.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="144">
+          <caret line="10" column="47" lean-forward="false" selection-start-line="10" selection-start-column="47" selection-end-line="10" selection-end-column="47" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/templates/app/documentos.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="119">
+          <caret line="10" column="45" lean-forward="false" selection-start-line="10" selection-start-column="45" selection-end-line="10" selection-end-column="45" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/static/style.css">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="178">
-          <caret line="84" column="0" lean-forward="true" selection-start-line="84" selection-start-column="0" selection-end-line="84" selection-end-column="0" />
+        <state relative-caret-position="204">
+          <caret line="12" column="1" lean-forward="true" selection-start-line="12" selection-start-column="1" selection-end-line="12" selection-end-column="1" />
           <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/templates/app/documento.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="238">
+          <caret line="24" column="45" lean-forward="false" selection-start-line="24" selection-start-column="45" selection-end-line="24" selection-end-column="45" />
+          <folding>
+            <element signature="n#style#0;n#div#1;n#div#1;n#!!top" expanded="true" />
+          </folding>
         </state>
       </provider>
     </entry>

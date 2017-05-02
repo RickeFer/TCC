@@ -37,9 +37,9 @@ urlpatterns = [
 
     #grupo
     url(r'^grupos/$', views.grupos, name='grupos'),
-    url(r'^grupo/(?P<grupo_id>\d+)/$', views.grupo, name='grupo'),
-    url(r'^grupo/registrar/$', views.grupo_registrar, name='grupo_registrar'),
-    url(r'^grupo/(?P<grupo_id>\d+)/usuario/$', views.grupo_adicionar_usuario, name='grupo_adicionar_usuario'),
-    url(r'^grupo/convite/$', views.grupo_convite, name='grupo_convite'),
+    url(r'^grupos/(?P<grupo_id>\d+)/$', views.grupo, name='grupo'),
+    url(r'^grupos/registrar/$', views.grupo_registrar, name='grupo_registrar'),
+    url(r'^grupos/(?P<grupo_id>\d+)/usuario/$', views.grupo_adicionar_usuario, name='grupo_adicionar_usuario'),
+    url(r'^grupos/convite/$', views.grupo_convite, name='grupo_convite'),
 
 ] + static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)

@@ -13,25 +13,22 @@
 {% block content %}
 
     {% for documento in documentos %}
-        <ul class="lista-tabelas">
-            <li>{{documento}}</li>
-
-            <li>
-                <ul>
-                    {% for tabela in documento.tabelas %}
-                        <li>
-                            <a href="{% url 'app:tabela' tabela.id %}">{{tabela}}</a>
-                        </li>
-                    {% endfor %}
-                </ul>
-            </li>
-        </ul>
+        <div class="lista">
+            <div class="header">{{documento}}</div>
+            {% for tabela in documento.tabelas %}
+                <div class="item-lista redirecionar" onclick="abrir_tabela({{tabela.id}});">
+                    {{tabela}}
+                </div>
+            {% endfor %}
+        </div>
     {% endfor %}
 
 {% endblock content %}
 
 {% block script %}
     <script>
-
+        function abrir_tabela(tabela_id){
+            location.href = "/tabelas/"+tabela_id;
+        }
     </script>
 {% endblock script %}
