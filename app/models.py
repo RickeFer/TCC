@@ -22,10 +22,10 @@ class Grupo(models.Model):
 
 class Usuario(models.Model):
     nome = models.CharField(max_length=50)
-    email = models.CharField(max_length=20)
+    email = models.CharField(max_length=50)
     senha = models.CharField(max_length=64)
-    ultima_hash = models.CharField(max_length=64)
-    ultimo_login = models.DateTimeField()
+    ultima_hash = models.CharField(max_length=64, null=True)
+    ultimo_login = models.DateTimeField(null=True)
 
     def __str__(self):
         return self.nome
