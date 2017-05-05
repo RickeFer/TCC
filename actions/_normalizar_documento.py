@@ -138,7 +138,7 @@ def run_normalizar_documento(request, documento_id):
             context = {'documento': documento}
 
         return context
-    else:
+    elif request.method == 'POST':
         aux = request.POST
 
         if aux['forma_normal'] == '1':
@@ -192,7 +192,7 @@ def run_normalizar_documento(request, documento_id):
                     temp = {'tipo': 'campo', 'nome': p, 'top': aux[p], 'primaria': primaria}
                     tops.append(temp)
             # fecha o range da tabela
-            for i in reversed(range(len(tabs))):
+            for i in enumerate(reversed(tabs)):
                 if i == 0:
                     continue
                 tabs[i]['bottom'] = tabs[i - 1]['top']
@@ -216,7 +216,7 @@ def run_normalizar_documento(request, documento_id):
 
             for tab in tabs:
                 if tab['nome'] == 'sem_tabela':
-                    tab['nome'] = documento.name
+                    tab['nome'] = underlined(documento.name)
 
                 aux = get_tabela_do_documento(documento_id, nome=tab['nome'])
 
