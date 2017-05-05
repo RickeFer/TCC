@@ -1,6 +1,10 @@
-body { background-color: blue; }
+.link:hover
+{
+    text-decoration: underline;
+    cursor: pointer;
+}
 
-#sortable ul
+.sortable ul
 {
     list-style-type: none;
     margin: 0;
@@ -15,10 +19,21 @@ body { background-color: blue; }
     padding: 10px;
     cursor: move;
     border: 1px solid #C5C5C5;
-    background: #F6F6F6;
+    border-radius: 5px;
+    background: rgba(246, 246, 246, .7);
+    text-align: center;
+    overflow: hidden;
+    text-overflow: ellipsis;
 }
 
 .chave
+{
+    color: rgb(119, 138, 102);
+    border: 1px solid rgb(218, 213, 94);
+    background: rgb(255, 250, 144);
+}
+
+.chave-primaria
 {
     color: rgb(119, 138, 102);
     border: 1px solid rgb(218, 213, 94);
@@ -41,6 +56,19 @@ body { background-color: blue; }
 
 .aviso
 {
+    margin: 10px auto 10px 10%;
+    width: 80%;
     padding: 7px;
     background-color: rgb(249, 197, 112);
 }
+
+.opcoes { color: rgba(0,0,0,.5); cursor: pointer; }
+.opcoes:hover { color: #000; }
+
+.dependente
+{
+    background: rgb(216, 216, 216);
+}
+
+.lista
+{ list-style: none }
