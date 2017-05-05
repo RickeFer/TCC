@@ -2,7 +2,7 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="28c31a9a-54a0-4691-b559-60d79594c587" name="Default" comment="">
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/actions/_normalizar_documento.py" afterPath="$PROJECT_DIR$/actions/_normalizar_documento.py" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/TG/settings.py" afterPath="$PROJECT_DIR$/TG/settings.py" />
     </list>
     <ignored path="TG.iws" />
     <ignored path=".idea/workspace.xml" />
@@ -32,11 +32,21 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="_normalizar_documento.py" pinned="false" current-in-tab="true">
+      <file leaf-file-name="_normalizar_documento.py" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/actions/_normalizar_documento.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="194">
-              <caret line="218" column="60" lean-forward="false" selection-start-line="218" selection-start-column="60" selection-end-line="218" selection-end-column="60" />
+            <state relative-caret-position="177">
+              <caret line="217" column="47" lean-forward="true" selection-start-line="217" selection-start-column="47" selection-end-line="217" selection-end-column="47" />
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="settings.py" pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/TG/settings.py">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="339">
+              <caret line="181" column="16" lean-forward="false" selection-start-line="181" selection-start-column="16" selection-end-line="181" selection-end-column="16" />
               <folding />
             </state>
           </provider>
@@ -103,7 +113,6 @@
   <component name="IdeDocumentHistory">
     <option name="CHANGED_PATHS">
       <list>
-        <option value="$PROJECT_DIR$/actions/_grupo.py" />
         <option value="$PROJECT_DIR$/app/templates/app/grupo_adicionar_usuario.html" />
         <option value="$PROJECT_DIR$/actions/_grupo_adicionar_usuario.py" />
         <option value="$PROJECT_DIR$/actions/_documentos.py" />
@@ -154,6 +163,7 @@
         <option value="$PROJECT_DIR$/app/models.py" />
         <option value="$PROJECT_DIR$/actions/_usuario_registrar.py" />
         <option value="$PROJECT_DIR$/actions/_normalizar_documento.py" />
+        <option value="$PROJECT_DIR$/TG/settings.py" />
       </list>
     </option>
   </component>
@@ -435,13 +445,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="17">
           <caret line="1" column="0" lean-forward="true" selection-start-line="1" selection-start-column="0" selection-end-line="1" selection-end-column="0" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/TG/settings.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="952">
-          <caret line="56" column="59" lean-forward="false" selection-start-line="56" selection-start-column="59" selection-end-line="56" selection-end-column="59" />
         </state>
       </provider>
     </entry>
@@ -793,8 +796,16 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/actions/_normalizar_documento.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="194">
-          <caret line="218" column="60" lean-forward="false" selection-start-line="218" selection-start-column="60" selection-end-line="218" selection-end-column="60" />
+        <state relative-caret-position="177">
+          <caret line="217" column="47" lean-forward="true" selection-start-line="217" selection-start-column="47" selection-end-line="217" selection-end-column="47" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/TG/settings.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="339">
+          <caret line="181" column="16" lean-forward="false" selection-start-line="181" selection-start-column="16" selection-end-line="181" selection-end-column="16" />
           <folding />
         </state>
       </provider>
