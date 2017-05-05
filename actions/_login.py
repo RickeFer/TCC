@@ -24,4 +24,4 @@ def run_login(request):
 
             return {'resultado': True, 'sessao_hash': usuario.ultima_hash, 'usuario_id': usuario.id}
         except:
-            return {'resultado': False, 'erro': 'deu ruim'}
+            return {'resultado': False, 'erro': 'Houve um erro ao tentar entrar!'}
