@@ -13,6 +13,11 @@
             overflow: hidden;
             text-overflow: ellipsis;
         }
+
+        .tabela:hover
+        {
+            box-shadow: 3px 3px 3px #EEE;
+        }
     </style>
 {% endblock css %}
 
@@ -23,7 +28,7 @@
 
 {% block content %}
 
-    <div>
+    <div id="foo">
         {% for tabela in documento.tabelas %}
             <div class="tabela item" id="tabela_{{tabela.id}}" tabela-id="{{tabela.id}}" relacoes="{{tabela.relacao}}" style="left:{{tabela.pos}}px; width:150px;z-index:666; background-color:#CCC">
                 {{tabela}}
@@ -52,7 +57,7 @@
 
             $(".item").each(function(){
                 let id = $(this).attr("id");
-                let relacoes = $(this).attr("relacoes").replace("[", "").replace("]", "").split(",");
+                let relacoes = $(this).attr("relacoes").replace(" ", "").replace("[", "").replace("]", "").split(",");
                 let tabela = $(this).attr("tabela-id");
 
                 for(let i=0; i<relacoes.length; i++){
@@ -62,21 +67,33 @@
                         conexoes.push(aux);
                 }
 
+                //jsPlumb.makeSource("foo");
                 jsPlumb.draggable(id);
             });
 
-            console.log(conexoes);
+            console.log(conexoes[1]);
+
+            let sources = new Array();
 
             for(let i=0; i<conexoes.length; i++){
-                jsPlumb.connect({
-                    source:"tabela_"+conexoes[i].source,
-                    target:"tabela_"+conexoes[i].target,
-                    anchor:[ "Continuous", { faces:["top","bottom", "left", "right"] }],
-                    //paintStyle:{ stroke:"red", strokeWidth: 1 },
-                    Endpoint: ["Dot", {radius: 2}],
-                    connector: "StateMachine",
-                    detachable: false
-                });
+
+                if(sources.indexOf(conexoes[i].source)==-1 || true)
+                {
+                    jsPlumb.connect({
+                        source:"tabela_"+conexoes[i].source,
+                        target:"tabela_"+conexoes[i].target,
+                        anchor:[ "Continuous", { faces:["top","bottom", "left", "right"] }],
+                        Endpoint: ["Dot", {radius: 2, maxConnections:-1, isSource:true}],
+                        connector: "StateMachine",
+                        detachable: false,
+                    });
+
+                    sources.push(conexoes[i].source);
+                }
+                else
+                {
+
+                }
             }
 
 
