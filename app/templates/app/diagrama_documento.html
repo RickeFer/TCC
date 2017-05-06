@@ -82,10 +82,13 @@
                     jsPlumb.connect({
                         source:"tabela_"+conexoes[i].source,
                         target:"tabela_"+conexoes[i].target,
-                        anchor:[ "Continuous", { faces:["top","bottom", "left", "right"] }],
+                        anchor:["Continuous", { faces:["top","bottom", "left", "right"] }],
                         Endpoint: ["Dot", {radius: 2, maxConnections:-1, isSource:true}],
-                        connector: "StateMachine",
+                        connector: "Flowchart",
                         detachable: false,
+                        overlays:[
+                            [ "Label", {label:"x", id:"label"}]
+                        ]
                     });
 
                     sources.push(conexoes[i].source);
