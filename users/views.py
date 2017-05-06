@@ -4,6 +4,7 @@ from django.core.urlresolvers import reverse
 
 from actions._login import run_login
 from actions._usuario_registrar import run_usuario_registrar
+from actions._sair import run_sair
 
 from classes.util import *
 
@@ -36,3 +37,9 @@ def registrar(request):
             return render(request, 'users/usuario_registrar.html', {})
     else:
         return render(request, 'users/usuario_registrar.html', {})
+
+
+def sair(request):
+    context = run_sair(request)
+
+    return HttpResponseRedirect(reverse('users:login'))
