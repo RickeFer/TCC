@@ -1,0 +1,144 @@
+{% extends  'app/base.html' %}
+{% load bootstrap3 %}
+{% load static %}
+
+{% block css %}
+    <title>Relacionamentos | {{documento}}</title>
+    <link  rel="stylesheet" href="{% static 'normalizar.css' %}">
+{% endblock css %}
+
+{% block header %}
+    <h3>Relacionamentos {{documento}}</h3>
+{% endblock header %}
+
+
+{% block content %}
+    <div class="lista">
+        {% for tabela in documento.tabelas %}
+            <div class="header col-md-12">{{tabela}}</div>
+
+            <div class="col-md-12" style="padding:20px;">
+            {% for chave in tabela.chaves %}
+                <div class="campo campo_{{chave.id}}" chave-id="{{chave.id}}" tabela-id="{{tabela.id}}" style="cursor:pointer" data-target="#modal-relacionar" data-toggle="modal">
+                    {{chave}} {{chave.id}}
+                </div>
+            {% endfor %}
+            </div>
+
+        {% endfor %}
+    </div>
+
+
+    <div id="modal-relacionar" class="modal fade" role="dialog">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                    <h4 class="modal-title">Relacionamento</h4>
+                </div>
+                <div class="modal-body">
+                    <input type="hidden" id="campo-fonte" value=""/>
+
+                    <div class="form-group">
+                        <span id="um-campo"></span>
+                        <label class="control-label" for="tabela-relacionamento">Tabela</label>
+                        <select class="form-control" id="tabela-relacionamento">
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label class="control-label" for="campo-referencia">Referência</label>
+                        <select class="form-control" id="campo-referencia"></select>
+                    </div>
+
+                    {% csrf_token %}
+                    <button class="btn btn-enviar" id="enviar">RELACIONAR</button>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal">Fechar</button>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock content %}
+
+
+{% block script %}
+    <script src="{% static 'scripts/util.js' %}"></script>
+    <script>
+        $(".campo").mouseover(function(){
+            let id = "campo_"+$(this).attr("chave-id");
+
+            $("."+id).css("background-color", "#DDD");
+        });
+
+        $(".campo").mouseout(function(){
+            $(".campo").each(function(){
+                $(this).css("background-color", "rgba(246, 246, 246, .7)");
+            });
+        });
+
+        $(".campo").click(function(){
+            let chave = $(this).attr("chave-id");
+            let tabela = $(this).attr("tabela-id");
+
+            $.ajax({
+                url: '/ajax_get_tabelas/'+tabela,
+                success: function(ret){
+                    let json_ret = JSON.parse(ret.content);
+                    $("#tabela-relacionamento").html(getSelect(json_ret.tabelas));
+
+                    $("#campo-referencia").html("<option>carregando...</option>");
+                    let tabela = $("#tabela-relacionamento").val();
+                    get_campos(tabela);
+
+                    $("#campo-fonte").val(chave);
+                }
+            });
+        });
+
+        $("#tabela-relacionamento").change(function(){
+            get_campos($(this).val());
+        });
+
+        function get_campos(tabela_id){
+            $.ajax({
+                url: '/ajax_get_chaves/'+tabela_id,
+                success: function(ret){
+                    let json_ret = JSON.parse(ret.content);
+
+                    $("#campo-referencia").html(getSelect(json_ret.chaves));
+                }
+            });
+        }
+
+
+        $("#enviar").click(function(){
+            let referencia = $("#campo-referencia").val();
+            let fonte = $("#campo-fonte").val();
+            let token = $("input[name=csrfmiddlewaretoken]").val();
+
+            $.ajax({
+                type: "POST",
+                url: "{% url 'app:ajax_gerenciar_relacionamentos' %}",
+                data: {
+                    "fonte": fonte,
+                    "referencia": referencia,
+                    "csrfmiddlewaretoken": token
+                },
+                success: function(ret){
+                    //$("body").html(ret.content);
+                    let json_ret = JSON.parse(ret.content);
+                    if(json_ret.resultado == true)
+                        location.reload();
+                }
+            });
+            console.log(referencia);
+            console.log(fonte);
+            console.log(token);
+        });
+
+        $(window).ready(function(){
+            $("#wrapper").toggleClass("toggled");
+        });
+    </script>
+{% endblock script %}

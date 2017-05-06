@@ -18,10 +18,10 @@ def run_login(request):
             usuario = Usuario.objects.get(email=email, senha=senha)
 
             hash_monstra = gerar_hash_session(usuario.nome, usuario.senha)
-            usuario.ultima_hash = hash_monstra
+            usuario.sessao_hash = hash_monstra
             usuario.ultimo_login = timezone.now()
             usuario.save()
 
-            return {'resultado': True, 'sessao_hash': usuario.ultima_hash, 'usuario_id': usuario.id}
+            return {'resultado': True, 'sessao_hash': usuario.sessao_hash, 'usuario_id': usuario.id}
         except:
             return {'resultado': False, 'erro': 'Houve um erro ao tentar entrar!'}

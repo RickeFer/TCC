@@ -3,7 +3,7 @@
 {% load static %}
 
 {% block css %}
-    <title>Documento - {{documento}}</title>
+    <title>Documento | {{documento}}</title>
 {% endblock css %}
 
 {% block header %}
@@ -22,7 +22,7 @@
         Forma Normal atual: {{fn}}
     {% elif fn == 3 %}
         Documento Normalizado<br>
-        <a href="#">gerenciar relacionamentos</a>
+        <a href="{% url 'app:gerenciar_relacionamentos' documento.id %}">gerenciar relacionamentos</a>
         <br><br>
         <a href="{% url 'app:script_documento' documento.id %}">gerar script</a><br>
         <a href="{% url 'app:diagrama_documento' documento.id %}">gerar diagrama</a>

@@ -107,3 +107,15 @@ function limparDependencia(campo){
     $("#li_chave_"+campo).show();
     $(".item_chave_"+campo).show();
 }
+
+
+function getSelect(dados){
+    let select = '';
+
+    jQuery.each(dados, function(i, val){
+        select += '<option value="'+i+'">'+val;
+        select += '</option>';
+    });
+
+    return select;
+}

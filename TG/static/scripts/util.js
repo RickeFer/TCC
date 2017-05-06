@@ -107,3 +107,9 @@ function limparDependencia(campo){
     $("#li_chave_"+campo).show();
     $(".item_chave_"+campo).show();
 }
+
+function getSelect(dados){
+
+
+    console.log(dados);
+}
