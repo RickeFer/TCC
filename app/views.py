@@ -31,6 +31,10 @@ from actions._grupo_convite import run_grupo_convite
 from actions._script_documento import run_script_documento
 from actions._diagrama_documento import run_diagrama_documento
 from actions._documento_deletar import run_documento_deletar
+from actions._gerenciar_relacionamentos import run_gerenciar_relacionamentos
+from actions._ajax_get_tabelas import run_ajax_get_tabelas
+from actions._ajax_get_chaves import run_ajax_get_chaves
+from actions._ajax_gerenciar_relacionamentos import run_ajax_gerenciar_relacionamentos
 
 from classes.util import *
 
@@ -144,11 +148,14 @@ def diagrama_documento(request, documento_id):
 
     return render(request, 'app/diagrama_documento.html', context)
 
-"""
-def normalizar(request, documento_id=0):
-    context = run_normalizar(documento_id)
-    return render(request, 'app/normalizar2.html', context)
-"""
+
+def gerenciar_relacionamentos(request, documento_id):
+    if not verificar_sessao(request): return redirecionar_login()
+    context = run_gerenciar_relacionamentos(request, documento_id)
+    context['usuario'] = get_usuario(request.session['usuario_id'])
+
+    return render(request, 'app/gerenciar_relacionamentos.html', context)
+
 
 def normalizar_documento(request, documento_id=0):
     if not verificar_sessao(request): return redirecionar_login()
@@ -213,6 +220,27 @@ def ajax_renomear_tabela(request):
 def ajax_tabela(request, tabela_id):
     context = run_ajax_tabela(request)
     return render(request, 'app/ajax_tabela.html', context)
+
+
+@ajax
+def ajax_get_tabelas(request, tabela_id):
+    context = run_ajax_get_tabelas(request, tabela_id)
+
+    return HttpResponse(json.dumps(context), content_type='application/json')
+
+
+@ajax
+def ajax_get_chaves(request, tabela_id):
+    context = run_ajax_get_chaves(request, tabela_id)
+
+    return HttpResponse(json.dumps(context), content_type='application/json')
+
+
+@ajax
+def ajax_gerenciar_relacionamentos(request):
+    context = run_ajax_gerenciar_relacionamentos(request)
+
+    return HttpResponse(json.dumps(context), content_type='application/json')
 
 
 """
