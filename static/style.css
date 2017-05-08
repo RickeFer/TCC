@@ -122,3 +122,11 @@
 .lista .item-lista:hover { background-color: rgba(61, 61, 103, .4); }
 
 .redirecionar { cursor: pointer }
+
+.lista .opcoes
+{
+    padding: 10px;
+    color: white;
+    font-weight: bold;
+    text-align: center;
+}

@@ -14,7 +14,6 @@ class FieldForm(forms.ModelForm):
         model = Campo
         fields = ['nome']
         labels = {'nome': 'Campo'}
-        widgets = {'ordem': forms.HiddenInput}
 
 
 class DocumentForm(forms.ModelForm):

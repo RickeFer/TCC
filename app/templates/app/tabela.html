@@ -8,7 +8,10 @@
 {% endblock css %}
 
 {% block header %}
-    <h3>Tabela {{tabela}}</h3>
+    <h3>
+		Tabela {{tabela}}
+		<small><span class="glyphicon glyphicon-pencil" data-toggle="modal" data-target="#renomear-tabela"></span></small>
+	</h3> 
 {% endblock header %}
 
 {% block content %}
@@ -154,6 +157,32 @@
         {% endbuttons %}
     </form>
 
+	
+	
+    <div id="renomear-tabela" class="modal fade" role="dialog">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                    <h4 class="modal-title">Renomear Tabela</h4>
+                </div>
+                <div class="modal-body">
+                    <div class="form-group">
+                        <label class="control-label" for="novo_campo">Nome</label>
+                        <input class="form-control" id="novo_campo" maxlength="20" name="novo_campo" placeholder="Nome" title="" type="text" value="{{tabela}}" required />
+                    </div>
+
+                  {% csrf_token %}
+                  {% buttons %}
+                        <button name="submit" class="btn btn-enviar" id="btnAddCampo" data-dismiss="modal">SALVAR</button>
+                  {% endbuttons %}
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default">Fechar</button>
+                </div>
+            </div>
+        </div>
+    </div>
 {% endblock content %}
 
 

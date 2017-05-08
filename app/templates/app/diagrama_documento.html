@@ -8,6 +8,8 @@
     <style>
         .tabela
         {
+			width:150px;z-index:666; 
+			background-color:#CCC
             border:1px solid black;
             text-align: center;
             overflow: hidden;
@@ -28,20 +30,15 @@
 
 {% block content %}
 
-    <div id="foo">
+    <div>
         {% for tabela in documento.tabelas %}
-            <div class="tabela item" id="tabela_{{tabela.id}}" tabela-id="{{tabela.id}}" relacoes="{{tabela.relacao}}" style="left:{{tabela.pos}}px; width:150px;z-index:666; background-color:#CCC">
+            <div class="tabela item" id="tabela_{{tabela.id}}" tabela-id="{{tabela.id}}" relacoes="{{tabela.relacao}}" style="left:{{tabela.pos}}px;">
                 {{tabela}}
             </div>
         {% endfor %}
     </div>
 
     <br><br><br>
-
-    <!--
-    <div id="tabela_1" class="item col-md-1" style="border:1px solid black; padding:5px;">1</div>
-    <div id="tabela_2" class="item col-md-1" style="border:1px solid black; padding:5px; left:300px">2</div>
-    -->
 {% endblock content %}
 
 
@@ -67,63 +64,22 @@
                         conexoes.push(aux);
                 }
 
-                //jsPlumb.makeSource("foo");
                 jsPlumb.draggable(id);
             });
 
-            console.log(conexoes[1]);
-
-            let sources = new Array();
-
             for(let i=0; i<conexoes.length; i++){
-
-                if(sources.indexOf(conexoes[i].source)==-1 || true)
-                {
-                    jsPlumb.connect({
-                        source:"tabela_"+conexoes[i].source,
-                        target:"tabela_"+conexoes[i].target,
-                        anchor:["Continuous", { faces:["top","bottom", "left", "right"] }],
-                        Endpoint: ["Dot", {radius: 2, maxConnections:-1, isSource:true}],
-                        connector: "Flowchart",
-                        detachable: false,
-                        overlays:[
-                            [ "Label", {label:"x", id:"label"}]
-                        ]
-                    });
-
-                    sources.push(conexoes[i].source);
-                }
-                else
-                {
-
-                }
+                jsPlumb.connect({
+                    source:"tabela_"+conexoes[i].source,
+                    target:"tabela_"+conexoes[i].target,
+                    anchor:["Continuous", { faces:["top","bottom", "left", "right"] }],
+                    Endpoint: ["Dot", {radius: 2, maxConnections:-1, isSource:true}],
+                    connector: "Flowchart",
+                    detachable: false,
+                    overlays:[
+                        [ "Label", {label:"x", id:"label"}]
+                    ]
+                });
             }
-
-
-            /*
-            jsPlumb.connect({
-                source:"tabela_125",
-                target:"tabela_127",
-                anchor:[ "Continuous", { faces:["top","bottom", "left", "right"] }],
-                Endpoint: ["Dot", {radius: 2}],
-                connector: "StateMachine",
-                paintStyle: { stroke: "red", strokeWidth: 4 },
-                HoverPaintStyle: { stroke: "blue" },
-                overlays: [
-                    "Arrow"
-                ]
-                //HoverPaintStyle: {stroke: "#1e8151", strokeWidth: 2 },
-                ConnectionOverlays: [
-                    [ "Arrow", {
-                        location: 1,
-                        id: "arrow",
-                        length: 14,
-                        foldback: 0.8
-                    } ],
-                ],
-                detachable: false
-            });
-            */
         });
 
     </script>

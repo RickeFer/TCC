@@ -13,14 +13,6 @@ def runAdd_campo(request, table_id):
             novo_campo = form.save(commit=False)
             # relaciona tabela
             novo_campo.table = tabela
-            ult_campo = tabela.campo_set.order_by('ordem')
-
-            if len(ult_campo):
-                ult_campo = ult_campo[len(ult_campo) - 1].order
-            else:
-                ult_campo = -1
-
-            novo_campo.order = ult_campo + 1
             novo_campo.save()
             #return HttpResponseRedirect(reverse('app:tabela', args=[table_id]))
             return None

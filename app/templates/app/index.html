@@ -5,19 +5,18 @@
 {% endblock header %}
 
 {% block content %}
-
     {% if solicitacoes %}
         <h4>Solicitações</h4>
-        <div style="padding:10px">
-            <ul>
-                {% for solicitacao in solicitacoes %}
-                    <li>
-                        {{solicitacao.grupo}}
-                        <span class="glyphicon glyphicon-ok" alt="Aceitar" title="Aceitar" onclick="aceitar({{solicitacao.grupo.id}});"></span>
-                        <span class="glyphicon glyphicon-remove" alt="Excluir" title="Excluir" onclick="if(confirm('Deseja rejeitar a solicitação do grupo?')) rejeitar({{solicitacao.grupo.id}});"></span>
-                    </li>
-                {% endfor %}
-            </ul>
+        <div class="lista">
+            {% for solicitacao in solicitacoes %}
+                <div class="opcoes col-md-1">
+                    <span class="glyphicon glyphicon-ok" alt="Aceitar" title="Aceitar" onclick="aceitar({{solicitacao.grupo.id}});" style="margin-right:10px"></span>
+                    <span class="glyphicon glyphicon-remove" alt="Excluir" title="Excluir" onclick="if(confirm('Deseja rejeitar a solicitação do grupo?')) rejeitar({{solicitacao.grupo.id}});"></span>
+                </div>
+                <div class="header">
+                    {{solicitacao.grupo}}
+                </div>
+            {% endfor %}
         </div>
     {% endif %}
     {% csrf_token %}

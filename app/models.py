@@ -60,20 +60,11 @@ class Tabela(models.Model):
     def __str__(self):
         return self.nome
 
-    def nome_sublinhado(self):
-        aux = self.nome.split()
-        ret = ''
-        for c in aux:
-            ret += c+'_'
-
-        return ret[:-1]
-
 
 class Campo(models.Model):
     #tabela = models.ForeignKey(Tabela, default=None)
     nome = models.CharField(max_length=20)
     data_adicionado = models.DateTimeField(auto_now_add=True)
-    ordem = models.PositiveSmallIntegerField()
 
     tipo_atributo = models.CharField(max_length=20, default='INT')
     tamanho_itens = models.CharField(max_length=10, blank=True, null=True)

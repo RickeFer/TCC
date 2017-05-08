@@ -19,8 +19,9 @@
 
             <div class="col-md-12" style="padding:20px;">
             {% for chave in tabela.chaves %}
-                <div class="campo campo_{{chave.id}}" chave-id="{{chave.id}}" tabela-id="{{tabela.id}}" style="cursor:pointer" data-target="#modal-relacionar" data-toggle="modal">
-                    {{chave}} {{chave.id}}
+                <div class="campo campo_{{chave.id}}" chave-id="{{chave.id}}" tabela-id="{{tabela.id}}" style="cursor:pointer" 
+						data-target="#modal-relacionar" data-toggle="modal">
+                    {{chave}}
                 </div>
             {% endfor %}
             </div>
@@ -59,6 +60,7 @@
             </div>
         </div>
     </div>
+	
 {% endblock content %}
 
 

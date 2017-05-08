@@ -14,11 +14,11 @@
 {% block content %}
     <form action="{% url 'app:add_documento' %}" method="POST" class="form">
         {% csrf_token %}
-        {% bootstrap_form formDoc %}
+        {% bootstrap_form form_documento %}
 
         <div class="input" style="margin-bottom: 10px">
-            <label for="temp_name">Grupo</label>
-            <select class="form-control" name="grupo" required>
+            <label for="grupo">Grupo</label>
+            <select class="form-control" id="grupo" name="grupo" required>
                 {% for grupo in grupos %}
                     <option value="{{grupo.id}}">{{grupo}}</option>
                 {% endfor %}
@@ -35,35 +35,34 @@
         </div>
 
         {% buttons %}
-            <button name="submit" class="btn btn-primary">SALVAR</button>
+            <button name="submit" class="btn btn-enviar">SALVAR</button>
         {% endbuttons %}
     </form>
-
 {% endblock content %}
 
 {% block modal %}
     <div id="addCampo" class="modal fade" role="dialog">
-      <div class="modal-dialog">
-        <div class="modal-content">
-          <div class="modal-header">
-            <button type="button" class="close" data-dismiss="modal">&times</button>
-            <h4 class="modal-title">Adicionar Campo</h4>
-          </div>
-          <div class="modal-body">
-              <div class="input" style="margin-bottom: 10px">
-                  <label for="temp_name">Campo</label>
-                  <input class="form-control" id="temp_name" maxlength="20" placeholder="Campo" required="required" title="" type="text" />
-              </div>
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal">&times</button>
+                    <h4 class="modal-title">Adicionar Campo</h4>
+                </div>
+                <div class="modal-body">
+                    <div class="input" style="margin-bottom: 10px">
+                        <label for="temp_nome">Campo</label>
+                        <input class="form-control" id="temp_nome" maxlength="20" placeholder="Campo" required="required" type="text" />
+                    </div>
 
-              {% buttons %}
-                    <button name="submit" class="btn btn-primary" id="btnAddCampo" data-dismiss="modal">ADICIONAR</button>
-              {% endbuttons %}
-          </div>
-          <div class="modal-footer">
-            <button type="button" class="btn btn-default" id="fechar_modal" data-dismiss="modal">Fechar</button>
-          </div>
+                    {% buttons %}
+                        <button name="submit" class="btn btn-enviar" id="btnAddCampo" data-dismiss="modal">ADICIONAR</button>
+                    {% endbuttons %}
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" id="fechar_modal" data-dismiss="modal">Fechar</button>
+                </div>
+            </div>
         </div>
-      </div>
     </div>
 {% endblock modal %}
 
@@ -73,20 +72,19 @@
         var num = 0;
 
         $("#btnAddCampo").click(function(){
-            var nome = '';
-            var nome = $("#temp_name").val();
-            var pk = $("#temp_primary").attr('checked')?1:0;
+            let nome = $("#temp_nome").val();
 
             nome = normalizarNome(nome);
 
             if(nome == '')
                 alert("Insira um nome válido para o campo!");
             else{
-                var dom = '<div id="item_'+num+'"><span class="glyphicon glyphicon-remove remove" aria-hidden="true" id="remove_'+num+'" onclick="removeCampo('+num+');"></span>';
-                dom += '<input type="text" class="form-control item-lista" id="campo_'+num+'" name="campo['+num+']" value="'+nome+'" onfocusout="atualizaNormal('+num+');" /></div>';
+                let dom = '<div id="item_'+num+'" class="col-md-12">';
+				dom += '<span class="glyphicon glyphicon-remove remove" aria-hidden="true" id="remove_'+num+'" onclick="removeCampo('+num+');"></span>';
+                dom += '<input type="text" class="form-control col-md-4" id="campo_'+num+'" name="campo['+num+']" value="'+nome+'" onfocusout="atualizaNormal('+num+');" /></div>';
                 $("#campos").append(dom);
 
-                $("#temp_name").val("");
+                $("#temp_nome").val("");
             }
 
             num++;
@@ -114,7 +112,7 @@
         }
 
 
-        $("#temp_name").keyup(function(e){
+        $("#temp_nome").keyup(function(e){
             let codigo = e.which;
 
             if(codigo==13)

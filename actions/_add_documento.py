@@ -13,21 +13,26 @@ def run_add_documento(request):
     if request.method == 'POST':
         array_post = request.POST
 
-        #cria um novo documento
+        """
+            CRIA UM NOVO REGISTRO DE DOCUMENTO
+        """
         documento_novo = Documento()
         documento_novo.nome = array_post['nome']
         
-        #seleciona o grupo do documento
+        """
+            SELECIONA O OBJETO DO GRUPO AO QUAL O DOCUMENTO SERA ATRIBUIDO
+        """
         grupo = Grupo.objects.get(id=array_post['grupo'])
         documento_novo.grupo = grupo
         
         documento_novo.save()
 
-        #cria uma tabela base com o mesmo nome do documento
-        #para armazenar os campos
+        """
+            CRIA UMA ESTRUTURA BASE PARA ARMAZENAR OS CAMPOS
+        """
         tabela_base = Tabela()
         tabela_base.documento = documento_novo
-        tabela_base.nome = 'tabela_base'#array_post['name']
+        tabela_base.nome = 'tabela_base'
         tabela_base.tabela_tipo = 0
         tabela_base.save()
 
@@ -42,8 +47,6 @@ def run_add_documento(request):
 
         for campo in array_campos:
             temp = Campo()
-            #temp.tabela = tabela_base
-            temp.ordem = campo['pos']
             temp.nome = underlined(campo['nome'])
             temp.save()
 
@@ -51,10 +54,10 @@ def run_add_documento(request):
             tb_campo.save()
 
 
-        return {'resultado': True, 'formDoc': formDoc, 'formCamp': formCamp}
+        return {'resultado': True}
 
     elif request.method == 'GET':
         grupos = listar_grupos_do_usuario(id_usuario, 'normal')
 
-        return {'resultado': True, 'formDoc': formDoc, 'formCamp': formCamp, 'grupos': grupos}
+        return {'resultado': True, 'form_documento': formDoc, 'formCamp': formCamp, 'grupos': grupos}
 

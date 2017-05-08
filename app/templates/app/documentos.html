@@ -9,13 +9,19 @@
 {% block header %}
     <h3>Documentos</h3>
     <a href="{% url 'app:add_documento' %}">novo documento</a>
+
+    <div>
+        <span id="mensagem-geral"></span>
+    </div>
 {% endblock header %}
 
 {% block content %}
     <div class="lista">
         {% for documento in documentos %}
+            <div class="col-md-1 opcoes">
+                <span class="glyphicon glyphicon-remove" aria-hidden="true" onclick="if(confirm('Deseja excluir este documento?'))deletar_documento({{documento.id}});"></span>
+            </div>
             <div class="header redirecionar" onclick="abrir_documento({{documento.id}});">
-                <span class="glyphicon glyphicon-remove" aria-hidden="true" onclick="if(confirm('Deseja deletar este documento?'))deletar_documento({{doc.id}});"></span>
                 {{documento}}
             </div>
         {% empty %}
@@ -35,7 +41,14 @@
                 type: "GET",
                 url: "/documentos/"+documento_id+"/deletar",
                 success: function(ret){
-                    console.log(ret);
+                    let json_ret = JSON.parse(ret.content)
+                    if(json_ret.resultado == true)
+                        location.reload();
+                    else
+                    {
+                        $("#mensagem-geral").addClass("erro");
+                        $("#mensagem-geral").text("Houve um erro ao tentar excluir o documento");
+                    }
                 }
             });
         }

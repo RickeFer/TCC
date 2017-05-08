@@ -35,11 +35,8 @@
 {% block content %}
     <form action="{% url 'app:normalizar' documento.id %}" method="POST">
         <ul class="sortable lista-tabelas col-md-12" id="todas_tabelas">
-            <li class="tabela col-md-12" id="sem_tabela">
-                <h4>Campos sem tabela</h4>
-            </li>
+            <li class="tabela col-md-12" id="sem_tabela"><h4>Campos sem tabela</h4></li>
             <div class="col-md-12" id="espaco-sem-tabela" style="margin-bottom: 30px"></div>
-
             {% for tabela in arrayTabelas %}
                 <li class="tabela col-md-12" id="{{tabela.tabela}}" draggable="false">
                     <h4>{{tabela.tabela}}</h4>
@@ -50,7 +47,8 @@
                     <li class="ui-state-default campo {% if campo.id in tabela.restricoes_pk %}chave-primaria{% endif %} col-md-1" id="{{campo}}_campo"
                         onfocusout="atualizaPosCampo({{campo}});" ondragover="allowDrop(event)" ondrop="drop(event)" alt="{{campo}}" title="{{campo}}">
                         {{campo}}
-                        <input type="hidden" id="{{campo}}_primaria" name="{{campo}}[primaria]" value="{% if campo.id in tabela.restricoes_pk %}1{% else %}0{% endif %}" />
+                        <input type="hidden" id="{{campo}}_primaria" name="{{campo}}[primaria]" 
+								value="{% if campo.id in tabela.restricoes_pk %}1{% else %}0{% endif %}" />
                         <input type="hidden" id="{{campo}}_top" name="{{campo}}['top']" value="0" />
                         <input type="hidden" id="{{campo}}_left" name="{{campo}}['left']" value="0" />
                     </li>
@@ -64,8 +62,7 @@
         <input type="hidden" name="forma_normal" value="1" />
         {% csrf_token %}
         {% buttons %}
-            <!--<button name="submit" class="btn btn-primary" id="enviar" style="margin-left: 40px">SALVAR</button>-->
-            <div class="btn btn-primary" id="enviar">SALVAR</div>
+            <div class="btn btn-enviar" id="enviar">SALVAR</div>
         {% endbuttons %}
     </form>
 
@@ -86,7 +83,7 @@
 
                   {% csrf_token %}
                   {% buttons %}
-                        <button name="submit" class="btn btn-primary" id="btnAddTabela" data-dismiss="modal">ADICIONAR</button>
+                        <button name="submit" class="btn btn-enviar" id="btnAddTabela" data-dismiss="modal">ADICIONAR</button>
                   {% endbuttons %}
                 </div>
                 <div class="modal-footer">
@@ -113,7 +110,7 @@
 
                   {% csrf_token %}
                   {% buttons %}
-                        <button name="submit" class="btn btn-primary" id="btnAddCampo" data-dismiss="modal">ADICIONAR</button>
+                        <button name="submit" class="btn btn-enviar" id="btnAddCampo" data-dismiss="modal">ADICIONAR</button>
                   {% endbuttons %}
                 </div>
                 <div class="modal-footer">
@@ -152,7 +149,7 @@
             else if(id_mensagem == 1)
                 $("#texto-dica").html(
                     "<span class=\"texto\">Arraste os campos repetitivos para a respectiva tabela!</span>"+
-                    "<span class=\"texto\">E identifique a chave primária!</span>"
+                    "<span class=\"texto\">Identifique as chaves primárias!</span>"
                 );
         }
 

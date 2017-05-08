@@ -37,6 +37,7 @@
 
 {% block content %}
     <form action="{% url 'app:normalizar' documento.id %}" method="POST">
+	
         {% for tabela in arrayTabelas %}
             <div style="padding: 15px">
                 <h4>{{tabela.tabela}}</h4>
@@ -47,14 +48,15 @@
                          onmouseout="esconderOp('{{campo}}')" style="cursor: context-menu">
                             {{campo}}
 
-                            <span class="caret opcoes" style="display: none" id="{{campo}}_op" id="dropdownMenu_{{campo}}" data-toggle="dropdown" aria-haspopup="true"
-                                    aria-expanded="true"></span>
-
+                            <span class="caret opcoes" style="display: none" id="{{campo}}_op" id="dropdownMenu_{{campo}}" data-toggle="dropdown" 
+									aria-haspopup="true" aria-expanded="true"></span>
 
                             <ul class="dropdown-menu dropdown-menu-meu" aria-labelledby="dropdownMenu_{{campo}}">
                                 {% for dep in tabela.campos %}
                                     {% if dep != campo %}
-                                        <li onclick="setarDependencia('{{campo}}', '{{dep}}');" class="item_chave_{{campo}}" id="{{campo}}_{{dep}}">{{dep}}</li>
+                                        <li onclick="setarDependencia('{{campo}}', '{{dep}}');" class="item_chave_{{campo}}" id="{{campo}}_{{dep}}">
+											{{dep}}
+										</li>
                                     {% endif %}
                                 {% endfor %}
                                 <li role="separator" class="divider"></li>
@@ -71,7 +73,7 @@
         <input type="hidden" name="forma_normal" value="3" />
         {% csrf_token %}
         {% buttons %}
-            <button name="submit" class="btn btn-primary" id="enviar">SALVAR</button>
+            <button name="submit" class="btn btn-enviar" id="enviar">SALVAR</button>
         {% endbuttons %}
     </form>
 {% endblock content %}
@@ -83,7 +85,7 @@
 
         function setarMensagem(){
             if(id_mensagem == 0){
-                $("#texto-dica").html("<span class=\"texto\">Informe as dependências de cada campo!</span>");
+                $("#texto-dica").html("<span class=\"texto\">Informe as dependências transitivas!</span>");
             }
         }
 

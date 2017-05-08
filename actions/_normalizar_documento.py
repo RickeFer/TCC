@@ -60,7 +60,7 @@ def run_normalizar_documento(request, documento_id):
 
             if len(tabelas):
                 for tabela in tabelas:
-                    campos, array_restricoes = [], []#tabela.campo_set.order_by('ordem')
+                    campos, array_restricoes = [], []
 
                     array = tabela.campo_tabela_set.all()
                     for rel in array:
@@ -179,19 +179,19 @@ def run_normalizar_documento(request, documento_id):
             for p in aux:
                 temp = p.split("'")
                 if 'top' in temp:
-                    # print(aux[p])
                     nome = p.split('[')[0]
                     primaria = False
 
                     try:
                         if request.POST[nome+'[primaria]'] == '1':
-                            primaria = True #request.POST[nome+'[primaria]']
+                            primaria = True
                     except:
                         pass
 
                     temp = {'tipo': 'campo', 'nome': p, 'top': aux[p], 'primaria': primaria}
                     tops.append(temp)
-            # fecha o range da tabela
+					
+            #fecha o range da tabela
             for i, item in enumerate(reversed(tabs)):
                 if i == 0:
                     continue
@@ -212,14 +212,11 @@ def run_normalizar_documento(request, documento_id):
 
             documento = Documento.objects.get(id=documento_id)
 
-
-
             for tab in tabs:
                 if tab['nome'] == 'sem_tabela':
                     tab['nome'] = underlined(documento.name)
 
                 aux = get_tabela_do_documento(documento_id, nome=tab['nome'])
-
                 if aux == None:
                     aux = Tabela(nome=tab['nome'], documento=documento, tabela_tipo=1)
                     aux.save()
@@ -231,7 +228,7 @@ def run_normalizar_documento(request, documento_id):
                         campo = get_campo_documento(documento_id, nome=nome[0])
 
                         if campo == None:
-                            campo = Campo(nome=nome[0], ordem=1)
+                            campo = Campo(nome=nome[0])
 
                         campo.save()
 
@@ -253,8 +250,6 @@ def run_normalizar_documento(request, documento_id):
                             campo_tabela.tipo_campo = 'Normal'
                             campo_tabela.tabela = aux
                             campo_tabela.save()
-                            #temp_restricao = Restricao(campo=campo, tipo='PK')
-                            #temp_restricao.save()
 
             flag_fn = True
             for tab in tabs:
@@ -280,7 +275,6 @@ def run_normalizar_documento(request, documento_id):
 
                 qtde_pk = 0
                 for campo in campos:
-                    #chave = campo.restricao_set.filter(tipo='PK')
                     chave = campo.campo_tabela_set.filter(tipo_campo='PK')
                     if chave:
                         qtde_pk += 1
@@ -310,7 +304,6 @@ def run_normalizar_documento(request, documento_id):
                         nome += temp+'_'
 
                     campo = get_campo_documento(documento_id, nome=nome[0:-1])
-                    #campo = Campo.objects.get(nome=nome[0:-1])
 
                     if nome not in ja_atualizados:
                         ja_atualizados.append(nome)
@@ -319,7 +312,6 @@ def run_normalizar_documento(request, documento_id):
                             dep.delete()
 
                     aux_chave = get_chave_documento(documento_id, nome=valor)
-                    #aux_chave = Campo.objects.get(id=valor)
 
                     temp = Dependencia(campo=campo, chave=aux_chave)
                     temp.save()
@@ -343,7 +335,6 @@ def run_normalizar_documento(request, documento_id):
 
                 for campo in array_temp:
                     restricao = Campo_Tabela.objects.get(campo=campo, tabela=tabela)
-                    #restricao = campo.restricao_set.filter(tipo='PK')
                     if restricao.tipo_campo == 'PK':
                         chaves.append(campo)
                     else:
@@ -365,7 +356,6 @@ def run_normalizar_documento(request, documento_id):
                                 qtde_dep += 1
 
                     if qtde_chaves != qtde_dep:
-                        #campos_nova_tabela.append(campo)
                         pass
                         #procura o primeiro item da dependencia
                         dep_temp = None
@@ -395,7 +385,6 @@ def run_normalizar_documento(request, documento_id):
 
                         #cria uma chave estrangeira na nova tabela
                         chave = get_chave_documento(documento_id, nome=chave_nome, restricao='PK')
-                        #chave = Campo.objects.get(nome=chave_nome)
 
                         #passa a pk para fk
                         array_rel = Campo_Tabela.objects.filter(campo=chave)
@@ -429,8 +418,8 @@ def run_normalizar_documento(request, documento_id):
                         tabela.forma_normal = 2
                         tabela.save()
 
-            context = {}
-            return context
+            return {}
+			
         elif aux['forma_normal'] == '3':
             documento = Documento.objects.get(id=documento_id)
 
@@ -459,7 +448,6 @@ def run_normalizar_documento(request, documento_id):
             """
             for key, array_campos in dicionario_dependencia.items():
                 campo = get_campo_documento(documento_id, nome=key)
-                #campo = Campo.objects.get(nome=key)
                 rel = campo.campo_tabela_set.get(tipo_campo='Normal')
                 rel.tipo_campo = 'FK'
                 rel.save()
@@ -474,7 +462,6 @@ def run_normalizar_documento(request, documento_id):
 
                 for nome_campo in array_campos:
                     campo = get_campo_documento(documento_id, nome=nome_campo)
-                    #campo = Campo.objects.get(nome=nome_campo)
                     rel = campo.campo_tabela_set.get(tipo_campo='Normal')
                     rel.tabela = tabela
                     rel.save()
@@ -487,9 +474,5 @@ def run_normalizar_documento(request, documento_id):
                 tabela.forma_normal = 3
                 tabela.save()
 
-
-
-
-            context = {'documento': documento}
-            return context
+            return {'documento': documento}
  
