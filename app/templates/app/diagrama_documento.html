@@ -6,17 +6,18 @@
     <title>Documento - {{documento}}</title>
 
     <style>
-        .tabela
+        .tabela-diagrama
         {
-			width:150px;z-index:666; 
-			background-color:#CCC
+			width:150px!important;
+			z-index:666;
+			background-color:#CCC;
             border:1px solid black;
             text-align: center;
             overflow: hidden;
             text-overflow: ellipsis;
         }
 
-        .tabela:hover
+        .tabela-diagrama:hover
         {
             box-shadow: 3px 3px 3px #EEE;
         }
@@ -32,7 +33,7 @@
 
     <div>
         {% for tabela in documento.tabelas %}
-            <div class="tabela item" id="tabela_{{tabela.id}}" tabela-id="{{tabela.id}}" relacoes="{{tabela.relacao}}" style="left:{{tabela.pos}}px;">
+            <div class="item tabela-diagrama" id="tabela_{{tabela.id}}" tabela-id="{{tabela.id}}" relacoes="{{tabela.relacao}}" style="left:{{tabela.pos}}px;">
                 {{tabela}}
             </div>
         {% endfor %}

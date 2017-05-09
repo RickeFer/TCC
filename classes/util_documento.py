@@ -72,3 +72,16 @@ def get_documento_completo(documento_id):
         tabela.estrangeiras = listar_chaves_tabela(tabela, 'FK')
 
     return documento
+
+
+def get_documento_copiar(documento_id):
+    documento = Documento.objects.get(id=documento_id)
+
+    documento.tabelas = documento.tabela_set.all()
+
+    for tabela in documento.tabelas:
+        tabela.campos = listar_campos_tabela(tabela)
+        tabela.rel = listar_relacao_campo(tabela)
+        tabela.dependencias = listar_dependencias(tabela)
+
+    return documento

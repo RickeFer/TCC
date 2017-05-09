@@ -1,6 +1,8 @@
 from app.models import *
 import pprint
 
+from classes.util_grupo import *
+
 
 def run_documento(documento_id):
     documento = Documento.objects.get(id=documento_id)
@@ -64,5 +66,6 @@ def run_documento(documento_id):
     else:
         fn = 0
 
+    grupos = listar_grupos(documento.grupo.id)
 
-    return {'documento': documento, 'base': tabela_base, 'sem_tabela': campos_sem_tabela, 'tabelas': tabelas, 'fn': fn}
+    return {'documento': documento, 'base': tabela_base, 'sem_tabela': campos_sem_tabela, 'tabelas': tabelas, 'fn': fn, 'grupos': grupos}

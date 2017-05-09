@@ -214,7 +214,9 @@ def run_normalizar_documento(request, documento_id):
 
             for tab in tabs:
                 if tab['nome'] == 'sem_tabela':
-                    tab['nome'] = underlined(documento.name)
+                    tab['nome'] = documento.nome
+
+                tab['nome'] = underlined(tab['nome'])
 
                 aux = get_tabela_do_documento(documento_id, nome=tab['nome'])
                 if aux == None:

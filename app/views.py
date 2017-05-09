@@ -35,6 +35,7 @@ from actions._gerenciar_relacionamentos import run_gerenciar_relacionamentos
 from actions._ajax_get_tabelas import run_ajax_get_tabelas
 from actions._ajax_get_chaves import run_ajax_get_chaves
 from actions._ajax_gerenciar_relacionamentos import run_ajax_gerenciar_relacionamentos
+from actions._ajax_compartilhar_documento import run_ajax_compartilhar_documento
 
 from classes.util import *
 
@@ -239,6 +240,13 @@ def ajax_get_chaves(request, tabela_id):
 @ajax
 def ajax_gerenciar_relacionamentos(request):
     context = run_ajax_gerenciar_relacionamentos(request)
+
+    return HttpResponse(json.dumps(context), content_type='application/json')
+
+
+@ajax
+def ajax_compartilhar_documento(request):
+    context = run_ajax_compartilhar_documento(request)
 
     return HttpResponse(json.dumps(context), content_type='application/json')
 

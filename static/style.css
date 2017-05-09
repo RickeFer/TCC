@@ -61,8 +61,8 @@
 
 .divisor { height: 20px }
 
-.erro { padding: 7px; background-color: #E55E5; margin: 10px 0px; }
-.erro span { color: red }
+.erro { padding: 7px; background-color: rgba(255,0,0,.4); margin: 10px 0px; border: 1px solid rgb(255,0,0); border-radius:7px }
+.erro span { font-weight: bold; }
 
 
 .tabela-campos { margin-bottom: 20px; }
