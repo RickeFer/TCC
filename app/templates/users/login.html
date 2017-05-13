@@ -5,9 +5,11 @@
         <p>Usuário e senha não correspondem</p>
     {% endif %}
 
-    <div class="erro">
-        {{erro}}
-    </div>
+    {% if erro %}
+        <div id="div-erro" class="erro" style="text-align:center;">
+            {{erro}}
+        </div>
+    {% endif %}
 
     <div style="text-align:center">
         <h3>Entrar</h3>
@@ -29,3 +31,16 @@
     </div>
 
 {% endblock content %}
+
+
+{% block script %}
+    <script>
+        {% if erro %}
+            $(document).ready(function(){
+                setTimeout(
+                    function(){ $("#div-erro").fadeOut(); }, 2000
+                );
+            });
+        {% endif %}
+    </script>
+{% endblock script %}
