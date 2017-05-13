@@ -10,8 +10,8 @@
     <h3>Documentos</h3>
     <a href="{% url 'app:add_documento' %}">novo documento</a>
 
-    <div>
-        <span id="mensagem-geral"></span>
+    <div id="mensagem-geral">
+        <span></span>
     </div>
 {% endblock header %}
 
@@ -46,8 +46,15 @@
                         location.reload();
                     else
                     {
+                        $("#mensagem-geral").fadeIn();
                         $("#mensagem-geral").addClass("erro");
-                        $("#mensagem-geral").text("Houve um erro ao tentar excluir o documento");
+                        $("#mensagem-geral span").text("Houve um erro ao tentar excluir o documento");
+
+                        setTimeout(
+                            function(){
+                                $("#mensagem-geral").fadeOut();
+                            }, 2000
+                        );
                     }
                 }
             });

@@ -15,6 +15,7 @@ def login(request):
     if request.method == 'POST':
         context = run_login(request)
 
+        print(context)
         if context['resultado']:
             response = HttpResponseRedirect(reverse('app:index'))
 

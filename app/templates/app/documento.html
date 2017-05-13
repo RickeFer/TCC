@@ -7,19 +7,20 @@
 {% endblock css %}
 
 {% block header %}
-    <h3>{{documento}}
-        <!--<button type="button" id="add_tabela" class="btn btn-default btn-lg" data-toggle="modal" data-target="#addTabela">
-          <span class="glyphicon glyphicon-plus" aria-hidden="true"></span>
-        </button>-->
+    <h3>
+        <span class="col-md-10">{{documento}}</span>
         <small>
-            {% if fn < 3 %}
-                <a href="{% url 'app:normalizar' documento.id %}">normalizar</a>
-            {% endif %}
+            <span class="glyphicon glyphicon-share" id="compartilhar-documento" documento-id="{{documento.id}}" data-toggle="modal" data-target="#modal-compartilhar"></span>
         </small>
     </h3>
 
-    {% if fn < 3 %}
-        Forma Normal atual: {{fn}}
+    {% if fn == 0 %}
+        Documento desnormalizado<br>
+        <a href="{% url 'app:normalizar' documento.id %}">normalizar</a>
+    {% elif fn < 3 %}
+        Forma Normal atual: {{fn}}<br>
+        <a href="{% url 'app:normalizar' documento.id %}">normalizar</a><br>
+        <!--<a href="{% url 'app:gerenciar_relacionamentos' documento.id %}">gerenciar relacionamentos</a>-->
     {% elif fn == 3 %}
         Documento Normalizado<br>
         <a href="{% url 'app:gerenciar_relacionamentos' documento.id %}">gerenciar relacionamentos</a>
@@ -27,10 +28,11 @@
         <a href="{% url 'app:script_documento' documento.id %}">gerar script</a><br>
         <a href="{% url 'app:diagrama_documento' documento.id %}">gerar diagrama</a>
     {% endif %}
+
 {% endblock header %}
 
 {% block content %}
-    {% if fn < 3 %}
+    {% if fn == 0 %}
         <ul class="lista-tabelas">
             {% if sem_tabela %}<h4>Campos sem tabela</h4>{% endif %}
             <ul>
@@ -77,29 +79,76 @@
 {% endblock content %}
 
 
+{% block modal %}
+    <div id="modal-compartilhar" class="modal fade" role="dialog">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                    <h4 class="modal-title">Compartilhar Documento</h4>
+                </div>
+                <div class="modal-body">
+                    <div class="form-group">
+                        <label class="control-label" for="grupo-receber">Grupo</label>
+                        <select class="form-control" id="grupo-receber">
+                            {% for grupo in grupos %}
+                                <option value="{{grupo.id}}">{{grupo}}</option>
+                            {% endfor %}
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label class="control-label" for="modo-compartilhar">Forma</label>
+                        <select class="form-control" id="modo-compartilhar">
+                            <option value="1">Desnormalizado</option>
+                            <option value="2">Atual</option>
+                        </select>
+                    </div>
+
+
+                    {% csrf_token %}
+                    {% buttons %}
+                        <button name="submit" class="btn btn-enviar" id="enviar-compartilhar" data-dismiss="modal">Compartilhar</button>
+                    {% endbuttons %}
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default">Fechar</button>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock modal %}
+
+
 {% block script %}
     <script>
-        /*
-        $("span").click(function(){
-            var id = "campos_"+$(this).attr("id");
-
-            if($("#"+id).css("display")=="none"){
-                //$("#"+id).css("display", "block");
-                $("#"+id).show();
-                $(this).attr("class", "glyphicon glyphicon-chevron-up");
-            }
-            else{
-                //$("#"+id).css("display", "none");
-                $("#"+id).hide();
-                $(this).attr("class", "glyphicon glyphicon-chevron-down");
-            }
-        });*/
-
         function mostrar_campos(tabela_id){
             if($("#campos_"+tabela_id).css("display") == "none")
                 $("#campos_"+tabela_id).show();
             else
                 $("#campos_"+tabela_id).hide();
         }
+
+
+        $("#enviar-compartilhar").click(function(){
+            let documento_id = {{documento.id}};
+            let grupo_id = $("#grupo-receber").val();
+            let token = $("input[name=csrfmiddlewaretoken]").val();
+            let modo_compartilhar = $("#modo-compartilhar").val();
+
+            $.ajax({
+                type: "POST",
+                url: '{% url 'app:ajax_compartilhar_documento' %}',
+                data: {
+                    'documento_id': documento_id,
+                    'grupo_id': grupo_id,
+                    'modo_compartilhar': modo_compartilhar,
+                    'csrfmiddlewaretoken': token
+                },
+                success: function(ret){
+                    console.log(ret);
+                }
+            });
+        });
+
     </script>
 {% endblock script %}

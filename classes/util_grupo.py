@@ -34,3 +34,12 @@ def listar_solicitacoes(id_usuario):
     array_rel = Grupo_Usuario.objects.filter(usuario=usuario, situacao='pendente')
 
     return array_rel
+
+
+def listar_grupos(exceto=None):
+    if exceto:
+        array_grupo = Grupo.objects.all().exclude(id=exceto)
+    else:
+        array_grupo = Grupo.objects.all()
+
+    return array_grupo
