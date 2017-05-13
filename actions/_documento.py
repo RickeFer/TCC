@@ -2,12 +2,12 @@ from app.models import *
 import pprint
 
 from classes.util_grupo import *
+from classes.util_documento import *
 
 
 def run_documento(documento_id):
     documento = Documento.objects.get(id=documento_id)
 
-    #tabela_base = documento.tabela_set.get(nome=documento.name)
     tabela_base = documento.tabela_set.get(nome='tabela_base', tabela_tipo=0)
 
     array_campos_sem_tabela = Campo_Tabela.objects.filter(tabela=tabela_base)
@@ -15,11 +15,11 @@ def run_documento(documento_id):
     for rel in array_campos_sem_tabela:
         temp = Campo.objects.get(id=rel.campo.id)
         campos_sem_tabela.append(temp)
-    #campos_sem_tabela = tabela_base.campo_set.order_by('ordem')
 
-    #tabelas = documento.tabela_set.order_by('name').exclude(nome=documento.name)
+
     tabelas = documento.tabela_set.order_by('nome').exclude(nome='tabela_base', tabela_tipo=0)
     fn = 3
+
     if tabelas:
         for tabela in tabelas:
             campos, chaves_primaria, chaves_estrangeiras = [], [], []
@@ -60,12 +60,13 @@ def run_documento(documento_id):
                 aux = {'tabela': tabela, 'campos': campos}
                 array_tabelas.append(aux)
 
-            context = {'renomear_tabelas': True, 'tabelas': array_tabelas, 'documento': documento}
-            return context
 
+            return {'renomear_tabelas': True, 'tabelas': array_tabelas, 'documento': documento}
     else:
         fn = 0
 
+        flag_dados = verificar_dados_documento(documento_id)
+
     grupos = listar_grupos(documento.grupo.id)
 
-    return {'documento': documento, 'base': tabela_base, 'sem_tabela': campos_sem_tabela, 'tabelas': tabelas, 'fn': fn, 'grupos': grupos}
+    return {'documento': documento, 'base': tabela_base, 'sem_tabela': campos_sem_tabela, 'tabelas': tabelas, 'fn': fn, 'grupos': grupos, 'flag_dados':flag_dados}

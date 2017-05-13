@@ -81,7 +81,7 @@ class Dependencia(models.Model):
     chave = models.ForeignKey(Campo, related_name="dependente")
 
     def __str__(self):
-        return self.campo.nome+' '+self.chave.nome
+        return self.campo.nome + ' ' + self.chave.nome
 
 
 class Campo_Tabela(models.Model):
@@ -91,4 +91,12 @@ class Campo_Tabela(models.Model):
 
     def __str__(self):
         return self.campo.nome
+
+
+class Dado_Exemplo(models.Model):
+    campo = models.ForeignKey(Campo)
+    texto = models.CharField(max_length=25)
+
+    def __str__(self):
+        return self.campo.nome + ' - ' + self.texto
 

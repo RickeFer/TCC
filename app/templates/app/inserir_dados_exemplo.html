@@ -1,0 +1,103 @@
+{% extends  'app/base.html' %}
+{% load bootstrap3 %}
+{% load static %}
+
+{% block css %}
+    <title>Dados | {{documento}}</title>
+     <link  rel="stylesheet" href="{% static 'dados_exemplo.css' %}">
+{% endblock css %}
+
+
+{% block header %}
+{% endblock header %}
+
+
+{% block content %}
+    <div style="overflow:scroll; width:3000px">
+        <div class="lista-campos">
+            {% for campo in documento.campos %}
+                <div class="item-lista-campos" id="div-{{campo.id}}" campo-id="{{campo.id}}">
+                    {{campo}}
+                    <span class="opcao adicionar" campo-id="{{campo.id}}" style="z-index:666"> + </span>
+
+                    <div id="dados-{{campo.id}}">
+                        {% for dado in campo.dados %}
+                            <input type="text" class="dado" bd-id="{{dado.id}}" campo-id="{{campo.id}}" value="{{dado.texto}}" style="width:200px" onfocusout="salvar_dado(this);"/><br>
+                        {% endfor %}
+                    </div>
+                </div>
+            {% endfor %}
+        </div>
+    </div>
+
+    {% csrf_token %}
+{% endblock content %}
+
+
+{% block script %}
+    <script>
+        var campos = new Array();
+
+        $(document).ready(function(){
+            $("#wrapper").toggleClass("toggled");
+
+            $(".item-lista-campos").each(function(){
+                campos.push({"id":$(this).attr("campo-id"), "quantidade":0});
+            });
+
+            $(".dado").each(function(){
+                let campo_id = $(this).attr("campo-id");
+
+                for(let i=0; i<campos.length; i++){
+                    if(campos[i].id == campo_id){
+                        let quantidade = campos[i].quantidade + 1;
+
+                        $(this).attr("id", "dado_"+campo_id+"_"+quantidade);
+                        campos[i].quantidade = quantidade;
+                    }
+                }
+            });
+        });
+
+        $(".adicionar").click(function(){
+            let campo_id = $(this).attr("campo-id");
+            let quantidade = 0;
+
+            for(let i=0; i<campos.length; i++){
+                if(campos[i].id == campo_id){
+                    quantidade = campos[i].quantidade + 1;
+                    campos[i].quantidade = quantidade;
+                }
+            }
+
+            let html = $("#dados-"+campo_id).html();
+
+            if(html == '')
+                html += '<br>';
+
+            html += '<input type="text" class="dado" bd-id="0" style="width:200px" id="dado_'+campo_id+'_'+quantidade+'" campo-id="'+campo_id+'" onfocusout="salvar_dado(this);"/>';
+
+            $("#dados-"+campo_id).html(html);
+        });
+
+
+        function salvar_dado(dom){
+            let dados = {
+                "campo_id": $(dom).attr("campo-id"),
+                "dado": $(dom).val(),
+                "csrfmiddlewaretoken": $("input[name=csrfmiddlewaretoken]").val(),
+                "dado_id": $(dom).attr("bd-id"),
+            };
+
+            if(dados.dado_id!=0 || dados.dado!='')
+                $.ajax({
+                    type: "POST",
+                    url: "{% url 'app:ajax_dado_exemplo' %}",
+                    data: dados,
+                    success: function(ret){
+
+                    }
+                });
+        }
+    </script>
+{% endblock script %}

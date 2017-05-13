@@ -16,7 +16,11 @@
 
     {% if fn == 0 %}
         Documento desnormalizado<br>
-        <a href="{% url 'app:normalizar' documento.id %}">normalizar</a>
+        {% if flag_dados %}
+            <a href="{% url 'app:normalizar' documento.id %}">normalizar</a>
+            <br>
+            <a href="{% url 'app:inserir_dados_exemplo' documento.id %}">inserir dados</a>
+        {% endif %}
     {% elif fn < 3 %}
         Forma Normal atual: {{fn}}<br>
         <a href="{% url 'app:normalizar' documento.id %}">normalizar</a><br>
@@ -33,18 +37,16 @@
 
 {% block content %}
     {% if fn == 0 %}
-        <ul class="lista-tabelas">
-            {% if sem_tabela %}<h4>Campos sem tabela</h4>{% endif %}
-            <ul>
-                {% for campo in sem_tabela %}
-                    <li>
-                        {{campo}}
-                    </li>
-                {% empty %}
-                    <h4>Não há campos sem tabelas</h4>
-                {% endfor %}
-            </ul>
-        </ul>
+        <div class="lista">
+            {% if sem_tabela %}
+                <div class="header" onclick="mostrar_campos(666);">Campos sem tabela</div>
+                <div style="display:none" id="campos_666">
+                    {% for campo in sem_tabela %}
+                        <div class="item-lista">{{campo}}</div>
+                    {% endfor %}
+                </div>
+            {% endif %}
+        </div>
     {% endif %}
 
     <div class="espacamento"></div>

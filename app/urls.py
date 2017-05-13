@@ -17,11 +17,12 @@ urlpatterns = [
     #url documentos
     url(r'^documentos/$', views.documentos, name='documentos'),
     url(r'^documentos/(?P<documento_id>\d+)/$', views.documento, name='documento'),
-    url(r'^add_documento/$', views.add_documento, name='add_documento'),
+    url(r'^documentos/adicionar/$', views.add_documento, name='add_documento'),
     url(r'^documentos/(?P<documento_id>\d+)/deletar/$', views.documento_deletar, name='documento_deletar'),
     url(r'^documentos/(?P<documento_id>\d+)/script/$', views.script_documento, name='script_documento'),
     url(r'^documentos/(?P<documento_id>\d+)/diagrama/$', views.diagrama_documento, name='diagrama_documento'),
     url(r'^documentos/(?P<documento_id>\d+)/relacionamentos/$', views.gerenciar_relacionamentos, name='gerenciar_relacionamentos'),
+    url(r'^documentos/(?P<documento_id>\d+)/dados/$', views.inserir_dados_exemplo, name='inserir_dados_exemplo'),
 
     #url normalizar
     #url(r'^normalizar/$', views.normalizar, name='normalizar'),
@@ -39,6 +40,7 @@ urlpatterns = [
     url(r'^ajax_get_chaves/(?P<tabela_id>\d+)/$', views.ajax_get_chaves, name='ajax_get_campos'),
     url(r'^ajax_gerenciar_relacionamentos/$', views.ajax_gerenciar_relacionamentos, name='ajax_gerenciar_relacionamentos'),
     url(r'^ajax_compartilhar_documento/$', views.ajax_compartilhar_documento, name='ajax_compartilhar_documento'),
+    url(r'^ajax_dados_exemplo/$', views.ajax_dados_exemplo, name='ajax_dado_exemplo'),
 
     #grupo
     url(r'^grupos/$', views.grupos, name='grupos'),

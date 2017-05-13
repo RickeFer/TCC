@@ -1,0 +1,22 @@
+body { width:4000px; }
+
+.lista-campos
+{
+    height: 300px;
+    width: 3800px;
+}
+
+.lista-campos .item-lista-campos
+{
+    background-color: rgba(61, 61, 103, .2);
+    padding: 10px;
+    display: inline-block;
+    margin: 3px;
+}
+
+.lista-campos .item-lista-campos:hover
+{
+    background-color: rgba(61, 61, 103, .5);
+}
+
+.opcao { cursor:pointer; font-weight:bolder }
