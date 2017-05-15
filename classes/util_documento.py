@@ -110,3 +110,15 @@ def verificar_dados_documento(documento_id):
                 return False
 
     return True
+
+
+def listar_tabelas_renomear(documento_id):
+    documento = Documento.objects.get(id=documento_id)
+
+    tabelas_renomear = documento.tabela_set.filter(renomear=True)
+
+    if len(tabelas_renomear):
+        for tabela in tabelas_renomear:
+            tabela.campos = listar_campos_tabela(tabela)
+
+    return tabelas_renomear

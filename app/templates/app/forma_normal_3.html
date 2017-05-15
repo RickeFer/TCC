@@ -38,9 +38,9 @@
 {% block content %}
     <form action="{% url 'app:normalizar' documento.id %}" method="POST">
 	
-        {% for tabela in arrayTabelas %}
+        {% for tabela in documento.tabelas %}
             <div style="padding: 15px">
-                <h4>{{tabela.tabela}}</h4>
+                <h4>{{tabela}}</h4>
                 {% for campo in tabela.campos %}
                     <div class="dropdown" style="display: inline">
                         <div class="campo {% if campo.primary %}chave-primaria{% endif %}" id="{{campo}}_campo"

@@ -28,9 +28,9 @@
 {% block content %}
     <form action="{% url 'app:normalizar' documento.id %}" method="POST">
         <div class="col-md-12">
-            {% for tabela in arrayTabelas %}
+            {% for tabela in documento.tabelas %}
                 <div style="padding: 15px">
-                    <h4>{{tabela.tabela}}</h4>
+                    <h4>{{tabela}}</h4>
 
                     {% for campo in tabela.chaves %}
                         <div class="dropdown" style="display: inline">
@@ -48,21 +48,16 @@
                                 <span class="caret opcoes" style="display: none" id="{{campo}}_op" data-toggle="dropdown" aria-haspopup="false" aria-expanded="false"></span>
 
                                 <ul class="dropdown-menu dropdown-menu-meu" aria-labelledby="{{campo}}_op">
-                                    <li onclick="setarDependencia('{{campo}}', '{% for chave in tabela.chaves %} {{chave}} {% endfor %}');" id="li_chave_{{campo}}">
+                                    <li onclick="setarDependencia('{{campo}}', {{campo.id}}, '{% for chave in tabela.chaves %} {{chave.id}} {% endfor %}');" id="li_chave_{{campo}}">
 										Chave Inteira
 									</li>
                                     <li role="separator" class="divider"></li>
                                     {% for chave in tabela.chaves %}
-                                        <li onclick="setarDependencia('{{campo}}', '{{chave}}');" class="item_chave_{{campo}}" id="{{campo}}_{{chave}}">{{chave}}</li>
+                                        <li onclick="setarDependencia('{{campo}}', {{campo.id}}, '{{chave.id}}');" class="item_chave_{{campo}}" id="{{campo}}_{{chave}}">{{chave}}</li>
                                     {% endfor %}
                                     <li role="separator" class="divider"></li>
                                     <li onclick="limparDependencia('{{campo}}');">Limpar Dependências</li>
                                 </ul>
-                                {% for dep in tabela.dependencias %}
-                                    {% if campo == dep.campo %}
-                                        <input type="hidden" class="{{campo}}_dependencia" value="{{dep.chave}}" />
-                                    {% endif %}
-                                {% endfor %}
                             </div>
                         </div>
                     {% endfor %}
@@ -70,13 +65,11 @@
             {% endfor %}
         </div>
 
-        <div class="col-md-12" style="height: 50px"></div>
 
         <input type="hidden" name="forma_normal" value="2" />
         {% csrf_token %}
         {% buttons %}
-            <!--<button name="submit" class="btn btn-primary" id="enviar" style="margin-left: 40px">SALVAR</button>-->
-            <div class="btn btn-enviar" id="enviar">SALVAR</div>
+            <button class="btn btn-enviar" id="enviar" style="margin-top:50px">SALVAR</button>
         {% endbuttons %}
     </form>
 {% endblock content %}
@@ -85,78 +78,6 @@
 {% block script %}
     <script src="{% static 'scripts/normalizar.js' %}"></script>
     <script>
-        var id_mensagem = 0;
-
-        //$(".opcoes").click(function(){console.log('aqui');});
-
-        function verificaQuantidadeTabelas(){
-
-        }
-
-        function setarMensagem(){
-            if(id_mensagem == 0){
-                $("#texto-dica").html("<span class=\"texto\">Informe as dependências de cada campo não chave!</span>");
-            }
-        }
-
-
-        $(document).ready(function(){
-            verificaQuantidadeTabelas();
-            setarMensagem();
-
-            $("#sem_tabela").hide();
-            $("#espaco-sem-tabela").hide();
-        });
-
-        $("#enviar").click(function(){
-            $(".campo").each(function(){
-                var id = "#"+$(this).attr('id');
-                id = id.replace("_campo", "");
-                $(id+"_top").val($(this).position().top);
-                $(id+"_left").val($(this).position().left);
-            });
-
-            $(".tabela").each(function(){
-                var id = "#"+$(this).attr('id');
-                $(id+"_top").val($(this).position().top);
-            });
-
-            $("form").submit();
-        });
-
-        $(document).ready(function(){
-            var i = 0;
-            $(".campo").each(function(){
-                var id = "#"+$(this).attr('id');
-                id = id.replace("_campo", "");
-                $(id+"_top").val($(this).position().top);
-                $(id+"_left").val($(this).position().left);
-            });
-
-            $(".tabela").each(function(){
-                var id = "#"+$(this).attr('id');
-                $(id+"_top").val($(this).position().top);
-            });
-
-            prepararDependencias();
-        });
-
-        function atualizarTabelas(){
-            var nomes = '';
-
-            $(".tabela").each(function(){
-                var id = "#"+$(this).attr('id');
-                $(id+"_top").val($(this).position().top);
-
-                if($(this).attr('id') != 'sem_tabela')
-                    nomes += $(this).attr('id')+'666';
-            });
-
-            //ATUALIZA OS COOKIES COM OS NOMES DAS TABELAS
-            //Cookies.set('tabelas', String(nomes.toLowerCase()), {expires: 1});
-        }
-
-
         function mostrarOp(campo){
             var id = "#"+campo+"_op";
             $(id).show();
@@ -167,7 +88,7 @@
             $(id).hide();
         }
 
-        function setarDependencia(campo, dependencia){
+        function setarDependencia(campo, campo_id, dependencia){
             var cont = 0;
             var classe = campo+'_dependencia';
             $("."+classe).each(function(){
@@ -184,7 +105,7 @@
                         $(dep).attr({
                             'type': 'hidden',
                             'id': campo+'_dependencia_'+cont,
-                            'name': campo+'_dependencia_'+cont,
+                            'name': campo_id+'_'+cont,
                             'class': campo+'_dependencia',
                             'value': aux[i]
                         });

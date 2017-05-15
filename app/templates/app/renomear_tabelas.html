@@ -37,13 +37,13 @@
 {% block content %}
     <form action="{% url 'app:documento' documento.id %}" method="POST">
         <ul class="lista">
-            {% for tabela in tabelas %}
+            {% for tabela in documento.tabelas %}
                 <li style="margin-bottom: 20px">
                     <div class="form-group col-md-6">
-                      <input type="text" class="form-control nome col-md-6" id="nome_{{tabela.tabela.id}}" value="{{tabela.tabela}}">
+                      <input type="text" class="form-control nome col-md-6" id="nome_{{tabela.id}}" value="{{tabela}}">
                     </div>
                     {% buttons %}
-                        <div class="btn btn-enviar enviar" tabela="{{tabela.tabela.id}}">RENOMEAR</div>
+                        <div class="btn btn-enviar enviar" tabela="{{tabela.id}}">RENOMEAR</div>
                     {% endbuttons %}
 
                     <ul class="lista">

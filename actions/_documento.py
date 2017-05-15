@@ -46,27 +46,16 @@ def run_documento(documento_id):
             if tabela.forma_normal < fn:
                 fn = tabela.forma_normal
 
-        tabelas_renomear = documento.tabela_set.filter(renomear=True)
-        array_tabelas = []
+        tabelas_renomear = listar_tabelas_renomear(documento_id)
+        print(tabelas_renomear)
         if len(tabelas_renomear):
-            for tabela in tabelas_renomear:
-                temp_rel = tabela.campo_tabela_set.all()
+            documento.tabelas = tabelas_renomear
 
-                campos = []
-                for rel in temp_rel:
-                    temp_campo = Campo.objects.get(id=rel.campo.id)
-                    campos.append(temp_campo)
-
-                aux = {'tabela': tabela, 'campos': campos}
-                array_tabelas.append(aux)
-
-
-            return {'renomear_tabelas': True, 'tabelas': array_tabelas, 'documento': documento}
+            return {'renomear_tabelas': True, 'documento': documento}
     else:
         fn = 0
 
-        flag_dados = verificar_dados_documento(documento_id)
-
+    flag_dados = verificar_dados_documento(documento_id)
     grupos = listar_grupos(documento.grupo.id)
 
     return {'documento': documento, 'base': tabela_base, 'sem_tabela': campos_sem_tabela, 'tabelas': tabelas, 'fn': fn, 'grupos': grupos, 'flag_dados':flag_dados}

@@ -1,0 +1,315 @@
+{% extends  'app/base.html' %}
+{% load bootstrap3 %}
+{% load static %}
+
+{% block css %}
+    <title>Normalizar {{documento}}</title>
+    <link  rel="stylesheet" href="{% static 'normalizar.css' %}">
+{% endblock css %}
+
+{% block header %}
+    <h3 style="display: inline;">Documento {{documento}}
+        <small>
+            <span data-toggle="modal" data-target="#addTabela" class="link" id="link-add-tabela">nova tabela</span>
+        </small>
+        <small>
+            <span data-toggle="modal" data-target="#addCampo" class="link">novo campo</span>
+        </small>
+    </h3>
+
+    <img src="{% static 'imagens/gold_key.png' %}" alt="Chave Primária" title="Chave Primária" draggable="true" ondragstart="drag(event)" />
+
+    <h3 style="display: inline;">
+        <small>
+            <!--<span data-toggle="modal" data-target="#dica_fn" class="glyphicon glyphicon-question-sign"></span>-->
+        </small>
+    </h3>
+
+    <div class="aviso">
+        <span class="titulo">1ª Forma Normal</span>
+        <span id="texto-dica"></span>
+    </div>
+    <!--<img src="{% static 'imagens/green_key.png' %}" alt="Chave Estrangeira" title="Chave Estrangeira" />-->
+{% endblock header %}
+
+{% block content %}
+    <form action="{% url 'app:normalizar' documento.id %}" method="POST">
+        <ul class="sortable lista-tabelas col-md-12" id="todas_tabelas">
+            <li class="tabela col-md-12" id="sem_tabela"><h4>Campos sem tabela</h4></li>
+            <div class="col-md-12" id="espaco-sem-tabela" style="margin-bottom: 30px"></div>
+            {% for tabela in arrayTabelas %}
+                <li class="tabela col-md-12" id="{{tabela.tabela}}" draggable="false">
+                    <h4>{{tabela.tabela}}</h4>
+                    <input type="hidden" name="tabela_{{tabela.tabela}}" value="{{tabela.tabela}}"/>
+                    <input type="hidden" id="{{tabela.tabela}}_top" name="{{tabela.tabela}}_top" value="0" />
+                </li>
+                {% for campo in tabela.campos %}
+                    <li class="ui-state-default campo {% if campo.id in tabela.restricoes_pk %}chave-primaria{% endif %} col-md-1" id="{{campo}}_campo"
+                        onfocusout="atualizaPosCampo({{campo}});" ondragover="allowDrop(event)" ondrop="drop(event)" alt="{{campo}}" title="{{campo}}">
+                        {{campo}}
+                        <input type="hidden" id="{{campo}}_primaria" name="{{campo}}[primaria]" 
+								value="{% if campo.id in tabela.restricoes_pk %}1{% else %}0{% endif %}" />
+                        <input type="hidden" id="{{campo}}_top" name="{{campo}}['top']" value="0" />
+                        <input type="hidden" id="{{campo}}_left" name="{{campo}}['left']" value="0" />
+                    </li>
+                {% endfor %}
+                <div class="col-md-12" style="height: 30px"></div>
+            {% endfor %}
+        </ul>
+
+        <div class="col-md-12" style="height: 50px"></div>
+
+        <input type="hidden" name="forma_normal" value="1" />
+        {% csrf_token %}
+        {% buttons %}
+            <div class="btn btn-enviar" id="enviar">SALVAR</div>
+        {% endbuttons %}
+    </form>
+
+
+    <!-- INICIO modal add tabela -->
+    <div id="addTabela" class="modal fade" role="dialog">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                    <h4 class="modal-title">Adicionar Tabela</h4>
+                </div>
+                <div class="modal-body">
+                    <div class="form-group">
+                        <label class="control-label" for="nova_tabela">Nome</label>
+                        <input class="form-control" id="nova_tabela" maxlength="20" name="nova_tabela" placeholder="Nome" title="" type="text" required />
+                    </div>
+
+                  {% csrf_token %}
+                  {% buttons %}
+                        <button name="submit" class="btn btn-enviar" id="btnAddTabela" data-dismiss="modal">ADICIONAR</button>
+                  {% endbuttons %}
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal">Fechar</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- FIM -->
+
+    <!-- INICIO modal add campo -->
+    <div id="addCampo" class="modal fade" role="dialog">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                    <h4 class="modal-title">Adicionar Campo</h4>
+                </div>
+                <div class="modal-body">
+                    <div class="form-group">
+                        <label class="control-label" for="novo_campo">Nome</label>
+                        <input class="form-control" id="novo_campo" maxlength="20" name="novo_campo" placeholder="Nome" title="" type="text" required />
+                    </div>
+
+                  {% csrf_token %}
+                  {% buttons %}
+                        <button name="submit" class="btn btn-enviar" id="btnAddCampo" data-dismiss="modal">ADICIONAR</button>
+                  {% endbuttons %}
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default">Fechar</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- FIM -->
+{% endblock content %}
+
+{% block script %}
+    <script src="{% static 'scripts/normalizar.js' %}"></script>
+    <script>
+        var id_mensagem = 0;
+
+        function verificaQuantidadeTabelas(){
+            var qtde_tabelas = 0;
+            $(".tabela").each(function(){
+                if($(this).attr("id") != "sem_tabela")
+                    qtde_tabelas++;
+            });
+            if(qtde_tabelas >= 2){
+                $("#link-add-tabela").hide();
+                id_mensagem++;
+                $("#enviar").show();
+            }
+
+            console.log(qtde_tabelas);
+        }
+
+        function setarMensagem(){
+            if(id_mensagem == 0){
+                $("#texto-dica").html("<span class=\"texto\">Insira uma nova tabela para separar os campos com dados repetitivos!</span>");
+            }
+            else if(id_mensagem == 1)
+                $("#texto-dica").html(
+                    "<span class=\"texto\">Arraste os campos repetitivos para a respectiva tabela!</span>"+
+                    "<span class=\"texto\">Identifique as chaves primárias!</span>"
+                );
+        }
+
+
+        $(document).ready(function(){
+            $("#enviar").hide();
+            $("#sem_tabela").hide();
+            $("#espaco-sem-tabela").hide();
+
+            verificaQuantidadeTabelas();
+            setarMensagem();
+        });
+
+        $("#enviar").click(function(){
+            $(".campo").each(function(){
+                var id = "#"+$(this).attr('id');
+                id = id.replace("_campo", "");
+                $(id+"_top").val($(this).position().top);
+                $(id+"_left").val($(this).position().left);
+                console.log(id+' '+$(this).position().top);
+            });
+
+            $(".tabela").each(function(){
+                var id = "#"+$(this).attr('id');
+                $(id+"_top").val($(this).position().top);
+            });
+
+            $("form").submit();
+        });
+
+        $(document).ready(function(){
+            var i = 0;
+            $(".campo").each(function(){
+                var id = "#"+$(this).attr('id');
+                id = id.replace("_campo", "");
+                $(id+"_top").val($(this).position().top);
+                $(id+"_left").val($(this).position().left);
+            });
+
+            $(".tabela").each(function(){
+                var id = "#"+$(this).attr('id');
+                $(id+"_top").val($(this).position().top);
+            });
+        });
+
+        function atualizarTabelas(){
+            var nomes = '';
+
+            /*
+            $(".tabela").each(function(){
+                var id = "#"+$(this).attr('id');
+                $(id+"_top").val($(this).position().top);
+
+                if($(this).attr('id') != 'sem_tabela')
+                    nomes += $(this).attr('id')+'666';
+            });
+            */
+
+            //ATUALIZA OS COOKIES COM OS NOMES DAS TABELAS
+            //Cookies.set('tabelas', String(nomes.toLowerCase()), {expires: 1});
+        }
+
+        //submissao ajax para adicionar tabela
+        $("#btnAddTabela").click(function(){
+            var nome = $("#nova_tabela").val();
+            var pag = 'normalizar';
+            var documento = {{documento.id}};
+            var token = $("input[name=csrfmiddlewaretoken]").val();
+
+            nome = normalizarNome(nome);
+
+            if(nome != ""){
+                $.ajax({
+                    type: 'POST',
+                    url: '{% url 'app:ajax_add_tabela' %}',
+                    data: {
+                        'nome': nome,
+                        'pag': pag,
+                        'documento': documento,
+                        'csrfmiddlewaretoken': token
+                    },
+                    success: function(ret){
+                        var aux = parseInt(ret.content);
+                        if(aux === 1)
+                            alert('Já existe uma tabela com esse nome!');
+                        else{
+                            $("#todas_tabelas").append(ret.content);
+                            //$("#addTabela").modal("hide");
+                            $("#nova_tabela").val("");
+                            atualizarTabelas();
+                            verificaQuantidadeTabelas();
+                            setarMensagem();
+                        }
+                    }
+                });
+            }
+            else
+                alert("Insira um nome para a nova tabela!");
+        });
+
+        //submissao ajax para adicionar campo
+        $("#btnAddCampo").click(function(){
+            var nome = $("#novo_campo").val();
+            var pag = 'normalizar';
+            var documento = {{documento.id}};
+            var token = $("input[name=csrfmiddlewaretoken]").val();
+
+            nome = normalizarNome(nome);
+
+            if(nome != ""){
+                $.ajax({
+                    type: 'POST',
+                    url: '{% url 'app:ajax_add_campo' %}',
+                    data: {
+                        'nome': nome,
+                        'pag': pag,
+                        'documento': documento,
+                        'csrfmiddlewaretoken': token
+                    },
+                    success: function(ret){
+                        $(ret.content).insertAfter($("#sem_tabela"));
+                        $("#novo_campo").val("");
+                        //$("#addCampo").modal("hide");
+                        $("#sem_tabela").show();
+                        $("#espaco-sem-tabela").show();
+                    }
+                });
+            }
+            else
+                alert("Insira um nome para o novo campo!");
+        });
+
+        function drag(ev){
+            //console.log(ev.target.id);
+            //ev.dataTransfer.setData("text", ev.target.id);
+        }
+
+        function drop(ev){
+            //ev.preventDefault();
+            //var data = ev.dataTransfer.getData("text");
+            //ev.target.appendChild(document.getElementById(data));
+            var aux = $(ev.target).attr("id").split("_");
+
+            var temp = '';
+            for(var i=0; i<aux.length-1; i++)
+                temp += aux[i]+'_';
+            temp = temp.substring(0,temp.length-1);
+            if(temp == "")
+                temp = aux[0];
+
+            var id = "#"+temp+"_primaria";
+            $(ev.target).css({
+                "background-color": "rgb(119, 138, 102)",
+                "border": "1px solid rgb(218, 213, 94)",
+                "background": "rgb(255, 250, 144)"
+            });
+            $(id).val(1);
+        }
+        function allowDrop(ev){
+            ev.preventDefault();
+        }
+    </script>
+{% endblock script %}
