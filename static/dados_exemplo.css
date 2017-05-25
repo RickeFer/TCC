@@ -1,9 +1,10 @@
-body { width:4000px; }
+/*body { overflow-x: scroll; }
+/**/
 
 .lista-campos
 {
     height: 300px;
-    width: 3800px;
+    /*background-color:#EEE;*/
 }
 
 .lista-campos .item-lista-campos
@@ -18,5 +19,7 @@ body { width:4000px; }
 {
     background-color: rgba(61, 61, 103, .5);
 }
+
+.lista-campos .item-lista-campos .header:hover { color:white }
 
 .opcao { cursor:pointer; font-weight:bolder }

@@ -107,6 +107,7 @@ def verificar_dados_documento(documento_id):
             campo.dados = campo.dado_exemplo_set.all()
 
             if not campo.dados:
+
                 return False
 
     return True
@@ -119,6 +120,8 @@ def listar_tabelas_renomear(documento_id):
 
     if len(tabelas_renomear):
         for tabela in tabelas_renomear:
-            tabela.campos = listar_campos_tabela(tabela)
+            tabela.primarias = listar_chaves_tabela(tabela, 'PK')
+            tabela.estrangeiras = listar_chaves_tabela(tabela, 'FK')
+            tabela.campos = listar_campos_tabela(tabela, False)
 
     return tabelas_renomear

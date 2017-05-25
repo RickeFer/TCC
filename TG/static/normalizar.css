@@ -17,7 +17,7 @@
     display: inline;
     margin: 5px;
     padding: 10px;
-    cursor: move;
+    /*cursor: move;*/
     border: 1px solid #C5C5C5;
     border-radius: 5px;
     background: rgba(246, 246, 246, .7);
@@ -72,3 +72,5 @@
 
 .lista
 { list-style: none }
+
+.texto-fn { margin-left: 15px }

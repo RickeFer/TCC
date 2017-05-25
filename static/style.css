@@ -61,7 +61,7 @@
 
 .divisor { height: 20px }
 
-.erro { padding: 7px; background-color: rgba(255,0,0,.4); margin: 10px 0px; border: 1px solid rgb(255,0,0); border-radius:7px }
+.erro { padding: 7px; background-color: rgba(255,0,0,.2); margin: 10px 0px; border: 1px solid rgb(255,0,0); border-radius:7px }
 .erro span { font-weight: bold; }
 
 
@@ -111,6 +111,7 @@
     background-color: rgb(61, 61, 103);
     color: white;
     font-weight: bold;
+    user-select: none;
 }
 .lista .header:hover { background-color: rgba(61, 61, 103, .9); }
 

@@ -17,13 +17,15 @@
     display: inline;
     margin: 5px;
     padding: 10px;
-    cursor: move;
+    /*cursor: move;*/
     border: 1px solid #C5C5C5;
     border-radius: 5px;
     background: rgba(246, 246, 246, .7);
     text-align: center;
     overflow: hidden;
     text-overflow: ellipsis;
+    user-select: none;
+    transition: 5s;
 }
 
 .chave
@@ -72,3 +74,7 @@
 
 .lista
 { list-style: none }
+
+.texto-fn { margin-left: 15px }
+
+.img-borda-inferior:hover { border-bottom:1px solid gray; }

@@ -10,7 +10,8 @@
 {% block header %}
     <h3 style="display: inline;">Documento {{documento}}</h3>
 
-    <img src="{% static 'imagens/gold_key.png' %}" alt="Chave Primária" title="Chave Primária" draggable="true" ondragstart="drag(event)" />
+    <img src="{% static 'imagens/gold_key.png' %}" class="img-borda-inferior" alt="Chave Primária" title="Chave Primária" draggable="true" ondragstart="drag(event, 1)" />
+    <img src="{% static 'imagens/borracha-preta.png' %}" class="img-borda-inferior" alt="Limpar Campo" title="Limpar Campo" draggable="true" ondragstart="drag(event, 0)" />
 
     <h3 style="display: inline;">
         <small>
@@ -20,7 +21,11 @@
 
     <div class="aviso">
         <span class="titulo">1ª Forma Normal</span>
-        <span id="texto-dica"></span>
+        <span class="texto-fn">"Decompor todas as estruturas de dados não planas em registros bidimensionais"</span>
+
+        <div>
+            <span id="msg-erro"></span>
+        </div>
     </div>
     <!--<img src="{% static 'imagens/green_key.png' %}" alt="Chave Estrangeira" title="Chave Estrangeira" />-->
 {% endblock header %}
@@ -32,25 +37,32 @@
             <h4>{{documento}}</h4>
             <input type="hidden" name="tabela_uni" value="{{documento}}"/>
 
+            <div id="inicio_campos_uni"></div>
+
             {% for campo in documento.uni %}
-                <div class="campo col-md-1" id="{{campo}}_campo" ondragover="allowDrop(event)" ondrop="drop(event)" alt="{{campo}}" title="{{campo}}">
+                <div class="campo col-md-1" id="{{campo}}_campo" id-campo="{{campo.id}}" tipo-tabela="uni" ondragover="allowDrop(event)" ondrop="drop(event)" alt="{{campo}}" title="{{campo}}">
                     {{campo}}
 
-                    <input type="hidden" id="{{campo}}_primaria" name="primaria[{{campo.id}}]" value="0" />
+                    <input type="hidden" class="chave-uni" id="{{campo}}_primaria" name="primaria[{{campo.id}}]" value="0" />
                     <input type="hidden" name="uni[{{campo.id}}]" value="{{campo.id}}"/>
                 </div>
             {% endfor %}
         </div>
 
         <div class="col-md-12" style="margin-top:20px">
-            <h4 contenteditable="true" id="tabela_multi_h4">{{hashe}}</h4>
-            <input type="hidden" id="tabela_multi" name="tabela_multi" value="{{hashe}}" />
+            <div>
+                <span class="glyphicon glyphicon-pencil" onclick="$('#tabela_multi_h4').focus();"></span>
+                <h4 contenteditable="true" id="tabela_multi_h4" style="display:inline-block">{{hashe}}</h4>
+                <input type="hidden" id="tabela_multi" name="tabela_multi" value="{{hashe}}" />
+            </div>
+
+            <div id="inicio_campos_multi"></div>
 
             {% for campo in documento.multi %}
-                <div class="campo col-md-1" id="{{campo}}_campo" ondragover="allowDrop(event)" ondrop="drop(event)" alt="{{campo}}" title="{{campo}}">
+                <div class="campo col-md-1" id="{{campo}}_campo" tipo-tabela="multi" ondragover="allowDrop(event)" ondrop="drop(event)" alt="{{campo}}" title="{{campo}}">
                     {{campo}}
 
-                    <input type="hidden" id="{{campo}}_primaria" name="primaria[{{campo.id}}]" value="0" />
+                    <input type="hidden" class="chave-multi" id="{{campo}}_primaria" name="primaria[{{campo.id}}]" value="0" />
                     <input type="hidden" name="multi[{{campo.id}}]" value="{{campo.id}}"/>
                 </div>
             {% endfor %}
@@ -71,6 +83,7 @@
 {% block script %}
     <script src="{% static 'scripts/normalizar.js' %}"></script>
     <script>
+        var tipo = 0;
 
         $("#tabela_multi_h4").keyup(function(){
             let nome = $(this).text();
@@ -78,13 +91,40 @@
         });
 
 
-
-
-        function drag(ev){
+        function drag(ev, op){
+            tipo = op
         }
 
         function drop(ev){
             var aux = $(ev.target).attr("id").split("_");
+
+            /*SE CAMPO DA TABELA UNI COPIA PARA A TABELA MULTI*/
+            if(tipo == 1 && $(ev.target).attr("tipo-tabela") == 'uni'){
+                let id = $(ev.target).attr("id-campo");
+                let alt = $(ev.target).attr("alt");
+
+                let div = document.createElement("div");
+
+                $(div).attr({
+                    "class": "campo col-md-1",
+                    "id": id+"_copia",
+                    "alt": alt,
+                    "title": alt,
+                });
+                $(div).css({
+                    "background-color": "rgb(119, 138, 102)",
+                    "border": "1px solid rgb(218, 213, 94)",
+                    "background": "rgb(255, 250, 144)"
+                });
+                $(div).text($(ev.target).text());
+
+                $("#inicio_campos_multi").append(div);
+            }
+            else if(tipo == 0){
+                let id = $(ev.target).attr("id-campo");
+
+                $("#"+id+"_copia").remove();
+            }
 
             var temp = '';
             for(var i=0; i<aux.length-1; i++)
@@ -94,15 +134,63 @@
                 temp = aux[0];
 
             var id = "#"+temp+"_primaria";
-            $(ev.target).css({
-                "background-color": "rgb(119, 138, 102)",
-                "border": "1px solid rgb(218, 213, 94)",
-                "background": "rgb(255, 250, 144)"
-            });
-            $(id).val(1);
+
+            if(tipo==1){
+                $(ev.target).css({
+                    "background-color": "rgb(119, 138, 102)",
+                    "border": "1px solid rgb(218, 213, 94)",
+                    "background": "rgb(255, 250, 144)"
+                });
+            }
+            else{
+                $(ev.target).css({
+                    "background-color": "rgba(246, 246, 246, 0.7)",
+                    "border": "1px solid #C5C5C5",
+                    "background": "rgba(246, 246, 246, .7)"
+                });
+            }
+
+            /*MOVE O TARGET PARA O INICIO DA LISTA*/
+            if($(ev.target).attr("tipo-tabela") == 'uni'){
+                $(ev.target).insertAfter($("#inicio_campos_uni"));
+            }
+            else if($(ev.target).attr("tipo-tabela") == 'multi'){
+                console.log("aqui");
+                $(ev.target).insertAfter($("#inicio_campos_multi"));
+            }
+
+
+
+            $(id).val(tipo);
         }
         function allowDrop(ev){
             ev.preventDefault();
         }
+
+        /*SUMISSAO DO FORM*/
+        $("form").submit(function(){
+            let uni = 0, multi = 0;
+
+            /*VERIFICA AS CHAVES*/
+            $(".chave-uni").each(function(){
+                if($(this).val() == 1)
+                    uni++;
+            });
+
+            $(".chave-multi").each(function(){
+                if($(this).val() == 1)
+                    multi++;
+            });
+
+            if(uni == 0 || multi == 0){
+                $("#msg-erro").text("Defina as chaves das duas tabelas!");
+                $("#msg-erro").fadeIn();
+                setTimeout(function(){ $("#msg-erro").fadeOut(); }, 2000);
+
+                return false;
+            }
+
+            return true;
+        });
     </script>
 {% endblock script %}

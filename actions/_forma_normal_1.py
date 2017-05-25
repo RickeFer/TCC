@@ -33,6 +33,7 @@ def run_forma_normal_1(request, documento_id):
         """
         tabela_uni = Tabela(nome=underlined(array_post['tabela_uni']), forma_normal=1, tabela_tipo=1, documento=documento, renomear=False)
         tabela_multi = Tabela(nome=underlined(array_post['tabela_multi']), forma_normal=1, tabela_tipo=1, documento=documento, renomear=False)
+
         if array_post['hashe'] == array_post['tabela_multi']:
             tabela_multi.renomear = True
 
@@ -79,7 +80,7 @@ def run_forma_normal_1(request, documento_id):
             campo.save()
 
             if campo.tipo_campo == 'PK':
-                campo.id = Nome
+                campo.id = None
                 campo.tipo_campo = 'FK'
                 campo.tabela = tabela_multi
                 campo.save()

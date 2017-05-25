@@ -23,7 +23,6 @@ def run_documento(documento_id):
     if tabelas:
         for tabela in tabelas:
             campos, chaves_primaria, chaves_estrangeiras = [], [], []
-            #campos = tabela.campo_set.order_by('ordem')
             array_campos = tabela.campo_tabela_set.filter(tipo_campo='Normal')
             for rel in array_campos:
                 temp = Campo.objects.get(id=rel.campo.id)
@@ -47,7 +46,7 @@ def run_documento(documento_id):
                 fn = tabela.forma_normal
 
         tabelas_renomear = listar_tabelas_renomear(documento_id)
-        print(tabelas_renomear)
+
         if len(tabelas_renomear):
             documento.tabelas = tabelas_renomear
 
@@ -57,5 +56,6 @@ def run_documento(documento_id):
 
     flag_dados = verificar_dados_documento(documento_id)
     grupos = listar_grupos(documento.grupo.id)
+
 
     return {'documento': documento, 'base': tabela_base, 'sem_tabela': campos_sem_tabela, 'tabelas': tabelas, 'fn': fn, 'grupos': grupos, 'flag_dados':flag_dados}
