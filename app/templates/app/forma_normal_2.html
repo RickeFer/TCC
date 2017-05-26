@@ -10,21 +10,13 @@
 {% block header %}
     <h3 style="display: inline;">Documento {{documento}}</h3>
 
-    <h3 style="display: inline;">
-        <small>
-            <!--<span data-toggle="modal" data-target="#dica_fn" class="glyphicon glyphicon-question-sign"></span>-->
-        </small>
-    </h3>
-
     <div class="aviso">
         <span class="titulo">2ª Forma Normal</span>
         <span id="texto-dica">
-            "Para registros cujas chaves têm mais de um item de dados, assegurar que todos os outros itens de dados sejam
-            dependentes da chave toda"
+            "Para registros cujas chaves têm mais de um item de dados, assegurar que todos os outros itens de dados sejam dependentes da chave toda"
         </span>
-        <span id="mensagem-geral"></span>
+        <span id="mensagem-geral" style="display:block"></span>
     </div>
-    <!--<img src="{% static 'imagens/green_key.png' %}" alt="Chave Estrangeira" title="Chave Estrangeira" />-->
 {% endblock header %}
 
 

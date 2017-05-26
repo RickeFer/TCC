@@ -14,7 +14,8 @@
 .btn-enviar:hover
 {
     background-color: rgba(85, 86, 123, .9);
-    color: white;
+    color: white!important;
+    font-weight: bold;
 }
 /*
 .item-lista
@@ -84,7 +85,7 @@
     z-index: 666;
 }
 
-.btn-toggle:hover { color: white; }
+.btn-toggle:hover { color: white!important; }
 
 .div-tabela
 {
