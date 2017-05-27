@@ -3,25 +3,25 @@
   <component name="ChangeListManager">
     <list default="true" id="28c31a9a-54a0-4691-b559-60d79594c587" name="Default" comment="">
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/TG/static/normalizar.css" afterPath="$PROJECT_DIR$/TG/static/normalizar.css" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/TG/static/scripts/util.js" afterPath="$PROJECT_DIR$/TG/static/scripts/util.js" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/actions/_ajax_dados_exemplo.py" afterPath="$PROJECT_DIR$/actions/_ajax_dados_exemplo.py" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/actions/_documento.py" afterPath="$PROJECT_DIR$/actions/_documento.py" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/actions/_forma_normal_1.py" afterPath="$PROJECT_DIR$/actions/_forma_normal_1.py" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/actions/_inserir_dados_exemplo.py" afterPath="$PROJECT_DIR$/actions/_inserir_dados_exemplo.py" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/templates/app/add_documento.html" afterPath="$PROJECT_DIR$/app/templates/app/add_documento.html" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/templates/app/base.html" afterPath="$PROJECT_DIR$/app/templates/app/base.html" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/templates/app/documento.html" afterPath="$PROJECT_DIR$/app/templates/app/documento.html" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/templates/app/forma_normal_1.html" afterPath="$PROJECT_DIR$/app/templates/app/forma_normal_1.html" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/templates/app/forma_normal_2.html" afterPath="$PROJECT_DIR$/app/templates/app/forma_normal_2.html" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/templates/app/forma_normal_3.html" afterPath="$PROJECT_DIR$/app/templates/app/forma_normal_3.html" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/templates/app/inserir_dados_exemplo.html" afterPath="$PROJECT_DIR$/app/templates/app/inserir_dados_exemplo.html" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/templates/app/renomear_tabelas.html" afterPath="$PROJECT_DIR$/app/templates/app/renomear_tabelas.html" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/classes/util_documento.py" afterPath="$PROJECT_DIR$/classes/util_documento.py" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/static/dados_exemplo.css" afterPath="$PROJECT_DIR$/static/dados_exemplo.css" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/static/normalizar.css" afterPath="$PROJECT_DIR$/static/normalizar.css" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/static/scripts/util.js" afterPath="$PROJECT_DIR$/static/scripts/util.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/classes/util_documento.py" afterPath="$PROJECT_DIR$/classes/util_documento.py" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/actions/_inserir_dados_exemplo.py" afterPath="$PROJECT_DIR$/actions/_inserir_dados_exemplo.py" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/TG/static/scripts/util.js" afterPath="$PROJECT_DIR$/TG/static/scripts/util.js" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/static/style.css" afterPath="$PROJECT_DIR$/static/style.css" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/static/dados_exemplo.css" afterPath="$PROJECT_DIR$/static/dados_exemplo.css" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/templates/app/documento.html" afterPath="$PROJECT_DIR$/app/templates/app/documento.html" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/actions/_documento.py" afterPath="$PROJECT_DIR$/actions/_documento.py" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/templates/app/forma_normal_2.html" afterPath="$PROJECT_DIR$/app/templates/app/forma_normal_2.html" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/actions/_ajax_dados_exemplo.py" afterPath="$PROJECT_DIR$/actions/_ajax_dados_exemplo.py" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/templates/app/add_documento.html" afterPath="$PROJECT_DIR$/app/templates/app/add_documento.html" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/actions/_forma_normal_1.py" afterPath="$PROJECT_DIR$/actions/_forma_normal_1.py" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/templates/app/renomear_tabelas.html" afterPath="$PROJECT_DIR$/app/templates/app/renomear_tabelas.html" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/templates/app/forma_normal_3.html" afterPath="$PROJECT_DIR$/app/templates/app/forma_normal_3.html" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/templates/app/inserir_dados_exemplo.html" afterPath="$PROJECT_DIR$/app/templates/app/inserir_dados_exemplo.html" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/TG/static/normalizar.css" afterPath="$PROJECT_DIR$/TG/static/normalizar.css" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/templates/app/forma_normal_1.html" afterPath="$PROJECT_DIR$/app/templates/app/forma_normal_1.html" />
     </list>
     <ignored path="TG.iws" />
     <ignored path=".idea/workspace.xml" />
@@ -40,7 +40,7 @@
     <favorites_list name="TG" />
   </component>
   <component name="FileEditorManager">
-    <leaf SIDE_TABS_SIZE_LIMIT_KEY="300" />
+    <leaf />
   </component>
   <component name="FileTemplateManagerImpl">
     <option name="RECENT_TEMPLATES">
@@ -734,7 +734,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="2652">
           <caret line="156" column="50" lean-forward="false" selection-start-line="156" selection-start-column="50" selection-end-line="156" selection-end-column="50" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -742,7 +741,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="374">
           <caret line="22" column="37" lean-forward="false" selection-start-line="22" selection-start-column="37" selection-end-line="22" selection-end-column="37" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -750,7 +748,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="459">
           <caret line="27" column="4" lean-forward="false" selection-start-line="27" selection-start-column="4" selection-end-line="27" selection-end-column="4" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -772,7 +769,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="952">
           <caret line="56" column="20" lean-forward="false" selection-start-line="56" selection-start-column="20" selection-end-line="56" selection-end-column="20" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -780,7 +776,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="952">
           <caret line="56" column="20" lean-forward="false" selection-start-line="56" selection-start-column="20" selection-end-line="56" selection-end-column="20" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -788,9 +783,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="288">
           <caret line="60" column="92" lean-forward="false" selection-start-line="60" selection-start-column="92" selection-end-line="60" selection-end-column="92" />
-          <folding>
-            <element signature="n#style#0;n#button#0;n#form#0;n#!!top" expanded="true" />
-          </folding>
         </state>
       </provider>
     </entry>
