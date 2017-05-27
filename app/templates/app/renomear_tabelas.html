@@ -10,18 +10,7 @@
 
 
 {% block header %}
-    <h3 style="display: inline;">Documento {{documento}}
-        <!--
-            <small>
-                <span data-toggle="modal" data-target="#addTabela" class="link" id="link-add-tabela">nova tabela</span>
-            </small>
-            <small>
-                <span data-toggle="modal" data-target="#addCampo" class="link">novo campo</span>
-            </small>
-        -->
-    </h3>
-
-    <!--<img src="{% static 'imagens/gold_key.png' %}" alt="Chave Primária" title="Chave Primária" draggable="true" ondragstart="drag(event)" />-->
+    <h3 style="display: inline;">Documento {{documento}}</h3>
 
     <h3 style="display: inline;">
     </h3>
@@ -37,21 +26,38 @@
 {% block content %}
     <form action="{% url 'app:documento' documento.id %}" method="POST">
         <ul class="lista">
-            {% for tabela in tabelas %}
+            {% for tabela in documento.tabelas %}
                 <li style="margin-bottom: 20px">
                     <div class="form-group col-md-6">
-                      <input type="text" class="form-control nome col-md-6" id="nome_{{tabela.tabela.id}}" value="{{tabela.tabela}}">
+                      <input type="text" class="form-control nome col-md-6" id="nome_{{tabela.id}}" value="{{tabela}}">
                     </div>
                     {% buttons %}
-                        <div class="btn btn-enviar enviar" tabela="{{tabela.tabela.id}}">RENOMEAR</div>
+                        <div class="btn btn-enviar enviar" tabela="{{tabela.id}}">RENOMEAR</div>
                     {% endbuttons %}
 
-                    <ul class="lista">
-                        <li>Campos</li>
-                        {% for campo in tabela.campos %}
-                            <li style="margin-left: 10px">{{campo}}</li>
+                    <div class="lista">
+                        {% for campo in tabela.primarias %}
+                            <div class="item-lista">
+                                <div style="width:20px; display:inline-block">
+                                    <img src="{% static 'imagens/gold_key.png' %}" width="17"/>
+                                </div>
+                                {{campo}}
+                            </div>
                         {% endfor %}
-                    </ul>
+                        {% for campo in tabela.estrangeiras %}
+                            <div class="item-lista">
+                                <div style="width:20px; display:inline-block">
+                                    <img src="{% static 'imagens/green_key.png' %}" width="17"/>
+                                </div>
+                                {{campo}}
+                            </div>
+                        {% endfor %}
+                        {% for campo in tabela.campos %}
+                            <div class="item-lista" style="padding-left:50px">
+                                {{campo}} {{campo.tipo}}
+                            </div>
+                        {% endfor %}
+                    </div>
                 </li>
             {% endfor %}
         </ul>

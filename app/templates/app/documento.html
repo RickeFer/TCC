@@ -16,15 +16,19 @@
 
     {% if fn == 0 %}
         Documento desnormalizado<br>
-        <a href="{% url 'app:normalizar' documento.id %}">normalizar</a>
+        {% if flag_dados %}
+            <a href="{% url 'app:normalizar' documento.id %}">normalizar</a>
+            <br>
+        {% endif %}
+
+        <a href="{% url 'app:inserir_dados_exemplo' documento.id %}">inserir dados</a>
     {% elif fn < 3 %}
         Forma Normal atual: {{fn}}<br>
         <a href="{% url 'app:normalizar' documento.id %}">normalizar</a><br>
         <!--<a href="{% url 'app:gerenciar_relacionamentos' documento.id %}">gerenciar relacionamentos</a>-->
     {% elif fn == 3 %}
         Documento Normalizado<br>
-        <a href="{% url 'app:gerenciar_relacionamentos' documento.id %}">gerenciar relacionamentos</a>
-        <br><br>
+        <!--<a href="{% url 'app:gerenciar_relacionamentos' documento.id %}">gerenciar relacionamentos</a>-->
         <a href="{% url 'app:script_documento' documento.id %}">gerar script</a><br>
         <a href="{% url 'app:diagrama_documento' documento.id %}">gerar diagrama</a>
     {% endif %}
@@ -33,18 +37,16 @@
 
 {% block content %}
     {% if fn == 0 %}
-        <ul class="lista-tabelas">
-            {% if sem_tabela %}<h4>Campos sem tabela</h4>{% endif %}
-            <ul>
-                {% for campo in sem_tabela %}
-                    <li>
-                        {{campo}}
-                    </li>
-                {% empty %}
-                    <h4>Não há campos sem tabelas</h4>
-                {% endfor %}
-            </ul>
-        </ul>
+        <div class="lista">
+            {% if sem_tabela %}
+                <div class="header" onclick="mostrar_campos(666);">Campos sem tabela</div>
+                <div style="display:none" id="campos_666">
+                    {% for campo in sem_tabela %}
+                        <div class="item-lista">{{campo}}</div>
+                    {% endfor %}
+                </div>
+            {% endif %}
+        </div>
     {% endif %}
 
     <div class="espacamento"></div>
@@ -60,18 +62,22 @@
             <div style="display:none" id="campos_{{tabela.id}}">
                 {% for chave in tabela.chaves %}
                     <div class="item-lista">
+                        <div style="width:20px; display:inline-block">
+                            <img src="{% static 'imagens/gold_key.png' %}" width="17"/>
+                        </div>
                         {{chave}}
-                        <img src="{% static 'imagens/gold_key.png' %}" width="17"/>
                     </div>
                 {% endfor %}
                 {% for chave in tabela.estrangeiras %}
                     <div class="item-lista">
+                        <div style="width:20px; display:inline-block">
+                            <img src="{% static 'imagens/green_key.png' %}" width="17"/>
+                        </div>
                         {{chave}}
-                        <img src="{% static 'imagens/green_key.png' %}" width="17"/>
                     </div>
                 {% endfor %}
                 {% for campo in tabela.campos %}
-                    <div class="item-lista">{{campo}}</div>
+                    <div class="item-lista" style="padding-left:55px">{{campo}}</div>
                 {% endfor %}
             </div>
         {% endfor %}

@@ -85,3 +85,43 @@ def get_documento_copiar(documento_id):
         tabela.dependencias = listar_dependencias(tabela)
 
     return documento
+
+
+def listar_campos_sem_tabela(documento_id):
+    documento = Documento.objects.get(id=documento_id)
+
+    base = Tabela.objects.get(documento=documento, nome='tabela_base')
+
+    return listar_campos_tabela(base)
+
+
+def verificar_dados_documento(documento_id):
+    documento = Documento.objects.get(id=documento_id)
+
+    tabelas = documento.tabela_set.all()
+
+    for tabela in tabelas:
+        tabela.campos = listar_campos_tabela(tabela)
+
+        for campo in tabela.campos:
+            campo.dados = campo.dado_exemplo_set.all()
+
+            if not campo.dados:
+
+                return False
+
+    return True
+
+
+def listar_tabelas_renomear(documento_id):
+    documento = Documento.objects.get(id=documento_id)
+
+    tabelas_renomear = documento.tabela_set.filter(renomear=True)
+
+    if len(tabelas_renomear):
+        for tabela in tabelas_renomear:
+            tabela.primarias = listar_chaves_tabela(tabela, 'PK')
+            tabela.estrangeiras = listar_chaves_tabela(tabela, 'FK')
+            tabela.campos = listar_campos_tabela(tabela, False)
+
+    return tabelas_renomear

@@ -1,0 +1,25 @@
+/*body { overflow-x: scroll; }
+/**/
+
+.lista-campos
+{
+    height: 300px;
+    /*background-color:#EEE;*/
+}
+
+.lista-campos .item-lista-campos
+{
+    background-color: rgba(61, 61, 103, .2);
+    padding: 10px;
+    display: inline-block;
+    margin: 3px;
+}
+
+.lista-campos .item-lista-campos:hover
+{
+    background-color: rgba(61, 61, 103, .5);
+}
+
+.lista-campos .item-lista-campos .header:hover { color:white }
+
+.opcao { cursor:pointer; font-weight:bolder }

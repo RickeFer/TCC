@@ -138,3 +138,12 @@ def underlined(entr):
     saida = entr.replace(' ', '_')
 
     return saida
+
+
+def array_2_str(array):
+    saida = ''
+
+    for item in array:
+        saida += str(item)+'_'
+
+    return saida[0:-1]

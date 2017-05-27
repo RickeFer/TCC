@@ -54,12 +54,12 @@ function normalizarNome(nome){
  */
 function mostrarOp(campo){
     var id = "#"+campo+"_op";
-    $(id).show();
+    $(id).fadeIn('slow');
 }
 
 function esconderOp(campo){
     var id = "#"+campo+"_op";
-    $(id).hide();
+    $(id).fadeOut('slow');
 }
 
 function setarDependencia(campo, dependencia){

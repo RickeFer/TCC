@@ -36,6 +36,8 @@ from actions._ajax_get_tabelas import run_ajax_get_tabelas
 from actions._ajax_get_chaves import run_ajax_get_chaves
 from actions._ajax_gerenciar_relacionamentos import run_ajax_gerenciar_relacionamentos
 from actions._ajax_compartilhar_documento import run_ajax_compartilhar_documento
+from actions._inserir_dados_exemplo import run_inserir_dados_exemplo
+from actions._ajax_dados_exemplo import run_ajax_dados_exemplo
 
 from classes.util import *
 
@@ -92,7 +94,6 @@ def add_campo(request, table_id):
 
 def documentos(request):
     if not verificar_sessao(request): return redirecionar_login()
-
     context = run_documentos(request)
     context['usuario'] = get_usuario(request.session['usuario_id'])
 
@@ -101,7 +102,6 @@ def documentos(request):
 
 def documento(request, documento_id):
     if not verificar_sessao(request): return redirecionar_login()
-
     context = run_documento(documento_id)
     context['usuario'] = get_usuario(request.session['usuario_id'])
 
@@ -156,6 +156,21 @@ def gerenciar_relacionamentos(request, documento_id):
     context['usuario'] = get_usuario(request.session['usuario_id'])
 
     return render(request, 'app/gerenciar_relacionamentos.html', context)
+
+
+def inserir_dados_exemplo(request, documento_id):
+    if not verificar_sessao(request): return redirecionar_login()
+    context = run_inserir_dados_exemplo(request, documento_id)
+    context['usuario'] = get_usuario(request.session['usuario_id'])
+
+    return render(request, 'app/inserir_dados_exemplo.html', context)
+
+
+@ajax
+def ajax_dados_exemplo(request):
+    context = run_ajax_dados_exemplo(request)
+
+    return HttpResponse(json.dumps(context), content_type="application/json")
 
 
 def normalizar_documento(request, documento_id=0):

@@ -5,10 +5,16 @@
 {% block css %}
     <link rel="stylesheet" href="{% static 'style.css' %}" />
     <title>Novo Documento</title>
+
+    <style>
+        #add_campo:hover{ color:white; background-color:rgba(61, 61, 103,.9); }
+    </style>
 {% endblock css %}
 
 {% block header %}
     <h3>Novo Documento</h3>
+
+    <span class="erro" id="msg-erro" style="font-weight:bold; display:none; margin-top:10px;color:rgba(0,0,0,.7)">as</span>
 {% endblock header %}
 
 {% block content %}
@@ -27,11 +33,12 @@
 
         <div style="margin: 30px 0 50px 0">
             <h4>Campos
-                <button type="button" id="add_campo" class="btn btn-default btn-lg" data-toggle="modal" data-target="#addCampo">
+                <button type="button" id="add_campo" class="btn btn-default" data-toggle="modal" data-target="#addCampo">
                     <span class="glyphicon glyphicon-plus" aria-hidden="true"></span>
                 </button>
             </h4>
-            <div id="campos"></div>
+
+            <div id="campos" class="col-md-12"></div>
         </div>
 
         {% buttons %}
@@ -70,6 +77,7 @@
 {% block script %}
     <script>
         var num = 0;
+        var campos = new Array();
 
         $("#btnAddCampo").click(function(){
             let nome = $("#temp_nome").val();
@@ -78,17 +86,52 @@
 
             if(nome == '')
                 alert("Insira um nome válido para o campo!");
+            else if(campos.indexOf(nome)!=-1){
+                $("#msg-erro").fadeIn();
+                $("#msg-erro").text("Já existe um campo com esse nome!");
+                setTimeout(function(){$("#msg-erro").fadeOut();}, 2000);
+
+                $("#temp_nome").val("");
+            }
             else{
-                let dom = '<div id="item_'+num+'" class="col-md-12">';
+                let dom = '<div class="form-group col-md-12" id="item_'+num+'">';
 				dom += '<span class="glyphicon glyphicon-remove remove" aria-hidden="true" id="remove_'+num+'" onclick="removeCampo('+num+');"></span>';
-                dom += '<input type="text" class="form-control col-md-4" id="campo_'+num+'" name="campo['+num+']" value="'+nome+'" onfocusout="atualizaNormal('+num+');" /></div>';
+                dom += '<input type="text" class="form-control nome-campo" id="campo_'+num+'" name="campo['+num+']" value="'+nome+'" ';
+                dom += ' onfocusout="atualizaNormal('+num+');alterarOut(this);" onfocusin="alterarIn(this);" style="display:inline-block; width:40%" />';
+                dom += '</div>';
                 $("#campos").append(dom);
 
                 $("#temp_nome").val("");
+
+                campos.push(nome);
             }
 
             num++;
         });
+
+
+        function alterarIn(dom){
+            let temp = $(dom).val();
+            let index = campos.indexOf(temp);
+
+            if(index!=-1)
+                campos.splice(index, 1);
+        }
+
+        function alterarOut(dom){
+            let temp = $(dom).val();
+
+            if(campos.indexOf(temp)!=-1){
+                $("#msg-erro").fadeIn();
+                $("#msg-erro").text("Já existe um campo com esse nome!");
+                setTimeout(function(){$("#msg-erro").fadeOut();}, 2000);
+
+                $(dom).val("");
+                $(dom).focus();
+            }else if(temp)
+                campos.push(temp);
+        }
+
 
         $("#id_name").focusout(function(){
             var nome = '';

@@ -8,16 +8,10 @@
 {% endblock css %}
 
 {% block header %}
-    <h3 style="display: inline;">Documento {{documento}}
-        <small>
-            <span data-toggle="modal" data-target="#addTabela" class="link" id="link-add-tabela">nova tabela</span>
-        </small>
-        <small>
-            <span data-toggle="modal" data-target="#addCampo" class="link">novo campo</span>
-        </small>
-    </h3>
+    <h3 style="display: inline;">Documento {{documento}}</h3>
 
-    <img src="{% static 'imagens/gold_key.png' %}" alt="Chave Primária" title="Chave Primária" draggable="true" ondragstart="drag(event)" />
+    <img src="{% static 'imagens/gold_key.png' %}" class="img-borda-inferior" alt="Chave Primária" title="Chave Primária" draggable="true" ondragstart="drag(event, 1)" />
+    <img src="{% static 'imagens/borracha-preta.png' %}" class="img-borda-inferior" alt="Limpar Campo" title="Limpar Campo" draggable="true" ondragstart="drag(event, 0)" />
 
     <h3 style="display: inline;">
         <small>
@@ -27,271 +21,111 @@
 
     <div class="aviso">
         <span class="titulo">1ª Forma Normal</span>
-        <span id="texto-dica"></span>
+        <span class="texto-fn">"Decompor todas as estruturas de dados não planas em registros bidimensionais"</span>
+
+        <div>
+            <span id="msg-erro"></span>
+        </div>
     </div>
     <!--<img src="{% static 'imagens/green_key.png' %}" alt="Chave Estrangeira" title="Chave Estrangeira" />-->
 {% endblock header %}
 
 {% block content %}
     <form action="{% url 'app:normalizar' documento.id %}" method="POST">
-        <ul class="sortable lista-tabelas col-md-12" id="todas_tabelas">
-            <li class="tabela col-md-12" id="sem_tabela"><h4>Campos sem tabela</h4></li>
-            <div class="col-md-12" id="espaco-sem-tabela" style="margin-bottom: 30px"></div>
-            {% for tabela in arrayTabelas %}
-                <li class="tabela col-md-12" id="{{tabela.tabela}}" draggable="false">
-                    <h4>{{tabela.tabela}}</h4>
-                    <input type="hidden" name="tabela_{{tabela.tabela}}" value="{{tabela.tabela}}"/>
-                    <input type="hidden" id="{{tabela.tabela}}_top" name="{{tabela.tabela}}_top" value="0" />
-                </li>
-                {% for campo in tabela.campos %}
-                    <li class="ui-state-default campo {% if campo.id in tabela.restricoes_pk %}chave-primaria{% endif %} col-md-1" id="{{campo}}_campo"
-                        onfocusout="atualizaPosCampo({{campo}});" ondragover="allowDrop(event)" ondrop="drop(event)" alt="{{campo}}" title="{{campo}}">
-                        {{campo}}
-                        <input type="hidden" id="{{campo}}_primaria" name="{{campo}}[primaria]" 
-								value="{% if campo.id in tabela.restricoes_pk %}1{% else %}0{% endif %}" />
-                        <input type="hidden" id="{{campo}}_top" name="{{campo}}['top']" value="0" />
-                        <input type="hidden" id="{{campo}}_left" name="{{campo}}['left']" value="0" />
-                    </li>
-                {% endfor %}
-                <div class="col-md-12" style="height: 30px"></div>
+
+        <div class="col-md-12">
+            <h4>{{documento}}</h4>
+            <input type="hidden" name="tabela_uni" value="{{documento}}"/>
+
+            <div id="inicio_campos_uni"></div>
+
+            {% for campo in documento.uni %}
+                <div class="campo col-md-1" id="{{campo}}_campo" id-campo="{{campo.id}}" tipo-tabela="uni" ondragover="allowDrop(event)" ondrop="drop(event)" 
+						alt="{{campo}}" title="{{campo}}">
+                    {{campo}}
+
+                    <input type="hidden" class="chave-uni" id="{{campo}}_primaria" name="primaria[{{campo.id}}]" value="0" />
+                    <input type="hidden" name="uni[{{campo.id}}]" value="{{campo.id}}"/>
+                </div>
             {% endfor %}
-        </ul>
+        </div>
 
-        <div class="col-md-12" style="height: 50px"></div>
+        <div class="col-md-12" style="margin-top:20px">
+            <div>
+                <span class="glyphicon glyphicon-pencil" onclick="$('#tabela_multi_h4').focus();"></span>
+                <h4 contenteditable="true" id="tabela_multi_h4" style="display:inline-block">{{hashe}}</h4>
+                <input type="hidden" id="tabela_multi" name="tabela_multi" value="{{hashe}}" />
+            </div>
 
+            <div id="inicio_campos_multi"></div>
+
+            {% for campo in documento.multi %}
+                <div class="campo col-md-1" id="{{campo}}_campo" tipo-tabela="multi" ondragover="allowDrop(event)" ondrop="drop(event)" alt="{{campo}}" title="{{campo}}">
+                    {{campo}}
+
+                    <input type="hidden" class="chave-multi" id="{{campo}}_primaria" name="primaria[{{campo.id}}]" value="0" />
+                    <input type="hidden" name="multi[{{campo.id}}]" value="{{campo.id}}"/>
+                </div>
+            {% endfor %}
+        </div>
+
+
+        <input type="hidden" name="hashe" value="{{hashe}}"/>
         <input type="hidden" name="forma_normal" value="1" />
         {% csrf_token %}
+
+
         {% buttons %}
-            <div class="btn btn-enviar" id="enviar">SALVAR</div>
+            <button class="btn btn-enviar" style="margin-top:30px" id="enviar">SALVAR</button>
         {% endbuttons %}
     </form>
-
-
-    <!-- INICIO modal add tabela -->
-    <div id="addTabela" class="modal fade" role="dialog">
-        <div class="modal-dialog">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <button type="button" class="close" data-dismiss="modal">&times;</button>
-                    <h4 class="modal-title">Adicionar Tabela</h4>
-                </div>
-                <div class="modal-body">
-                    <div class="form-group">
-                        <label class="control-label" for="nova_tabela">Nome</label>
-                        <input class="form-control" id="nova_tabela" maxlength="20" name="nova_tabela" placeholder="Nome" title="" type="text" required />
-                    </div>
-
-                  {% csrf_token %}
-                  {% buttons %}
-                        <button name="submit" class="btn btn-enviar" id="btnAddTabela" data-dismiss="modal">ADICIONAR</button>
-                  {% endbuttons %}
-                </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-default" data-dismiss="modal">Fechar</button>
-                </div>
-            </div>
-        </div>
-    </div>
-    <!-- FIM -->
-
-    <!-- INICIO modal add campo -->
-    <div id="addCampo" class="modal fade" role="dialog">
-        <div class="modal-dialog">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <button type="button" class="close" data-dismiss="modal">&times;</button>
-                    <h4 class="modal-title">Adicionar Campo</h4>
-                </div>
-                <div class="modal-body">
-                    <div class="form-group">
-                        <label class="control-label" for="novo_campo">Nome</label>
-                        <input class="form-control" id="novo_campo" maxlength="20" name="novo_campo" placeholder="Nome" title="" type="text" required />
-                    </div>
-
-                  {% csrf_token %}
-                  {% buttons %}
-                        <button name="submit" class="btn btn-enviar" id="btnAddCampo" data-dismiss="modal">ADICIONAR</button>
-                  {% endbuttons %}
-                </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-default">Fechar</button>
-                </div>
-            </div>
-        </div>
-    </div>
-    <!-- FIM -->
 {% endblock content %}
 
 {% block script %}
     <script src="{% static 'scripts/normalizar.js' %}"></script>
     <script>
-        var id_mensagem = 0;
+        var tipo = 0;
 
-        function verificaQuantidadeTabelas(){
-            var qtde_tabelas = 0;
-            $(".tabela").each(function(){
-                if($(this).attr("id") != "sem_tabela")
-                    qtde_tabelas++;
-            });
-            if(qtde_tabelas >= 2){
-                $("#link-add-tabela").hide();
-                id_mensagem++;
-                $("#enviar").show();
-            }
-
-            console.log(qtde_tabelas);
-        }
-
-        function setarMensagem(){
-            if(id_mensagem == 0){
-                $("#texto-dica").html("<span class=\"texto\">Insira uma nova tabela para separar os campos com dados repetitivos!</span>");
-            }
-            else if(id_mensagem == 1)
-                $("#texto-dica").html(
-                    "<span class=\"texto\">Arraste os campos repetitivos para a respectiva tabela!</span>"+
-                    "<span class=\"texto\">Identifique as chaves primárias!</span>"
-                );
-        }
-
-
-        $(document).ready(function(){
-            $("#enviar").hide();
-            $("#sem_tabela").hide();
-            $("#espaco-sem-tabela").hide();
-
-            verificaQuantidadeTabelas();
-            setarMensagem();
+        $("#tabela_multi_h4").keyup(function(){
+            let nome = $(this).text();
+            $("#tabela_multi").val(nome);
         });
 
-        $("#enviar").click(function(){
-            $(".campo").each(function(){
-                var id = "#"+$(this).attr('id');
-                id = id.replace("_campo", "");
-                $(id+"_top").val($(this).position().top);
-                $(id+"_left").val($(this).position().left);
-                console.log(id+' '+$(this).position().top);
-            });
 
-            $(".tabela").each(function(){
-                var id = "#"+$(this).attr('id');
-                $(id+"_top").val($(this).position().top);
-            });
-
-            $("form").submit();
-        });
-
-        $(document).ready(function(){
-            var i = 0;
-            $(".campo").each(function(){
-                var id = "#"+$(this).attr('id');
-                id = id.replace("_campo", "");
-                $(id+"_top").val($(this).position().top);
-                $(id+"_left").val($(this).position().left);
-            });
-
-            $(".tabela").each(function(){
-                var id = "#"+$(this).attr('id');
-                $(id+"_top").val($(this).position().top);
-            });
-        });
-
-        function atualizarTabelas(){
-            var nomes = '';
-
-            /*
-            $(".tabela").each(function(){
-                var id = "#"+$(this).attr('id');
-                $(id+"_top").val($(this).position().top);
-
-                if($(this).attr('id') != 'sem_tabela')
-                    nomes += $(this).attr('id')+'666';
-            });
-            */
-
-            //ATUALIZA OS COOKIES COM OS NOMES DAS TABELAS
-            //Cookies.set('tabelas', String(nomes.toLowerCase()), {expires: 1});
-        }
-
-        //submissao ajax para adicionar tabela
-        $("#btnAddTabela").click(function(){
-            var nome = $("#nova_tabela").val();
-            var pag = 'normalizar';
-            var documento = {{documento.id}};
-            var token = $("input[name=csrfmiddlewaretoken]").val();
-
-            nome = normalizarNome(nome);
-
-            if(nome != ""){
-                $.ajax({
-                    type: 'POST',
-                    url: '{% url 'app:ajax_add_tabela' %}',
-                    data: {
-                        'nome': nome,
-                        'pag': pag,
-                        'documento': documento,
-                        'csrfmiddlewaretoken': token
-                    },
-                    success: function(ret){
-                        var aux = parseInt(ret.content);
-                        if(aux === 1)
-                            alert('Já existe uma tabela com esse nome!');
-                        else{
-                            $("#todas_tabelas").append(ret.content);
-                            //$("#addTabela").modal("hide");
-                            $("#nova_tabela").val("");
-                            atualizarTabelas();
-                            verificaQuantidadeTabelas();
-                            setarMensagem();
-                        }
-                    }
-                });
-            }
-            else
-                alert("Insira um nome para a nova tabela!");
-        });
-
-        //submissao ajax para adicionar campo
-        $("#btnAddCampo").click(function(){
-            var nome = $("#novo_campo").val();
-            var pag = 'normalizar';
-            var documento = {{documento.id}};
-            var token = $("input[name=csrfmiddlewaretoken]").val();
-
-            nome = normalizarNome(nome);
-
-            if(nome != ""){
-                $.ajax({
-                    type: 'POST',
-                    url: '{% url 'app:ajax_add_campo' %}',
-                    data: {
-                        'nome': nome,
-                        'pag': pag,
-                        'documento': documento,
-                        'csrfmiddlewaretoken': token
-                    },
-                    success: function(ret){
-                        $(ret.content).insertAfter($("#sem_tabela"));
-                        $("#novo_campo").val("");
-                        //$("#addCampo").modal("hide");
-                        $("#sem_tabela").show();
-                        $("#espaco-sem-tabela").show();
-                    }
-                });
-            }
-            else
-                alert("Insira um nome para o novo campo!");
-        });
-
-        function drag(ev){
-            //console.log(ev.target.id);
-            //ev.dataTransfer.setData("text", ev.target.id);
+        function drag(ev, op){
+            tipo = op
         }
 
         function drop(ev){
-            //ev.preventDefault();
-            //var data = ev.dataTransfer.getData("text");
-            //ev.target.appendChild(document.getElementById(data));
             var aux = $(ev.target).attr("id").split("_");
+
+            /*SE CAMPO DA TABELA UNI COPIA PARA A TABELA MULTI*/
+            if(tipo == 1 && $(ev.target).attr("tipo-tabela") == 'uni'){
+                let id = $(ev.target).attr("id-campo");
+                let alt = $(ev.target).attr("alt");
+
+                let div = document.createElement("div");
+
+                $(div).attr({
+                    "class": "campo col-md-1",
+                    "id": id+"_copia",
+                    "alt": alt,
+                    "title": alt,
+                });
+                $(div).css({
+                    "background-color": "rgb(119, 138, 102)",
+                    "border": "1px solid rgb(218, 213, 94)",
+                    "background": "rgb(255, 250, 144)"
+                });
+                $(div).text($(ev.target).text());
+
+                $("#inicio_campos_multi").append(div);
+            }
+            else if(tipo == 0){
+                let id = $(ev.target).attr("id-campo");
+
+                $("#"+id+"_copia").remove();
+            }
 
             var temp = '';
             for(var i=0; i<aux.length-1; i++)
@@ -301,15 +135,63 @@
                 temp = aux[0];
 
             var id = "#"+temp+"_primaria";
-            $(ev.target).css({
-                "background-color": "rgb(119, 138, 102)",
-                "border": "1px solid rgb(218, 213, 94)",
-                "background": "rgb(255, 250, 144)"
-            });
-            $(id).val(1);
+
+            if(tipo==1){
+                $(ev.target).css({
+                    "background-color": "rgb(119, 138, 102)",
+                    "border": "1px solid rgb(218, 213, 94)",
+                    "background": "rgb(255, 250, 144)"
+                });
+            }
+            else{
+                $(ev.target).css({
+                    "background-color": "rgba(246, 246, 246, 0.7)",
+                    "border": "1px solid #C5C5C5",
+                    "background": "rgba(246, 246, 246, .7)"
+                });
+            }
+
+            /*MOVE O TARGET PARA O INICIO DA LISTA*/
+            if($(ev.target).attr("tipo-tabela") == 'uni'){
+                $(ev.target).insertAfter($("#inicio_campos_uni"));
+            }
+            else if($(ev.target).attr("tipo-tabela") == 'multi'){
+                console.log("aqui");
+                $(ev.target).insertAfter($("#inicio_campos_multi"));
+            }
+
+
+
+            $(id).val(tipo);
         }
         function allowDrop(ev){
             ev.preventDefault();
         }
+
+        /*SUMISSAO DO FORM*/
+        $("form").submit(function(){
+            let uni = 0, multi = 0;
+
+            /*VERIFICA AS CHAVES*/
+            $(".chave-uni").each(function(){
+                if($(this).val() == 1)
+                    uni++;
+            });
+
+            $(".chave-multi").each(function(){
+                if($(this).val() == 1)
+                    multi++;
+            });
+
+            if(uni == 0 || multi == 0){
+                $("#msg-erro").text("Defina as chaves das duas tabelas!");
+                $("#msg-erro").fadeIn();
+                setTimeout(function(){ $("#msg-erro").fadeOut(); }, 2000);
+
+                return false;
+            }
+
+            return true;
+        });
     </script>
 {% endblock script %}

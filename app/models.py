@@ -76,14 +76,6 @@ class Campo(models.Model):
         return self.nome
 
 
-class Dependencia(models.Model):
-    campo = models.ForeignKey(Campo, related_name="campo")
-    chave = models.ForeignKey(Campo, related_name="dependente")
-
-    def __str__(self):
-        return self.campo.nome+' '+self.chave.nome
-
-
 class Campo_Tabela(models.Model):
     campo = models.ForeignKey(Campo)
     tabela = models.ForeignKey(Tabela)
@@ -91,4 +83,12 @@ class Campo_Tabela(models.Model):
 
     def __str__(self):
         return self.campo.nome
+
+
+class Dado_Exemplo(models.Model):
+    campo = models.ForeignKey(Campo)
+    texto = models.CharField(max_length=25)
+
+    def __str__(self):
+        return self.campo.nome + ' - ' + self.texto
 
