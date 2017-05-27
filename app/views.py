@@ -36,6 +36,7 @@ from actions._ajax_get_chaves import run_ajax_get_chaves
 from actions._ajax_compartilhar_documento import run_ajax_compartilhar_documento
 from actions._inserir_dados_exemplo import run_inserir_dados_exemplo
 from actions._ajax_dados_exemplo import run_ajax_dados_exemplo
+from actions._ajax_desnormalizar_documento import run_ajax_desnormalizar_documento
 
 from classes.util import *
 
@@ -245,6 +246,13 @@ def ajax_get_chaves(request, tabela_id):
 @ajax
 def ajax_compartilhar_documento(request):
     context = run_ajax_compartilhar_documento(request)
+
+    return HttpResponse(json.dumps(context), content_type='application/json')
+
+
+@ajax
+def ajax_desnormalizar_documento(request):
+    context = run_ajax_desnormalizar_documento(request)
 
     return HttpResponse(json.dumps(context), content_type='application/json')
 

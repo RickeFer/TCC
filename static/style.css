@@ -35,7 +35,7 @@
     height: 20px;
 }
 
-.glyphicon { cursor: pointer; }
+.glyphicon { cursor: pointer; margin:0px 5px; }
 
 .aviso
 {
@@ -131,4 +131,17 @@
     color: white;
     font-weight: bold;
     text-align: center;
+}
+
+.div-msg
+{
+    padding: 10px;
+    margin: 10px;
+}
+
+.sucesso
+{
+    border:1px solid rgba(0,255,0,.9);
+    border-radius: 10px;
+    background-color: rgba(0,255,0,.2);
 }

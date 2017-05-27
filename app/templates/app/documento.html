@@ -10,7 +10,8 @@
     <h3>
         <span class="col-md-10">{{documento}}</span>
         <small>
-            <span class="glyphicon glyphicon-share" id="compartilhar-documento" documento-id="{{documento.id}}" data-toggle="modal" data-target="#modal-compartilhar"></span>
+            <span class="glyphicon glyphicon-copy" id="desnormalizar-documento" title="Desnormalizar"></span>
+            <span class="glyphicon glyphicon-share" id="compartilhar-documento" data-toggle="modal" data-target="#modal-compartilhar" title="Compartilhar"></span>
         </small>
     </h3>
 
@@ -25,13 +26,15 @@
     {% elif fn < 3 %}
         Forma Normal atual: {{fn}}<br>
         <a href="{% url 'app:normalizar' documento.id %}">normalizar</a><br>
-        <!--<a href="{% url 'app:gerenciar_relacionamentos' documento.id %}">gerenciar relacionamentos</a>-->
     {% elif fn == 3 %}
         Documento Normalizado<br>
-        <!--<a href="{% url 'app:gerenciar_relacionamentos' documento.id %}">gerenciar relacionamentos</a>-->
         <a href="{% url 'app:script_documento' documento.id %}">gerar script</a><br>
         <a href="{% url 'app:diagrama_documento' documento.id %}">gerar diagrama</a>
     {% endif %}
+
+    <div id="mensagem" class="div-msg" style="display:none;">
+        <span class="span-msg"></span>
+    </div>
 
 {% endblock header %}
 
@@ -141,19 +144,59 @@
             let token = $("input[name=csrfmiddlewaretoken]").val();
             let modo_compartilhar = $("#modo-compartilhar").val();
 
-            $.ajax({
-                type: "POST",
-                url: '{% url 'app:ajax_compartilhar_documento' %}',
-                data: {
-                    'documento_id': documento_id,
-                    'grupo_id': grupo_id,
-                    'modo_compartilhar': modo_compartilhar,
-                    'csrfmiddlewaretoken': token
-                },
-                success: function(ret){
-                    console.log(ret);
-                }
-            });
+            if(grupo_id){
+                $.ajax({
+                    type: "POST",
+                    url: '{% url 'app:ajax_compartilhar_documento' %}',
+                    data: {
+                        'documento_id': documento_id,
+                        'grupo_id': grupo_id,
+                        'modo_compartilhar': modo_compartilhar,
+                        'csrfmiddlewaretoken': token
+                    },
+                    success: function(ret){
+                        let json_ret = JSON.parse(ret.content);
+
+                        if(json_ret.resultado){
+                            $("#mensagem").attr("class", "div-msg sucesso");
+                            $("#mensagem").text("Documento compartilhado com sucesso!");
+                        }
+                        else{
+                            $("#mensagem").attr("class", "div-msg erro");
+                            $("#mensagem").text("Erro ao tentar compartilhar o documento!");
+                        }
+
+                        $("#mensagem").show();
+                        setTimeout(function(){ $("#mensagem").fadeOut('slow'); }, 2000);
+                    }
+                });
+            }
+            else
+                alert("Selecione um grupo");
+        });
+
+
+        $("#desnormalizar-documento").click(function(){
+            let documento_id = {{documento.id}};
+            let token = $("input[name=csrfmiddlewaretoken]").val();
+
+            if(confirm("Deseja desnormalizar o documento?")){
+                $.ajax({
+                    type: "POST",
+                    url: '{% url 'app:ajax_desnormalizar_documento' %}',
+                    data: {
+                        'documento_id': documento_id,
+                        'csrfmiddlewaretoken': token
+                    },
+                    success: function(ret){
+                        console.log(ret);
+                        let json_ret = JSON.parse(ret.content);
+
+                        if(json_ret.resultado)
+                            location.reload();
+                    }
+                });
+            }
         });
 
     </script>

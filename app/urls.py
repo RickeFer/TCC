@@ -38,6 +38,7 @@ urlpatterns = [
     url(r'^ajax_get_tabelas/(?P<tabela_id>\d+)/$', views.ajax_get_tabelas, name='ajax_get_tabelas'),
     url(r'^ajax_get_chaves/(?P<tabela_id>\d+)/$', views.ajax_get_chaves, name='ajax_get_campos'),
     url(r'^ajax_compartilhar_documento/$', views.ajax_compartilhar_documento, name='ajax_compartilhar_documento'),
+    url(r'^ajax_desnormalizar_documento/$', views.ajax_desnormalizar_documento, name='ajax_desnormalizar_documento'),
     url(r'^ajax_dados_exemplo/$', views.ajax_dados_exemplo, name='ajax_dado_exemplo'),
 
     #grupo
