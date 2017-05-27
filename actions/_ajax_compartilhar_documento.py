@@ -70,7 +70,7 @@ def run_ajax_compartilhar_documento(request):
 
         for tabela in tabelas:
             dict_tabelas[tabela.id] = {'campos': {}, 'rels': [], 'tabela': tabela}
-            for rel in tabela.campo_tabela_set.all():
+            for rel in tabela.campo_tabela_set.all().exclude(tipo_campo='FK'):
                 dict_tabelas[tabela.id]['campos'][rel.campo.id] = rel.campo
                 dict_tabelas[tabela.id]['rels'].append(rel)
 
@@ -106,7 +106,4 @@ def run_ajax_compartilhar_documento(request):
                     rel.tabela = tabela_base
                     rel.save()
 
-
-
-
-        return {'post':array_post}
+        return {'resultado': True}
