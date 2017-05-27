@@ -40,7 +40,8 @@
             <div id="inicio_campos_uni"></div>
 
             {% for campo in documento.uni %}
-                <div class="campo col-md-1" id="{{campo}}_campo" id-campo="{{campo.id}}" tipo-tabela="uni" ondragover="allowDrop(event)" ondrop="drop(event)" alt="{{campo}}" title="{{campo}}">
+                <div class="campo col-md-1" id="{{campo}}_campo" id-campo="{{campo.id}}" tipo-tabela="uni" ondragover="allowDrop(event)" ondrop="drop(event)" 
+						alt="{{campo}}" title="{{campo}}">
                     {{campo}}
 
                     <input type="hidden" class="chave-uni" id="{{campo}}_primaria" name="primaria[{{campo.id}}]" value="0" />

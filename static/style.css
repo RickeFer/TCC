@@ -14,7 +14,8 @@
 .btn-enviar:hover
 {
     background-color: rgba(85, 86, 123, .9);
-    color: white;
+    color: white!important;
+    font-weight: bold;
 }
 /*
 .item-lista
@@ -34,7 +35,7 @@
     height: 20px;
 }
 
-.glyphicon { cursor: pointer; }
+.glyphicon { cursor: pointer; margin:0px 5px; }
 
 .aviso
 {
@@ -84,7 +85,7 @@
     z-index: 666;
 }
 
-.btn-toggle:hover { color: white; }
+.btn-toggle:hover { color: white!important; }
 
 .div-tabela
 {
@@ -130,4 +131,17 @@
     color: white;
     font-weight: bold;
     text-align: center;
+}
+
+.div-msg
+{
+    padding: 10px;
+    margin: 10px;
+}
+
+.sucesso
+{
+    border:1px solid rgba(0,255,0,.9);
+    border-radius: 10px;
+    background-color: rgba(0,255,0,.2);
 }

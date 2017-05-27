@@ -25,7 +25,6 @@
     overflow: hidden;
     text-overflow: ellipsis;
     user-select: none;
-    transition: 5s;
 }
 
 .chave
