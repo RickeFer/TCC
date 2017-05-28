@@ -16,15 +16,18 @@ def run_ajax_desnormalizar_documento(request):
             dict_tabelas[tabela.id]['campos'][rel.campo.id] = rel.campo
             dict_tabelas[tabela.id]['rels'].append(rel)
 
+	try:
+		for chave, item in dict_tabelas.items():
+			for rel in item['rels']:
+				rel.tipo_campo = 'Normal'
+				rel.campo = item['campos'][rel.campo.id]
+				rel.tabela = tabela_base
+				rel.save()
 
-    for chave, item in dict_tabelas.items():
-        for rel in item['rels']:
-            rel.tipo_campo = 'Normal'
-            rel.campo = item['campos'][rel.campo.id]
-            rel.tabela = tabela_base
-            rel.save()
+		for tabela in tabelas:
+			tabela.delete()
 
-    for tabela in tabelas:
-        tabela.delete()
-
-    return {'resultado': True}
+		return {'resultado': True}
+	except:
+	
+		return {'resultado': False}

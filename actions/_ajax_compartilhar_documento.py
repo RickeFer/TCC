@@ -23,40 +23,43 @@ def run_ajax_compartilhar_documento(request):
                 dict_tabelas[tabela.id]['campos'][rel.campo.id] = rel.campo
                 dict_tabelas[tabela.id]['rels'].append(rel)
 
-        documento.id = None
-        documento.grupo = grupo_novo
-        documento.save()
+        try:
+            documento.id = None
+            documento.grupo = grupo_novo
+            documento.save()
 
-        dict_campos_atual = {}
-        for chave, item in dict_tabelas.items():
-            tabela_temp = item['tabela']
-            tabela_temp.id = None
-            tabela_temp.documento = documento
-            tabela_temp.save()
+            dict_campos_atual = {}
+            for chave, item in dict_tabelas.items():
+                tabela_temp = item['tabela']
+                tabela_temp.id = None
+                tabela_temp.documento = documento
+                tabela_temp.save()
 
-            for rel in item['rels']:
+                for rel in item['rels']:
+                    if dict_campos_atual.get(rel.campo.id, False):
+                        rel.id = None
+                        rel.campo = dict_campos_atual[rel.campo.id]
+                        rel.tabela = tabela_temp
+                        rel.save()
 
-                if dict_campos_atual.get(rel.campo.id, False):
-                    rel.id = None
-                    rel.campo = dict_campos_atual[rel.campo.id]
-                    rel.tabela = tabela_temp
-                    rel.save()
+                    else:
+                        campo_aux = item['campos'][rel.campo.id]
+                        id_antigo = campo_aux.id
 
-                else:
-                    campo_aux = item['campos'][rel.campo.id]
-                    id_antigo = campo_aux.id
+                        campo_aux.id = None
+                        campo_aux.save()
 
-                    campo_aux.id = None
-                    campo_aux.save()
+                        dict_campos_atual[id_antigo] = campo_aux
 
-                    dict_campos_atual[id_antigo] = campo_aux
+                        rel.id = None
+                        rel.campo = campo_aux
+                        rel.tabela = tabela_temp
+                        rel.save()
 
-                    rel.id = None
-                    rel.campo = campo_aux
-                    rel.tabela = tabela_temp
-                    rel.save()
+            return {'resultado':True}
+        except:
 
-        return {'resultado':True}
+            return {'resultado': False}
 
         """
             COMPARTILHAR DOCUMENTO DESNORMALIZADO
@@ -74,36 +77,40 @@ def run_ajax_compartilhar_documento(request):
                 dict_tabelas[tabela.id]['campos'][rel.campo.id] = rel.campo
                 dict_tabelas[tabela.id]['rels'].append(rel)
 
-        documento.id = None
-        documento.grupo = grupo_novo
-        documento.save()
+        try:
+            documento.id = None
+            documento.grupo = grupo_novo
+            documento.save()
 
-        tabela_base.id = None
-        tabela_base.documento = documento
-        tabela_base.save()
+            tabela_base.id = None
+            tabela_base.documento = documento
+            tabela_base.save()
 
-        dict_campos_atual = {}
-        for chave, item in dict_tabelas.items():
-            for rel in item['rels']:
+            dict_campos_atual = {}
+            for chave, item in dict_tabelas.items():
+                for rel in item['rels']:
 
-                if dict_campos_atual.get(rel.campo.id, False):
-                    rel.id = None
-                    rel.campo = dict_campos_atual[rel.campo.id]
-                    rel.tabela = tabela_base
-                    rel.save()
+                    if dict_campos_atual.get(rel.campo.id, False):
+                        rel.id = None
+                        rel.campo = dict_campos_atual[rel.campo.id]
+                        rel.tabela = tabela_base
+                        rel.save()
 
-                else:
-                    campo_aux = item['campos'][rel.campo.id]
-                    id_antigo = campo_aux.id
+                    else:
+                        campo_aux = item['campos'][rel.campo.id]
+                        id_antigo = campo_aux.id
 
-                    campo_aux.id = None
-                    campo_aux.save()
+                        campo_aux.id = None
+                        campo_aux.save()
 
-                    dict_campos_atual[id_antigo] = campo_aux
+                        dict_campos_atual[id_antigo] = campo_aux
 
-                    rel.id = None
-                    rel.campo = campo_aux
-                    rel.tabela = tabela_base
-                    rel.save()
+                        rel.id = None
+                        rel.campo = campo_aux
+                        rel.tabela = tabela_base
+                        rel.save()
 
-        return {'resultado': True}
+            return {'resultado': True}
+        except:
+            
+            return {'resultado': False}
