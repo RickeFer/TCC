@@ -46,8 +46,20 @@ def run_ajax_compartilhar_documento(request):
                         campo_aux = item['campos'][rel.campo.id]
                         id_antigo = campo_aux.id
 
+                        try:
+                            dados = Dado_Exemplo.objects.filter(campo=campo_aux)
+                        except:
+                            dados = None
+
                         campo_aux.id = None
                         campo_aux.save()
+
+                        if dados:
+                            for dado in dados:
+                                dado.id = None
+                                dado.campo = campo_aux
+                                dado.save()
+
 
                         dict_campos_atual[id_antigo] = campo_aux
 
@@ -100,8 +112,19 @@ def run_ajax_compartilhar_documento(request):
                         campo_aux = item['campos'][rel.campo.id]
                         id_antigo = campo_aux.id
 
+                        try:
+                            dados = Dado_Exemplo.objects.filter(campo=campo_aux)
+                        except:
+                            dados = None
+
                         campo_aux.id = None
                         campo_aux.save()
+
+                        if dados:
+                            for dado in dados:
+                                dado.id = None
+                                dado.campo = campo_aux
+                                dado.save()
 
                         dict_campos_atual[id_antigo] = campo_aux
 
@@ -112,5 +135,5 @@ def run_ajax_compartilhar_documento(request):
 
             return {'resultado': True}
         except:
-            
+
             return {'resultado': False}
